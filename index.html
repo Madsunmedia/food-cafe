@@ -74,10 +74,20 @@
                 <h2 class="section-title">Artisan Offerings</h2>
                 <p class="section-subtitle">Curated with the finest ingredients, designed to delight.</p>
             </div>
+
+            <!-- Category Filters -->
+            <div class="menu-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="coffee">Coffee</button>
+                <button class="filter-btn" data-filter="desserts">Desserts</button>
+                <button class="filter-btn" data-filter="burgers">Burgers</button>
+                <button class="filter-btn" data-filter="pizza">Pizza</button>
+                <button class="filter-btn" data-filter="snacks">Snacks</button>
+            </div>
             
             <div class="menu-grid">
-                <!-- Card 1 -->
-                <div class="menu-card glass">
+                <!-- Coffee Card -->
+                <div class="menu-card glass menu-card-3d" data-category="coffee">
                     <div class="card-image-wrapper">
                         <img src="assets/artisan_coffee.png" alt="Artisan Coffee" class="card-image">
                         <div class="card-image-overlay"></div>
@@ -91,8 +101,8 @@
                     </div>
                 </div>
                 
-                <!-- Card 2 -->
-                <div class="menu-card glass">
+                <!-- Dessert Card -->
+                <div class="menu-card glass menu-card-3d" data-category="desserts">
                     <div class="card-image-wrapper">
                         <img src="assets/luxury_pastry.png" alt="Luxury Pastry" class="card-image">
                         <div class="card-image-overlay"></div>
@@ -106,18 +116,48 @@
                     </div>
                 </div>
                 
-                <!-- Card 3 -->
-                <div class="menu-card glass">
+                <!-- Burger Card -->
+                <div class="menu-card glass menu-card-3d" data-category="burgers">
                     <div class="card-image-wrapper">
-                        <img src="assets/cafe_hero_bg.png" alt="Signature Pour" class="card-image">
+                        <img src="assets/burger_premium.png" alt="Artisan Burger" class="card-image">
                         <div class="card-image-overlay"></div>
                     </div>
                     <div class="card-content">
                         <div class="card-header">
-                            <h3>Signature Pour</h3>
-                            <span class="price">$8</span>
+                            <h3>Wagyu Truffle Burger</h3>
+                            <span class="price">$18</span>
                         </div>
-                        <p class="card-desc">Our exclusive house blend brewed to perfection with aromatic steam and served tableside.</p>
+                        <p class="card-desc">Premium wagyu beef patty, aged cheddar, and house-made truffle aioli on a toasted brioche bun.</p>
+                    </div>
+                </div>
+
+                <!-- Pizza Card -->
+                <div class="menu-card glass menu-card-3d" data-category="pizza">
+                    <div class="card-image-wrapper">
+                        <img src="assets/pizza_premium.png" alt="Truffle Pizza" class="card-image">
+                        <div class="card-image-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3>Rustic Truffle Slice</h3>
+                            <span class="price">$14</span>
+                        </div>
+                        <p class="card-desc">Wood-fired perfection with melting artisanal cheese, black truffle shavings, and a crispy crust.</p>
+                    </div>
+                </div>
+
+                <!-- Snacks Card -->
+                <div class="menu-card glass menu-card-3d" data-category="snacks">
+                    <div class="card-image-wrapper">
+                        <img src="assets/snack_premium.png" alt="Premium Fries" class="card-image">
+                        <div class="card-image-overlay"></div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <h3>Parmesan Truffle Fries</h3>
+                            <span class="price">$9</span>
+                        </div>
+                        <p class="card-desc">Crispy golden fries tossed in white truffle oil and dusted with aged parmesan.</p>
                     </div>
                 </div>
             </div>

@@ -268,4 +268,54 @@ document.addEventListener("DOMContentLoaded", () => {
         duration: 1.2,
         ease: "power3.out"
     });
+
+    // 5. Menu Filtering Logic
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const menuCards = document.querySelectorAll('.menu-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            let visibleCards = [];
+            
+            // Filter cards with GSAP animation for smooth transitions
+            menuCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                
+                if (filterValue === 'all' || filterValue === category) {
+                    if (card.classList.contains('hidden')) {
+                        card.classList.remove('hidden');
+                        gsap.fromTo(card, 
+                            { opacity: 0, scale: 0.8 }, 
+                            { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }
+                        );
+                    }
+                } else {
+                    if (!card.classList.contains('hidden')) {
+                        gsap.to(card, {
+                            opacity: 0, 
+                            scale: 0.8, 
+                            duration: 0.3, 
+                            ease: "power2.in",
+                            onComplete: () => {
+                                card.classList.add('hidden');
+                                ScrollTrigger.refresh();
+                            }
+                        });
+                    }
+                }
+            });
+            
+            // Refresh ScrollTrigger after adding elements
+            setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 500);
+        });
+    });
 });
