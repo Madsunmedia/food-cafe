@@ -232,6 +232,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Features Section Reveal
+    gsap.from(".feature-card", {
+        scrollTrigger: {
+            trigger: ".features-section",
+            start: "top 75%",
+        },
+        y: 60,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "back.out(1.2)"
+    });
+
     // Menu Cards Reveal
     gsap.from(".menu-card", {
         scrollTrigger: {
