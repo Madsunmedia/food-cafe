@@ -273,27 +273,49 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Story Section Reveal
-    gsap.from(".story-content > *", {
+    const storyTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".story-section",
             start: "top 75%",
-        },
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out"
+        }
     });
 
-    gsap.from(".story-visual", {
+    storyTimeline
+        .from(".story-content > *", {
+            y: 40,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "power4.out"
+        })
+        .from(".story-visual", {
+            scale: 1.1,
+            opacity: 0,
+            duration: 1.8,
+            ease: "power2.out"
+        }, "-=1");
+
+    // Parallax Depth scrubbing for Story Section
+    gsap.to(".story-visual", {
+        y: -50,
+        ease: "none",
         scrollTrigger: {
             trigger: ".story-section",
-            start: "top 75%",
-        },
-        x: 50,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power3.out"
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5
+        }
+    });
+
+    gsap.to(".story-content", {
+        y: 50,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".story-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5
+        }
     });
 
     // Testimonials Reveal
