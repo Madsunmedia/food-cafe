@@ -122,11 +122,23 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.8")
       .fromTo(".hero-actions", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6")
+      .fromTo(".floating-asset", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, stagger: 0.2, ease: "back.out(1.5)" }, "-=0.8")
       .fromTo(".scroll-indicator", { opacity: 0 }, { opacity: 0.7, duration: 1 }, "-=0.5");
 
-    // Parallax effect for Hero Image
-    gsap.to(".hero-bg-img", {
-        yPercent: 20,
+    // Parallax effect for Hero Elements
+    gsap.to(".hero-ambient-glow", {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+        }
+    });
+
+    gsap.to(".hero-3d-assets", {
+        yPercent: 15,
         ease: "none",
         scrollTrigger: {
             trigger: ".hero",
