@@ -295,6 +295,19 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out"
     });
 
+    // Footer Reveal
+    gsap.from(".footer-column", {
+        scrollTrigger: {
+            trigger: ".footer",
+            start: "top 85%",
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out"
+    });
+
     // 5. Menu Filtering Logic
     const filterBtns = document.querySelectorAll('.filter-btn');
     const menuCards = document.querySelectorAll('.menu-card');
