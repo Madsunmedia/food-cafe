@@ -534,17 +534,17 @@ section {
     padding: 4rem;
     border-radius: 12px;
     align-items: center;
+    perspective: 2000px; /* Enhanced perspective for the container */
 }
 
 .story-visual {
     position: relative;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible; /* Changed from hidden to allow 3D depth to pop */
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
     cursor: pointer;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     animation: storyFloat 8s ease-in-out infinite;
-    perspective: 1000px;
     transform-style: preserve-3d;
 }
 
@@ -583,18 +583,26 @@ section {
     opacity: 0.4;
 }
 
+.visual-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
 .story-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
     display: block;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
-    transform: translateZ(20px) scale(1);
+    transform: translateZ(30px) scale(1); /* Increased Z-depth */
 }
 
 .story-visual:hover .story-img {
-    transform: translateZ(30px) scale(0.97); /* Subtle zoom-out on hover as requested */
+    transform: translateZ(50px) scale(0.97); /* Pop out even more while zooming out slightly */
 }
 
 @keyframes storyFloat {
