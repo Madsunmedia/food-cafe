@@ -319,6 +319,56 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Story Visual Interactive Tilt and Light Reflection
+    const storyVisual = document.querySelector('.story-visual');
+    const lightReflection = document.querySelector('.light-reflection');
+    
+    if (storyVisual) {
+        storyVisual.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = storyVisual.getBoundingClientRect();
+            const x = (e.clientX - left) / width;
+            const y = (e.clientY - top) / height;
+            
+            const rotateY = (x - 0.5) * 15;
+            const rotateX = (y - 0.5) * -15;
+            
+            gsap.to(storyVisual, {
+                rotationY: rotateY,
+                rotationX: rotateX,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+            
+            if (lightReflection) {
+                gsap.to(lightReflection, {
+                    background: `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(250, 237, 205, 0.2), transparent 60%)`,
+                    duration: 0.1
+                });
+            }
+        });
+        
+        storyVisual.addEventListener('mouseleave', () => {
+            gsap.to(storyVisual, {
+                rotationY: 0,
+                rotationX: 0,
+                duration: 1,
+                ease: "elastic.out(1, 0.5)"
+            });
+        });
+    }
+
+    // Slow zoom-in on scroll for the image
+    gsap.to(".story-img", {
+        scale: 1.1,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".story-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true
+        }
+    });
+
     // Testimonials Reveal
     gsap.from(".testimonial-card", {
         scrollTrigger: {
