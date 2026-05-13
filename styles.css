@@ -778,6 +778,92 @@ section {
     line-height: 1.5;
 }
 
+/* Testimonials Section */
+.testimonials-section {
+    background: linear-gradient(to bottom, var(--bg-surface), #050403);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    perspective: 1200px;
+}
+
+.testimonial-card {
+    padding: 3rem 2rem;
+    border-radius: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
+    background: linear-gradient(135deg, rgba(30, 25, 22, 0.8), rgba(15, 12, 10, 0.9));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.testimonial-card-3d:hover {
+    transform: translateY(-15px) rotateY(2deg) rotateX(2deg);
+    box-shadow: -10px 20px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 163, 115, 0.2);
+    border-color: rgba(212, 163, 115, 0.2);
+    z-index: 2;
+}
+
+.quote-icon {
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 5rem;
+    color: var(--accent-amber);
+    opacity: 0.15;
+    line-height: 1;
+}
+
+.testimonial-text {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    font-style: italic;
+}
+
+.testimonial-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.5rem;
+}
+
+.profile-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.guest-info h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.2rem;
+}
+
+.stars {
+    color: var(--accent-amber);
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .story-container {

@@ -282,6 +282,19 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out"
     });
 
+    // Testimonials Reveal
+    gsap.from(".testimonial-card", {
+        scrollTrigger: {
+            trigger: ".testimonials-section",
+            start: "top 75%",
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out"
+    });
+
     // 5. Menu Filtering Logic
     const filterBtns = document.querySelectorAll('.filter-btn');
     const menuCards = document.querySelectorAll('.menu-card');
