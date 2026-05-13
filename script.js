@@ -276,28 +276,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const storyTimeline = gsap.timeline({
         scrollTrigger: {
             trigger: ".story-section",
-            start: "top 75%",
+            start: "top 70%",
         }
     });
 
     storyTimeline
         .from(".story-content > *", {
-            y: 40,
+            y: 50,
             opacity: 0,
-            duration: 1.2,
-            stagger: 0.15,
+            duration: 1.5,
+            stagger: 0.2,
             ease: "power4.out"
         })
         .from(".story-visual", {
-            scale: 1.1,
+            y: -120, // Drop in from above
             opacity: 0,
-            duration: 1.8,
-            ease: "power2.out"
-        }, "-=1");
+            scale: 0.95,
+            duration: 2.2,
+            ease: "power3.out"
+        }, "-=1"); // Stagger so it feels balanced
 
-    // Parallax Depth scrubbing for Story Section
+    // Parallax Depth scrubbing for Story Section (Subtle movement)
     gsap.to(".story-visual", {
-        y: -50,
+        y: 40, // Move slightly as user scrolls past
         ease: "none",
         scrollTrigger: {
             trigger: ".story-section",
@@ -308,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     gsap.to(".story-content", {
-        y: 50,
+        y: -40,
         ease: "none",
         scrollTrigger: {
             trigger: ".story-section",
