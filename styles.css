@@ -261,7 +261,25 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.05em;
     border: none;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: var(--transition-smooth);
+}
+
+.primary-btn::before, .secondary-btn::before, .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+}
+
+.primary-btn:hover::before, .secondary-btn:hover::before, .cta-btn:hover::before {
+    left: 150%;
 }
 
 .primary-btn:hover {
@@ -281,12 +299,15 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.05em;
     border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: var(--transition-smooth);
 }
 
 .secondary-btn:hover {
     border-color: var(--text-primary);
     background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
 }
 
 .mt-4 {
@@ -761,11 +782,30 @@ section {
 .gold-btn {
     background: var(--accent-gold);
     color: var(--bg-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.gold-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.5s ease;
+}
+
+.gold-btn:hover::before {
+    left: 150%;
 }
 
 .gold-btn:hover {
     background: #fff;
     box-shadow: 0 10px 30px rgba(250, 237, 205, 0.4);
+    transform: translateY(-2px);
 }
 
 /* 3D Assets */

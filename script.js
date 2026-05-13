@@ -232,6 +232,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Section Header Parallax
+    gsap.utils.toArray(".section-header").forEach(header => {
+        gsap.to(header, {
+            y: 50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: header.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    });
+
     // Features Section Reveal
     gsap.from(".feature-card", {
         scrollTrigger: {
