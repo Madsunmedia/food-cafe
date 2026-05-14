@@ -11,3 +11,7 @@ dist/
 .idea/
 .vscode/
 *.swp
+
+# Local Skills
+spline-3d-skill/
+spline-3d-skill.zip
