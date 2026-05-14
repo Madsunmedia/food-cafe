@@ -192,7 +192,58 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     });
 
-    // 4. GSAP Animations
+    // 4. Spline 3D Integration
+    const initSpline = async () => {
+        const { Application } = await import('https://esm.sh/@splinetool/runtime');
+        const canvas = document.getElementById('spline-canvas');
+        const splineWrapper = document.getElementById('spline-wrapper');
+        
+        if (!canvas) return;
+
+        const spline = new Application(canvas);
+        window.splineApp = spline; // Expose for programmatic control
+        
+        spline.load('https://prod.spline.design/7AyNEvZcGTymVJ8R/scene.splinecode')
+            .then(() => {
+                splineWrapper.classList.add('spline-loaded');
+                
+                // UI/UX Adjustments: Align with Lumina's warm, cinematic aesthetic
+                
+                // 1. Hide clashing color elements (pink and green cups)
+                const pinkCups = spline.findObjectByName('paper cups pink');
+                const greenCups = spline.findObjectByName('paper cups green');
+                if (pinkCups) pinkCups.visible = false;
+                if (greenCups) greenCups.visible = false;
+                
+                // 2. Enhance the warm lighting
+                const lamps = ['lamp 1', 'lamp 2', 'lamp 3', 'lamp 4', 'lamp 5'];
+                lamps.forEach(name => {
+                    const lamp = spline.findObjectByName(name);
+                    if (lamp) {
+                        // If it's a light object, we can try to boost it
+                        // Spline objects sometimes have intensity properties
+                        if (lamp.intensity !== undefined) lamp.intensity *= 1.5;
+                    }
+                });
+
+                // 3. Sync with GSAP for a subtle parallax effect
+                gsap.to(spline.camera.position, {
+                    x: "+=5",
+                    y: "+=2",
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: ".hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            });
+    };
+
+    initSpline();
+
+    // 5. GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
     // Hero Animations on Load
@@ -206,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.8")
       .fromTo(".hero-actions", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6")
-      .fromTo(".floating-asset", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, stagger: 0.2, ease: "back.out(1.5)" }, "-=0.8")
+      .fromTo(".spline-wrapper", { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 1.5, ease: "power3.out" }, "-=1")
       .fromTo(".scroll-indicator", { opacity: 0 }, { opacity: 0.7, duration: 1 }, "-=0.5");
 
     // Parallax effect for Hero Elements
