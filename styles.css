@@ -866,75 +866,49 @@ section {
 }
 
 /* 3D Assets */
-/* Spline 3D Integration */
-.spline-wrapper {
+.hero-3d-assets {
     position: absolute;
     right: 0;
     top: 0;
     width: 50%;
     height: 100%;
     z-index: 5;
-    pointer-events: auto; /* Enable interaction with Spline */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    pointer-events: none;
 }
 
-#spline-canvas {
-    width: 100% !important;
-    height: 100% !important;
-    opacity: 0;
-    transition: opacity 1s ease;
-    filter: sepia(0.2) brightness(1.1) contrast(1.1); /* Cinematic warm tint */
-}
-
-.spline-loader {
+.floating-asset {
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    z-index: 10;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    object-fit: contain;
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
+    mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
 }
 
-.loader-circle {
-    width: 60px;
-    height: 60px;
-    border: 2px solid rgba(212, 163, 115, 0.1);
-    border-top: 2px solid var(--accent-amber);
-    border-radius: 50%;
-    animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    box-shadow: 0 0 15px var(--accent-glow);
+.main-cup {
+    width: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: float 6s ease-in-out infinite;
+    z-index: 3;
 }
 
-.loader-text {
-    font-family: var(--font-display);
-    color: var(--accent-gold);
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    animation: pulse 2s infinite;
+.dessert-1 {
+    width: 250px;
+    top: 20%;
+    left: 10%;
+    animation: float-simple 8s ease-in-out infinite reverse;
+    z-index: 2;
+    filter: blur(2px) drop-shadow(0 20px 30px rgba(0,0,0,0.6));
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-
-.spline-loaded #spline-canvas {
-    opacity: 1;
-}
-
-.spline-loaded .spline-loader {
-    opacity: 0;
-    visibility: hidden;
+.dessert-2 {
+    width: 200px;
+    bottom: 20%;
+    right: 10%;
+    animation: float-simple 7s ease-in-out infinite 1s;
+    z-index: 4;
+    filter: blur(1px) drop-shadow(0 20px 30px rgba(0,0,0,0.6));
 }
 
 @keyframes float {
