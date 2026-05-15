@@ -80,16 +80,23 @@ img, video {
     backface-visibility: hidden;
 }
 
-/* ── Hero Entrance — FOUC prevention ──
-   These elements start invisible; GSAP animates them in on DOMContentLoaded.
-   The .js-loaded class is added by JS to confirm runtime is ready. ── */
+/* ── Section Reveals — FOUC prevention ──
+   Ensures sections stay hidden until GSAP ScrollTrigger reveals them. */
 .navbar,
 .title-line,
 .hero-subtitle,
 .hero-actions,
 .scroll-indicator,
-.hero-3d-assets {
-    opacity: 0;   /* hidden until GSAP fires */
+.hero-3d-assets,
+.feature-card,
+.menu-category,
+.testimonial-card,
+.footer-column,
+.section-title,
+.section-subtitle,
+.story-content > *,
+.story-visual {
+    opacity: 0;
 }
 
 /* Title-line clip path for cinematic word reveal */

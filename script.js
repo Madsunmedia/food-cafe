@@ -504,17 +504,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Features Section Reveal
+    // ── FEATURES SECTION REVEAL ──────────────────────────────────────
+    gsap.from(".features-section .section-title", {
+        scrollTrigger: { trigger: ".features-section", start: "top 85%" },
+        y: 40, opacity: 0, duration: 1.2, ease: "expo.out"
+    });
+
+    gsap.from(".features-section .section-subtitle", {
+        scrollTrigger: { trigger: ".features-section", start: "top 85%" },
+        y: 20, opacity: 0, duration: 1, delay: 0.2, ease: "expo.out"
+    });
+
     gsap.from(".feature-card", {
         scrollTrigger: {
-            trigger: ".features-section",
-            start: "top 75%",
+            trigger: ".features-grid",
+            start: "top 80%",
         },
-        y: 60,
+        y: 50,
         opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "back.out(1.2)"
+        scale: 0.95,
+        duration: 1.1,
+        stagger: 0.12,
+        ease: "power3.out"
     });
 
     // ── MENU CATEGORIES — Cinematic Per-Card Stagger ─────────────────
@@ -617,29 +628,27 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: 'expo.out'
     });
 
-    // Story Section Reveal
-    const storyTimeline = gsap.timeline({
+    // ── STORY SECTION REVEAL ─────────────────────────────────────────
+    const storyRevealTL = gsap.timeline({
         scrollTrigger: {
             trigger: ".story-section",
-            start: "top 70%",
+            start: "top 75%",
         }
     });
 
-    storyTimeline
-        .from(".story-content > *", {
-            y: 50,
-            opacity: 0,
-            duration: 1.5,
-            stagger: 0.2,
-            ease: "power4.out"
+    storyRevealTL
+        .from(".story-content .section-title", {
+            y: 45, opacity: 0, duration: 1.2, ease: "expo.out"
         })
+        .from(".story-content p", {
+            y: 25, opacity: 0, duration: 1, stagger: 0.2, ease: "power2.out"
+        }, "-=0.8")
+        .from(".story-content .primary-btn", {
+            y: 20, opacity: 0, scale: 0.95, duration: 0.8, ease: "back.out(1.5)"
+        }, "-=0.6")
         .from(".story-visual", {
-            y: -120, // Drop in from above
-            opacity: 0,
-            scale: 0.95,
-            duration: 2.2,
-            ease: "power3.out"
-        }, "-=1"); // Stagger so it feels balanced
+            x: 60, opacity: 0, scale: 0.9, duration: 1.5, ease: "expo.out"
+        }, "-=1.2");
 
     // Parallax Depth scrubbing for Story Section (Subtle movement)
     gsap.to(".story-visual", {
@@ -714,30 +723,52 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Testimonials Reveal
+    // ── TESTIMONIALS SECTION REVEAL ──────────────────────────────────
+    gsap.from(".testimonials-section .section-title", {
+        scrollTrigger: { trigger: ".testimonials-section", start: "top 85%" },
+        y: 40, opacity: 0, duration: 1.2, ease: "expo.out"
+    });
+
+    gsap.from(".testimonials-section .section-subtitle", {
+        scrollTrigger: { trigger: ".testimonials-section", start: "top 85%" },
+        y: 20, opacity: 0, duration: 1, delay: 0.2, ease: "expo.out"
+    });
+
     gsap.from(".testimonial-card", {
         scrollTrigger: {
-            trigger: ".testimonials-section",
-            start: "top 75%",
+            trigger: ".testimonials-grid",
+            start: "top 80%",
         },
-        y: 40,
+        y: 50,
         opacity: 0,
-        duration: 1,
-        stagger: 0.2,
+        scale: 0.96,
+        duration: 1.1,
+        stagger: 0.15,
         ease: "power3.out"
     });
 
-    // Footer Reveal
+    // ── FOOTER REVEAL ────────────────────────────────────────────────
     gsap.from(".footer-column", {
         scrollTrigger: {
             trigger: ".footer",
-            start: "top 85%",
+            start: "top 90%",
         },
-        y: 40,
+        y: 35,
         opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out"
+        duration: 1.2,
+        stagger: 0.12,
+        ease: "expo.out"
+    });
+
+    gsap.from(".footer-bottom", {
+        scrollTrigger: {
+            trigger: ".footer-bottom",
+            start: "top 95%",
+        },
+        opacity: 0,
+        duration: 1.5,
+        delay: 0.5,
+        ease: "power2.out"
     });
 
     // (Menu category reveal now handled per-card above with individual ScrollTriggers)
