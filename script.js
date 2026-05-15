@@ -172,26 +172,26 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < beanCount; i++) {
         const bean = new THREE.Mesh(beanGeometry, beanMaterial);
         
-        // Initial random positions
+        // All beans start ABOVE the viewport for the falling-from-top effect
         bean.position.x = (Math.random() - 0.5) * 120;
-        bean.position.y = Math.random() * 120 - 60; // Spread throughout the height
-        bean.position.z = (Math.random() - 0.5) * 60; // Foreground and background
+        bean.position.y = 60 + Math.random() * 160; // All above top of view, staggered
+        bean.position.z = (Math.random() - 0.5) * 60; // Foreground and background depth
         
         // Random rotation
         bean.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
         
-        // Random scale
-        const scale = Math.random() * 0.8 + 0.4;
+        // Random scale for depth illusion
+        const scale = Math.random() * 0.9 + 0.5;
         bean.scale.set(scale, scale, scale);
 
         beanGroup.add(bean);
         
         fallingBeans.push({
             mesh: bean,
-            speed: Math.random() * 0.12 + 0.08,
-            rotSpeedX: (Math.random() - 0.5) * 0.02,
-            rotSpeedY: (Math.random() - 0.5) * 0.02,
-            rotSpeedZ: (Math.random() - 0.5) * 0.02,
+            speed: Math.random() * 0.15 + 0.10, // Faster base speed
+            rotSpeedX: (Math.random() - 0.5) * 0.025,
+            rotSpeedY: (Math.random() - 0.5) * 0.025,
+            rotSpeedZ: (Math.random() - 0.5) * 0.025,
             initialX: bean.position.x
         });
     }
