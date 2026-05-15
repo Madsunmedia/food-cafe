@@ -25,6 +25,66 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     requestAnimationFrame(raf);
 
+    // Disable scrolling initially for loader
+    lenis.stop();
+
+    // ── MASTER LOADER SEQUENCE ──────────────────────────────────────
+    const loaderTL = gsap.timeline({
+        onComplete: () => {
+            // Once loader is done, enable scrolling and start page reveal
+            lenis.start();
+            if (typeof masterReveal === "function") masterReveal();
+        }
+    });
+
+    // Initial states for loader elements
+    gsap.set(".bean-bit", { y: 20, opacity: 0 });
+    gsap.set(".loader-steam span", { y: 20, opacity: 0 });
+    gsap.set(".loader-logo", { opacity: 0, y: 10 });
+
+    loaderTL
+        // 1. Beans assembly
+        .to(".bean-bit", {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out"
+        })
+        // 2. Steam drifts up
+        .to(".loader-steam span", {
+            opacity: 1,
+            y: -30,
+            duration: 2,
+            stagger: 0.3,
+            ease: "sine.inOut",
+            repeat: 1,
+            yoyo: true
+        }, "-=0.5")
+        // 3. Progress bar fills smoothly
+        .to(".status-bar", {
+            width: "100%",
+            duration: 2.8,
+            ease: "power1.inOut"
+        }, 0.5)
+        // 4. Logo elegantly fades and expands
+        .to(".loader-logo", {
+            opacity: 1,
+            y: 0,
+            letterSpacing: "0.45em",
+            duration: 1.5,
+            ease: "expo.out"
+        }, "-=1.8")
+        // 5. Final exit — fade out full loader
+        .to("#loader", {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.inOut",
+            onComplete: () => {
+                document.getElementById('loader').style.display = 'none';
+            }
+        }, "+=0.2");
+
     // Global scroll velocity for particles
     let scrollVelocity = 0;
     lenis.on('scroll', (e) => {
@@ -333,7 +393,16 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(".hero-bg-video",   { scale: 1.08, opacity: 0 });
 
     // Master timeline — cinematic sequenced entrance
-    const heroTL = gsap.timeline({ delay: 0.2, defaults: { ease: "expo.out" } });
+    const heroTL = gsap.timeline({ 
+        paused: true, // Paused until loader finishes
+        delay: 0.2, 
+        defaults: { ease: "expo.out" } 
+    });
+
+    // Global reveal function called by loader
+    window.masterReveal = () => {
+        heroTL.play();
+    };
 
     heroTL
         // 1. Navbar glides in from top
