@@ -1215,3 +1215,195 @@ section {
     .bean-heap-video-wrap { height: 260px; }
     .bean-heap-label { font-size: 1rem; }
 }
+
+/* ── Expanded Menu Categories ── */
+.menu-categories {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.menu-category {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(145deg, rgba(20, 17, 15, 0.7), rgba(10, 8, 7, 0.9));
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.menu-category:hover {
+    border-color: rgba(212, 163, 115, 0.25);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 163, 115, 0.08);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 2rem;
+    cursor: pointer;
+    user-select: none;
+    gap: 1.5rem;
+    transition: background 0.3s ease;
+}
+
+.category-header:hover {
+    background: rgba(212, 163, 115, 0.04);
+}
+
+.category-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+}
+
+.cat-thumb {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(212, 163, 115, 0.2);
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+}
+
+.cat-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+
+.cat-tagline {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.cat-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    flex-shrink: 0;
+}
+
+.cat-count {
+    font-size: 0.78rem;
+    color: var(--accent-amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.75;
+}
+
+.cat-chevron {
+    font-size: 1.6rem;
+    color: var(--accent-amber);
+    line-height: 1;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-block;
+}
+
+.menu-category.open .cat-chevron {
+    transform: rotate(180deg);
+}
+
+/* Accordion sub-items */
+.sub-items-wrap {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menu-category.open .sub-items-wrap {
+    max-height: 800px;
+}
+
+.sub-items-grid {
+    padding: 0 2rem 1.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.sub-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+    border-radius: 8px;
+    padding-inline: 0.5rem;
+}
+
+.sub-item:last-child {
+    border-bottom: none;
+}
+
+.sub-item:hover {
+    background: rgba(212, 163, 115, 0.06);
+    padding-inline: 1rem;
+}
+
+.menu-category.open .sub-item {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for sub-items */
+.menu-category.open .sub-item:nth-child(1) { transition-delay: 0.05s; }
+.menu-category.open .sub-item:nth-child(2) { transition-delay: 0.10s; }
+.menu-category.open .sub-item:nth-child(3) { transition-delay: 0.15s; }
+.menu-category.open .sub-item:nth-child(4) { transition-delay: 0.20s; }
+.menu-category.open .sub-item:nth-child(5) { transition-delay: 0.25s; }
+
+.sub-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sub-name {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.sub-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    max-width: 480px;
+}
+
+.sub-price {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--accent-amber);
+    font-style: italic;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Filter buttons — update to work with new layout */
+.menu-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .category-header { padding: 1rem 1.2rem; gap: 1rem; }
+    .cat-thumb { width: 48px; height: 48px; }
+    .cat-title { font-size: 1.2rem; }
+    .sub-items-grid { padding: 0 1rem 1rem; }
+    .sub-desc { max-width: 220px; }
+}

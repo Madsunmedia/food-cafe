@@ -470,53 +470,55 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out"
     });
 
-    // 5. Menu Filtering Logic
+    // 5. Menu Categories — Scroll Reveal
+    gsap.from(".menu-category", {
+        scrollTrigger: {
+            trigger: ".menu-categories",
+            start: "top 80%",
+        },
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: "power3.out"
+    });
+
+    // 6. Category Filter (shows/hides full category blocks)
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const menuCards = document.querySelectorAll('.menu-card');
+    const menuCategories = document.querySelectorAll('.menu-category');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove active class from all buttons
             filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
             btn.classList.add('active');
-
             const filterValue = btn.getAttribute('data-filter');
 
-            let visibleCards = [];
-            
-            // Filter cards with GSAP animation for smooth transitions
-            menuCards.forEach(card => {
-                const category = card.getAttribute('data-category');
-                
-                if (filterValue === 'all' || filterValue === category) {
-                    if (card.classList.contains('hidden')) {
-                        card.classList.remove('hidden');
-                        gsap.fromTo(card, 
-                            { opacity: 0, scale: 0.8 }, 
-                            { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.5)" }
-                        );
-                    }
+            menuCategories.forEach(cat => {
+                const cat_type = cat.getAttribute('data-category');
+                if (filterValue === 'all' || filterValue === cat_type) {
+                    gsap.to(cat, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.2)', clearProps: 'display' });
+                    cat.style.display = '';
                 } else {
-                    if (!card.classList.contains('hidden')) {
-                        gsap.to(card, {
-                            opacity: 0, 
-                            scale: 0.8, 
-                            duration: 0.3, 
-                            ease: "power2.in",
-                            onComplete: () => {
-                                card.classList.add('hidden');
-                                ScrollTrigger.refresh();
-                            }
-                        });
-                    }
+                    gsap.to(cat, {
+                        opacity: 0, scale: 0.95, duration: 0.3, ease: 'power2.in',
+                        onComplete: () => { cat.style.display = 'none'; ScrollTrigger.refresh(); }
+                    });
                 }
             });
-            
-            // Refresh ScrollTrigger after adding elements
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 500);
+            setTimeout(() => ScrollTrigger.refresh(), 400);
         });
     });
 });
+
+// Accordion toggle — global function (called inline from HTML)
+function toggleCategory(headerEl) {
+    const category = headerEl.closest('.menu-category');
+    const isOpen = category.classList.contains('open');
+
+    // Close all others first for single-open accordion feel
+    document.querySelectorAll('.menu-category.open').forEach(c => {
+        if (c !== category) c.classList.remove('open');
+    });
+
+    category.classList.toggle('open', !isOpen);
+}
