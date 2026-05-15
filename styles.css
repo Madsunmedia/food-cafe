@@ -1732,3 +1732,241 @@ section {
         0 0 16px rgba(212, 163, 115, 0.15);
     transition: box-shadow 0.4s ease;
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   AMBIENT ATMOSPHERE LAYER
+   All elements: position:fixed, pointer-events:none, z-index:1
+   GPU-composited via transform/opacity only — zero layout cost
+   ══════════════════════════════════════════════════════════════════ */
+
+.ambient-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;           /* above bg-canvas(0), below page content */
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* ── Floating Warm Light Orbs ──────────────────────────────────── */
+/* Each orb is a massive blurred radial gradient that drifts slowly */
+.amb-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    mix-blend-mode: screen;
+    will-change: transform, opacity;
+}
+
+/* Orb 1 — top-left, amber, slow drift */
+.amb-orb--1 {
+    width: 600px;
+    height: 600px;
+    top: -15%;
+    left: -10%;
+    background: radial-gradient(circle,
+        rgba(212, 163, 115, 0.12) 0%,
+        rgba(212, 163, 115, 0.05) 40%,
+        transparent 70%
+    );
+    animation: orbDrift1 28s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+/* Orb 2 — right side, gold, medium drift */
+.amb-orb--2 {
+    width: 500px;
+    height: 500px;
+    top: 30%;
+    right: -8%;
+    background: radial-gradient(circle,
+        rgba(250, 237, 205, 0.10) 0%,
+        rgba(212, 163, 115, 0.04) 45%,
+        transparent 70%
+    );
+    animation: orbDrift2 22s ease-in-out infinite;
+    animation-delay: -9s;
+    opacity: 0.65;
+}
+
+/* Orb 3 — bottom-left, warmer, slow rise */
+.amb-orb--3 {
+    width: 700px;
+    height: 700px;
+    bottom: -20%;
+    left: 15%;
+    background: radial-gradient(circle,
+        rgba(180, 120, 60, 0.09) 0%,
+        rgba(212, 163, 115, 0.03) 50%,
+        transparent 70%
+    );
+    animation: orbDrift3 35s ease-in-out infinite;
+    animation-delay: -18s;
+    opacity: 0.55;
+}
+
+/* Orb 4 — center, very subtle, breathes */
+.amb-orb--4 {
+    width: 400px;
+    height: 400px;
+    top: 45%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+        rgba(250, 237, 205, 0.06) 0%,
+        transparent 65%
+    );
+    animation: orbBreathe 14s ease-in-out infinite;
+    animation-delay: -5s;
+    opacity: 0.5;
+}
+
+/* ── Orb Keyframes ─────────────────────────────────────────────── */
+@keyframes orbDrift1 {
+    0%   { transform: translate(0px, 0px)    scale(1);    opacity: 0.7; }
+    25%  { transform: translate(40px, 30px)  scale(1.08); opacity: 0.55; }
+    50%  { transform: translate(20px, 60px)  scale(0.95); opacity: 0.7; }
+    75%  { transform: translate(-20px, 30px) scale(1.05); opacity: 0.6; }
+    100% { transform: translate(0px, 0px)    scale(1);    opacity: 0.7; }
+}
+
+@keyframes orbDrift2 {
+    0%   { transform: translate(0px, 0px)    scale(1);    opacity: 0.65; }
+    33%  { transform: translate(-50px, 40px) scale(1.1);  opacity: 0.45; }
+    66%  { transform: translate(-20px, -30px)scale(0.92); opacity: 0.65; }
+    100% { transform: translate(0px, 0px)    scale(1);    opacity: 0.65; }
+}
+
+@keyframes orbDrift3 {
+    0%   { transform: translate(0px, 0px)   scale(1);    opacity: 0.55; }
+    20%  { transform: translate(30px, -40px)scale(1.06); opacity: 0.45; }
+    50%  { transform: translate(60px, -20px)scale(1.12); opacity: 0.55; }
+    80%  { transform: translate(20px, 20px) scale(0.96); opacity: 0.5; }
+    100% { transform: translate(0px, 0px)   scale(1);    opacity: 0.55; }
+}
+
+@keyframes orbBreathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.5; }
+    50%       { transform: translate(-50%, -50%) scale(1.25); opacity: 0.25; }
+}
+
+/* ── Cinematic Vignette — breathes softly ──────────────────────── */
+.amb-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse at center,
+        transparent 35%,
+        rgba(5, 4, 3, 0.45) 80%,
+        rgba(5, 4, 3, 0.75) 100%
+    );
+    animation: vignetteBreathe 12s ease-in-out infinite;
+    opacity: 1;
+}
+
+@keyframes vignetteBreathe {
+    0%, 100% { opacity: 1;    }
+    50%       { opacity: 0.75; }
+}
+
+/* ── Bokeh Micro-Dots Layer ────────────────────────────────────── */
+/* CSS-only scattered light dots using radial-gradient background */
+.amb-bokeh {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle, rgba(212,163,115,0.18) 1px, transparent 1px),
+        radial-gradient(circle, rgba(250,237,205,0.12) 1px, transparent 1px),
+        radial-gradient(circle, rgba(212,163,115,0.10) 1.5px, transparent 1.5px);
+    background-size: 120px 120px, 180px 180px, 240px 240px;
+    background-position: 0 0, 60px 60px, 30px 90px;
+    animation: bokehDrift 40s linear infinite;
+    opacity: 0.6;
+}
+
+@keyframes bokehDrift {
+    0%   { background-position: 0 0,     60px 60px,   30px 90px;  }
+    100% { background-position: 120px 120px, 180px 180px, 270px 210px; }
+}
+
+/* ── Section Edge Glows ────────────────────────────────────────── */
+/* Subtle top-border light line on each major section */
+.features-section,
+.menu-showcase,
+.story-section,
+.testimonials-section,
+.footer {
+    position: relative;
+}
+
+.features-section::before,
+.menu-showcase::before,
+.story-section::before,
+.testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(212, 163, 115, 0.25),
+        rgba(250, 237, 205, 0.35),
+        rgba(212, 163, 115, 0.25),
+        transparent
+    );
+    animation: edgeGlowPulse 6s ease-in-out infinite;
+    z-index: 1;
+}
+
+/* Stagger each section's glow timing */
+.menu-showcase::before        { animation-delay: -1.5s; }
+.story-section::before        { animation-delay: -3s;   }
+.testimonials-section::before { animation-delay: -4.5s; }
+
+@keyframes edgeGlowPulse {
+    0%, 100% { opacity: 0.6; }
+    50%       { opacity: 1;   }
+}
+
+/* ── Slow Light Sweep across the page ──────────────────────────── */
+/* A single very wide gradient bar that sweeps slowly diagonally */
+.ambient-layer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 50%;
+    height: 200%;
+    background: linear-gradient(
+        105deg,
+        transparent 0%,
+        rgba(212, 163, 115, 0.025) 40%,
+        rgba(250, 237, 205, 0.04)  50%,
+        rgba(212, 163, 115, 0.025) 60%,
+        transparent 100%
+    );
+    animation: lightSweep 24s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes lightSweep {
+    0%   { transform: translateX(0);     opacity: 0;   }
+    10%  { opacity: 1; }
+    50%  { transform: translateX(400%);  opacity: 0.8; }
+    90%  { opacity: 0; }
+    100% { transform: translateX(400%);  opacity: 0;   }
+}
+
+/* ── Performance: reduce motion for users who prefer it ──────── */
+@media (prefers-reduced-motion: reduce) {
+    .amb-orb,
+    .amb-vignette,
+    .amb-bokeh,
+    .ambient-layer::after,
+    .features-section::before,
+    .menu-showcase::before,
+    .story-section::before,
+    .testimonials-section::before {
+        animation: none;
+    }
+}

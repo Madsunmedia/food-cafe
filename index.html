@@ -17,6 +17,19 @@
     <!-- Three.js Canvas Container for Background Particles -->
     <canvas id="bg-canvas"></canvas>
 
+    <!-- ── Ambient Atmosphere Layer (pure CSS, pointer-events: none) ── -->
+    <div class="ambient-layer" aria-hidden="true">
+        <!-- Floating warm light orbs -->
+        <div class="amb-orb amb-orb--1"></div>
+        <div class="amb-orb amb-orb--2"></div>
+        <div class="amb-orb amb-orb--3"></div>
+        <div class="amb-orb amb-orb--4"></div>
+        <!-- Cinematic edge vignette (breathes softly) -->
+        <div class="amb-vignette"></div>
+        <!-- Bokeh micro-dots layer -->
+        <div class="amb-bokeh"></div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">LUMINA</div>
