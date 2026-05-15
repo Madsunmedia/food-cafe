@@ -277,19 +277,55 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero Animations on Load
-    const tl = gsap.timeline();
-    
-    tl.fromTo(".navbar", { y: -50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power3.out" })
-      .fromTo(".title-line", 
-        { y: 100, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power4.out" },
-        "-=0.5"
-      )
-      .fromTo(".hero-subtitle", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.8")
-      .fromTo(".hero-actions", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }, "-=0.6")
-      .fromTo(".floating-asset", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1.2, stagger: 0.2, ease: "back.out(1.5)" }, "-=0.8")
-      .fromTo(".scroll-indicator", { opacity: 0 }, { opacity: 0.7, duration: 1 }, "-=0.5");
+    // ── CINEMATIC HERO ENTRANCE ──────────────────────────────────────
+    // Set initial hidden states (no flash of content)
+    gsap.set(".navbar",          { y: -80, opacity: 0 });
+    gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)" });
+    gsap.set(".hero-subtitle",   { y: 30, opacity: 0 });
+    gsap.set(".hero-actions",    { y: 25, opacity: 0 });
+    gsap.set(".scroll-indicator",{ opacity: 0 });
+    gsap.set(".hero-3d-assets",  { y: -60, opacity: 0, scale: 0.92 });
+    gsap.set(".hero-bg-video",   { scale: 1.08, opacity: 0 });
+
+    // Master timeline — cinematic sequenced entrance
+    const heroTL = gsap.timeline({ delay: 0.2, defaults: { ease: "expo.out" } });
+
+    heroTL
+        // 1. Navbar glides in from top
+        .to(".navbar", {
+            y: 0, opacity: 1, duration: 1.1, ease: "power3.out"
+        })
+        // 2. Background video fades and subtly de-zooms into place
+        .to(".hero-bg-video", {
+            scale: 1, opacity: 1, duration: 2.2, ease: "power2.out"
+        }, "-=0.8")
+        // 3. Title lines clip-path reveal + slide up — staggered per word
+        .to(".title-line", {
+            y: 0,
+            opacity: 1,
+            clipPath: "inset(0% 0% 0% 0%)",
+            duration: 1.3,
+            stagger: { each: 0.18, ease: "power2.out" },
+            ease: "expo.out"
+        }, "-=1.6")
+        // 4. Subtitle fades up softly
+        .to(".hero-subtitle", {
+            y: 0, opacity: 1, duration: 1.0, ease: "power3.out"
+        }, "-=0.7")
+        // 5. CTA buttons emerge with a gentle scale+fade
+        .fromTo(".hero-actions .primary-btn, .hero-actions .secondary-btn",
+            { y: 20, opacity: 0, scale: 0.96 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.9, stagger: 0.12, ease: "back.out(1.4)" },
+            "-=0.6"
+        )
+        // 6. Coffee cup / 3D assets drop gracefully from above
+        .to(".hero-3d-assets", {
+            y: 0, opacity: 1, scale: 1, duration: 1.8, ease: "expo.out"
+        }, "-=1.0")
+        // 7. Scroll indicator fades in last, subtly
+        .to(".scroll-indicator", {
+            opacity: 0.6, duration: 1.2, ease: "power2.out"
+        }, "-=0.6");
 
     // Parallax effect for Hero Elements
     gsap.to(".hero-ambient-glow", {

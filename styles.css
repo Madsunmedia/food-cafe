@@ -80,6 +80,24 @@ img, video {
     backface-visibility: hidden;
 }
 
+/* ── Hero Entrance — FOUC prevention ──
+   These elements start invisible; GSAP animates them in on DOMContentLoaded.
+   The .js-loaded class is added by JS to confirm runtime is ready. ── */
+.navbar,
+.title-line,
+.hero-subtitle,
+.hero-actions,
+.scroll-indicator,
+.hero-3d-assets {
+    opacity: 0;   /* hidden until GSAP fires */
+}
+
+/* Title-line clip path for cinematic word reveal */
+.title-line {
+    clip-path: inset(100% 0% 0% 0%);
+    display: inline-block;
+}
+
 /* Three.js Canvas */
 #bg-canvas {
     position: fixed;
