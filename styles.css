@@ -105,7 +105,7 @@ img, video {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 2; /* Above page backgrounds, below interactive content */
+    z-index: 0;            /* Behind page content, above raw body bg */
     pointer-events: none;
     opacity: 0.9;
 }

@@ -158,48 +158,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const bokehParticles = new THREE.Points(bokehGeometry, bokehMaterial);
     floatGroup.add(bokehParticles);
 
-    // --- Falling Coffee Beans Layer ---
+    // ── Realistic Falling Coffee Beans ─────────────────────────────
+    // Each bean gets its own geometry instance for unique shape variation
     const beanTexture = new THREE.TextureLoader().load('assets/coffee_bean_texture.png');
-    const beanGeometry = new THREE.SphereGeometry(1, 16, 16);
-    beanGeometry.scale(1, 0.7, 0.5); // Squashed to look like a bean
-    
-    const beanMaterial = new THREE.MeshStandardMaterial({
-        map: beanTexture,
-        roughness: 0.4,
-        metalness: 0.1,
-        transparent: true,
-        opacity: 0.9,
-    });
-
-    const fallingBeans = [];
-    const beanCount = 60;
     const beanGroup = new THREE.Group();
     scene.add(beanGroup);
+    const fallingBeans = [];
+    const beanCount = 80; // More beans for richer effect
+
+    // Warm cafe lighting for beans
+    const beanLight = new THREE.PointLight(0xd4a373, 1.5, 200);
+    beanLight.position.set(0, 30, 30);
+    scene.add(beanLight);
 
     for (let i = 0; i < beanCount; i++) {
-        const bean = new THREE.Mesh(beanGeometry, beanMaterial);
-        
-        // All beans start ABOVE the viewport for the falling-from-top effect
-        bean.position.x = (Math.random() - 0.5) * 120;
-        bean.position.y = 60 + Math.random() * 160; // All above top of view, staggered
-        bean.position.z = (Math.random() - 0.5) * 60; // Foreground and background depth
-        
-        // Random rotation
-        bean.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
-        
-        // Random scale for depth illusion
-        const scale = Math.random() * 0.9 + 0.5;
-        bean.scale.set(scale, scale, scale);
+        // Unique squashed sphere per bean — varied proportions
+        const rx = 0.8 + Math.random() * 0.5;
+        const ry = 0.5 + Math.random() * 0.4;
+        const rz = 0.3 + Math.random() * 0.3;
+        const geo = new THREE.SphereGeometry(1, 14, 10);
+        geo.scale(rx, ry, rz);
+
+        // Depth layer: 0 = far background, 1 = close foreground
+        const depth = Math.random(); // 0..1
+        const zPos = -40 + depth * 80; // z from -40 (far) to +40 (close)
+
+        // Depth-based size: closer beans appear larger
+        const baseScale = 0.3 + depth * 1.0;
+
+        // Depth-based material: closer = more opaque + richer colour
+        const opacity = 0.3 + depth * 0.65;
+        const beanMat = new THREE.MeshStandardMaterial({
+            map: beanTexture,
+            roughness: 0.55,
+            metalness: 0.05,
+            transparent: true,
+            opacity,
+            color: new THREE.Color().setHSL(0.07, 0.6 + depth * 0.3, 0.25 + depth * 0.25),
+        });
+
+        const bean = new THREE.Mesh(geo, beanMat);
+
+        // Stagger starting Y so they don't all enter at once
+        bean.position.x = (Math.random() - 0.5) * 130;
+        bean.position.y = 70 + Math.random() * 200;  // All above viewport, staggered
+        bean.position.z = zPos;
+
+        bean.rotation.set(
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2,
+            Math.random() * Math.PI * 2
+        );
+        bean.scale.setScalar(baseScale);
 
         beanGroup.add(bean);
-        
+
         fallingBeans.push({
             mesh: bean,
-            speed: Math.random() * 0.15 + 0.10, // Faster base speed
-            rotSpeedX: (Math.random() - 0.5) * 0.025,
-            rotSpeedY: (Math.random() - 0.5) * 0.025,
-            rotSpeedZ: (Math.random() - 0.5) * 0.025,
-            initialX: bean.position.x
+            // Gravity: start slow, accelerate to terminal velocity
+            velocity: 0.04 + Math.random() * 0.06,   // initial fall speed
+            gravity: 0.0008 + Math.random() * 0.0006, // acceleration per frame
+            terminalVelocity: 0.18 + Math.random() * 0.12,
+            // Per-axis rotation — tumbling motion
+            rotX: (Math.random() - 0.5) * 0.018,
+            rotY: (Math.random() - 0.5) * 0.022,
+            rotZ: (Math.random() - 0.5) * 0.015,
+            // Gentle pendulum-style X sway
+            swayAmplitude: 0.04 + Math.random() * 0.08,
+            swayFrequency: 0.4 + Math.random() * 0.6,
+            swayPhase: Math.random() * Math.PI * 2,
+            originX: bean.position.x,
+            depth,
+            baseScale,
         });
     }
 
@@ -238,24 +268,39 @@ document.addEventListener("DOMContentLoaded", () => {
         // Slowly rotate entire group
         floatGroup.rotation.y = elapsedTime * 0.03;
 
-        // Animate Falling Coffee Beans (linked to scroll)
-        fallingBeans.forEach(bean => {
-            // Speed is base speed + boost from scroll velocity
-            const currentSpeed = bean.speed + (scrollVelocity * 0.12);
-            bean.mesh.position.y -= currentSpeed;
-            
-            bean.mesh.rotation.x += bean.rotSpeedX;
-            bean.mesh.rotation.y += bean.rotSpeedY;
-            bean.mesh.rotation.z += bean.rotSpeedZ;
-            
-            // Subtle sway based on mouse
-            bean.mesh.position.x = bean.initialX + (targetX * 20);
+        // ── Realistic Falling Coffee Beans ─────────────────
+        fallingBeans.forEach((bean, i) => {
+            // Gravity: accelerate toward terminal velocity
+            bean.velocity = Math.min(
+                bean.velocity + bean.gravity + scrollVelocity * 0.003,
+                bean.terminalVelocity + scrollVelocity * 0.06
+            );
 
-            // Reset bean to top when it falls below view
-            if (bean.mesh.position.y < -60) {
-                bean.mesh.position.y = 60;
-                bean.mesh.position.x = (Math.random() - 0.5) * 120;
-                bean.initialX = bean.mesh.position.x;
+            // Fall downward
+            bean.mesh.position.y -= bean.velocity;
+
+            // Pendulum sway on X axis — sinusoidal drift
+            const swayOffset = Math.sin(elapsedTime * bean.swayFrequency + bean.swayPhase) * bean.swayAmplitude;
+            bean.mesh.position.x = bean.originX + swayOffset * 18;
+
+            // Tumbling rotation on all axes
+            bean.mesh.rotation.x += bean.rotX;
+            bean.mesh.rotation.y += bean.rotY;
+            bean.mesh.rotation.z += bean.rotZ;
+
+            // Depth-based parallax: closer beans shift more with mouse
+            bean.mesh.position.x += targetX * 12 * bean.depth;
+
+            // Subtle scale breath for 3D living feel
+            const breathe = 1 + Math.sin(elapsedTime * 0.8 + i) * 0.015;
+            bean.mesh.scale.setScalar(bean.baseScale * breathe);
+
+            // Reset to top when bean exits bottom of scene
+            if (bean.mesh.position.y < -70) {
+                bean.mesh.position.y = 70 + Math.random() * 60; // Re-enter from top
+                bean.mesh.position.x = (Math.random() - 0.5) * 130;
+                bean.originX = bean.mesh.position.x;
+                bean.velocity = 0.04 + Math.random() * 0.04; // Reset to slow entry
             }
         });
 
