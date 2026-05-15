@@ -766,6 +766,34 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             setTimeout(() => ScrollTrigger.refresh(), 400);
         });
+    // ── MAGNETIC BUTTONS ──────────────────────────────────────────────
+    // Buttons subtly pull toward the mouse for a high-end tactile feel
+    const magneticBtns = document.querySelectorAll('.primary-btn, .secondary-btn, .cta-btn, .filter-btn, .gold-btn');
+    
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = btn.getBoundingClientRect();
+            const x = e.clientX - (left + width / 2);
+            const y = e.clientY - (top + height / 2);
+            
+            // Subtle pull (max 8px)
+            gsap.to(btn, {
+                x: x * 0.15,
+                y: y * 0.15,
+                duration: 0.4,
+                ease: "power2.out"
+            });
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+            // Smoothly reset position
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.6,
+                ease: "elastic.out(1, 0.5)"
+            });
+        });
     });
 });
 
