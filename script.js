@@ -18,6 +18,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     requestAnimationFrame(raf);
 
+    // Cinematic Bean Drop Entrance
+    const entranceVideo = document.getElementById('entrance-beans-video');
+    const entranceOverlay = document.querySelector('.beans-entrance-overlay');
+    
+    if (entranceVideo && entranceOverlay) {
+        // Start hidden, then play and fade in
+        entranceVideo.play().then(() => {
+            entranceOverlay.classList.add('active');
+        }).catch(err => console.log("Autoplay blocked or video error:", err));
+
+        // Fade out slightly before completion to transition smoothly
+        entranceVideo.onended = () => {
+            gsap.to(entranceOverlay, { opacity: 0, duration: 2, onComplete: () => entranceOverlay.remove() });
+        };
+    }
+
     // 2. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
