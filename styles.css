@@ -903,24 +903,6 @@ section {
     mix-blend-mode: plus-lighter; /* Blends away dark backgrounds while keeping highlights */
 }
 
-.dessert-1 {
-    width: 250px;
-    top: 20%;
-    left: 10%;
-    animation: float-simple 8s ease-in-out infinite reverse;
-    z-index: 2;
-    filter: blur(2px) drop-shadow(0 20px 30px rgba(0,0,0,0.6));
-}
-
-.dessert-2 {
-    width: 200px;
-    bottom: 20%;
-    right: 10%;
-    animation: float-simple 7s ease-in-out infinite 1s;
-    z-index: 4;
-    filter: blur(1px) drop-shadow(0 20px 30px rgba(0,0,0,0.6));
-}
-
 @keyframes float {
     0%, 100% { transform: translate(-50%, -50%) translateY(0) rotate(0deg); }
     50% { transform: translate(-50%, -50%) translateY(-30px) rotate(2deg); }
