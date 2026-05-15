@@ -28,6 +28,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Disable scrolling initially for loader
     lenis.stop();
 
+    // Safety Fallback: Hide loader after 5s no matter what
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader && loader.style.display !== 'none') {
+            gsap.to(loader, { 
+                opacity: 0, 
+                duration: 0.8, 
+                onComplete: () => {
+                    loader.style.display = 'none';
+                    lenis.start();
+                    if (typeof masterReveal === "function") masterReveal();
+                } 
+            });
+        }
+    }, 5000);
+
     // ── MASTER LOADER SEQUENCE ──────────────────────────────────────
     const loaderTL = gsap.timeline({
         onComplete: () => {
@@ -382,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
-    // ── CINEMATIC HERO ENTRANCE ──────────────────────────────────────
+    // ── MASTER REVEAL SYSTEM ──────────────────────────────────────────
     // Set initial hidden states (no flash of content)
     gsap.set(".navbar",          { y: -80, opacity: 0 });
     gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)" });
@@ -392,14 +408,13 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(".hero-3d-assets",  { y: -60, opacity: 0, scale: 0.92 });
     gsap.set(".hero-bg-video",   { scale: 1.08, opacity: 0 });
 
-    // Master timeline — cinematic sequenced entrance
+    // This timeline handles the hero entrance and is triggered by the loader
     const heroTL = gsap.timeline({ 
-        paused: true, // Paused until loader finishes
+        paused: true, 
         delay: 0.2, 
         defaults: { ease: "expo.out" } 
     });
 
-    // Global reveal function called by loader
     window.masterReveal = () => {
         heroTL.play();
     };
@@ -866,6 +881,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             setTimeout(() => ScrollTrigger.refresh(), 400);
         });
+    });
+
     // ── MAGNETIC BUTTONS ──────────────────────────────────────────────
     // Buttons subtly pull toward the mouse for a high-end tactile feel
     const magneticBtns = document.querySelectorAll('.primary-btn, .secondary-btn, .cta-btn, .filter-btn, .gold-btn');
