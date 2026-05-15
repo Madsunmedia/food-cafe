@@ -372,41 +372,136 @@ document.addEventListener("DOMContentLoaded", () => {
             opacity: 0.6, duration: 1.2, ease: "power2.out"
         }, "-=0.6");
 
-    // Parallax effect for Hero Elements
+    // ── FULL-SITE PARALLAX DEPTH SYSTEM ───────────────────────────────
+    // All scrub values are high (2–4) so motion is buttery slow
+
+    // HERO — 3 independent layers moving at different rates
+    // Layer 1: background video drifts slowest (almost stationary)
+    gsap.to(".hero-bg-container", {
+        yPercent: 20,
+        ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 2 }
+    });
+
+    // Layer 2: ambient glow drifts slightly faster
     gsap.to(".hero-ambient-glow", {
-        yPercent: 30,
+        yPercent: 35,
         ease: "none",
-        scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 2.5 }
     });
 
+    // Layer 3: hero text content scrolls away fastest (natural reading flow)
+    gsap.to(".hero-content", {
+        yPercent: 18,
+        ease: "none",
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 3 }
+    });
+
+    // Layer 4: 3D cup floats at its own rate (between bg and text)
     gsap.to(".hero-3d-assets", {
-        yPercent: 15,
+        yPercent: 25,
         ease: "none",
-        scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: true
-        }
+        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 2.2 }
     });
 
-    // Section Header Parallax
+    // SECTION HEADERS — all drift upward gently as user scrolls into them
     gsap.utils.toArray(".section-header").forEach(header => {
-        gsap.to(header, {
-            y: 50,
+        gsap.fromTo(header,
+            { y: 30 },
+            {
+                y: -20,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: header.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 3
+                }
+            }
+        );
+    });
+
+    // FEATURES SECTION — cards float at slightly different depths
+    gsap.utils.toArray(".feature-card").forEach((card, i) => {
+        // Alternate cards move at slightly different rates for depth
+        const depth = i % 2 === 0 ? -22 : -14;
+        gsap.to(card, {
+            y: depth,
             ease: "none",
             scrollTrigger: {
-                trigger: header.parentElement,
+                trigger: ".features-section",
                 start: "top bottom",
                 end: "bottom top",
-                scrub: true
+                scrub: 3
             }
         });
+    });
+
+    // MENU SECTION — category cards rise at staggered depths
+    gsap.utils.toArray(".menu-category").forEach((cat, i) => {
+        gsap.to(cat, {
+            y: -10 - (i % 3) * 8,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".menu-showcase",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 3.5
+            }
+        });
+    });
+
+    // TESTIMONIALS SECTION — cards with subtle float depth
+    gsap.utils.toArray(".testimonial-card").forEach((card, i) => {
+        const yMove = i % 2 === 0 ? -18 : -10;
+        gsap.to(card, {
+            y: yMove,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".testimonials-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 3
+            }
+        });
+    });
+
+    // FOOTER — background glow drifts up slowly as footer enters view
+    gsap.to(".footer-bg-glow", {
+        yPercent: -40,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".footer",
+            start: "top bottom",
+            end: "top top",
+            scrub: 2.5
+        }
+    });
+
+    // FOOTER COLUMNS — subtle staggered rise
+    gsap.utils.toArray(".footer-column").forEach((col, i) => {
+        gsap.to(col, {
+            y: -8 - i * 4,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".footer",
+                start: "top bottom",
+                end: "bottom bottom",
+                scrub: 4
+            }
+        });
+    });
+
+    // BEAN HEAP — parallax drift on the end-of-page video
+    gsap.to(".bean-heap-video-wrap", {
+        yPercent: -12,
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".bean-heap-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 2
+        }
     });
 
     // Features Section Reveal
