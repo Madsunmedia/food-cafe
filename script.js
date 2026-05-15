@@ -18,21 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     requestAnimationFrame(raf);
 
-    // Cinematic Bean Drop Entrance
-    const entranceVideo = document.getElementById('entrance-beans-video');
-    const entranceOverlay = document.querySelector('.beans-entrance-overlay');
-    
-    if (entranceVideo && entranceOverlay) {
-        // Start hidden, then play and fade in
-        entranceVideo.play().then(() => {
-            entranceOverlay.classList.add('active');
-        }).catch(err => console.log("Autoplay blocked or video error:", err));
-
-        // Fade out slightly before completion to transition smoothly
-        entranceVideo.onended = () => {
-            gsap.to(entranceOverlay, { opacity: 0, duration: 2, onComplete: () => entranceOverlay.remove() });
-        };
-    }
+    // Global scroll velocity for particles
+    let scrollVelocity = 0;
+    lenis.on('scroll', (e) => {
+        scrollVelocity = Math.abs(e.velocity);
+    });
 
     // 2. Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
@@ -223,6 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const tick = () => {
         const elapsedTime = clock.getElapsedTime();
 
+        // Decay scroll velocity over time for smooth slowing down
+        scrollVelocity *= 0.95;
+
         // Animate Shapes (subtle floating)
         shapes.forEach(shape => {
             shape.mesh.rotation.x += shape.rotSpeedX;
@@ -238,9 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
         // Slowly rotate entire group
         floatGroup.rotation.y = elapsedTime * 0.03;
 
-        // Animate Falling Coffee Beans
+        // Animate Falling Coffee Beans (linked to scroll)
         fallingBeans.forEach(bean => {
-            bean.mesh.position.y -= bean.speed;
+            // Speed is base speed + boost from scroll velocity
+            const currentSpeed = bean.speed + (scrollVelocity * 0.05);
+            bean.mesh.position.y -= currentSpeed;
+            
             bean.mesh.rotation.x += bean.rotSpeedX;
             bean.mesh.rotation.y += bean.rotSpeedY;
             bean.mesh.rotation.z += bean.rotSpeedZ;
