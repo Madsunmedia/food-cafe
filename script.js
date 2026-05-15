@@ -1,16 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Initialize Lenis Smooth Scrolling
+    // 1. Initialize Lenis Smooth Scrolling — Cinematic Premium Config
     const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        gestureDirection: 'vertical',
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 2,
+        duration: 1.6,                                          // Longer = more cinematic inertia
+        easing: (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),// Exponential ease-out for luxury decel
+        lerp: 0.07,                                             // Low lerp = silky smooth catch-up
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        smoothTouch: false,                                     // Native touch on mobile
+        touchMultiplier: 1.8,
+        wheelMultiplier: 0.9,                                   // Slightly slower wheel = more control
         infinite: false,
+        autoResize: true,
     });
+
+    // Sync Lenis with GSAP ScrollTrigger for correct scrub animations
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
 
     function raf(time) {
         lenis.raf(time);

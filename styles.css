@@ -27,6 +27,11 @@
     box-sizing: border-box;
 }
 
+/* ── Lenis Smooth Scroll CSS Hooks ── */
+html {
+    scroll-behavior: auto !important; /* Let Lenis handle all scrolling */
+}
+
 html.lenis {
     height: auto;
 }
@@ -50,6 +55,29 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
+    overscroll-behavior: none;        /* No bounce/rubber-band on desktop */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU-compositing hints for scroll-animated elements */
+.hero,
+.hero-bg-container,
+.hero-3d-assets,
+.story-visual,
+.section-header,
+.feature-card,
+.menu-category,
+.testimonial-card {
+    will-change: transform;
+    transform: translateZ(0);         /* Force GPU layer */
+    backface-visibility: hidden;
+}
+
+/* Smooth image/video rendering during scroll */
+img, video {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 /* Three.js Canvas */
