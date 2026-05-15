@@ -887,18 +887,20 @@ section {
 .floating-asset {
     position: absolute;
     object-fit: contain;
-    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.8));
-    mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
-    -webkit-mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+    /* Refined mask to eliminate edge artifacts and background bleed */
+    mask-image: radial-gradient(circle at center, black 50%, transparent 95%);
+    -webkit-mask-image: radial-gradient(circle at center, black 50%, transparent 95%);
 }
 
 .main-cup {
-    width: 600px;
-    top: 50%;
-    left: 50%;
+    width: 480px; /* Reduced size as requested */
+    top: 55%; /* Slightly adjusted position */
+    left: 55%;
     transform: translate(-50%, -50%);
     animation: float 6s ease-in-out infinite;
     z-index: 3;
+    mix-blend-mode: plus-lighter; /* Blends away dark backgrounds while keeping highlights */
 }
 
 .dessert-1 {
