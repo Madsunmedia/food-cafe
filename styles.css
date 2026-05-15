@@ -1155,3 +1155,63 @@ section {
         font-size: 2.5rem;
     }
 }
+
+/* ── Coffee Bean Heap — Bottom Statement ── */
+.bean-heap-section {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg-base);
+}
+
+/* Text label sits above the video, fully readable */
+.bean-heap-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 4rem 2rem 2rem;
+}
+
+.bean-heap-label {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    opacity: 0.85;
+}
+
+/* Video wrapper — only shows the bottom 40% of the clip (the heap) */
+.bean-heap-video-wrap {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+}
+
+.bean-heap-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Push video up so we see only the lower heap portion */
+    object-position: center bottom;
+    opacity: 0.85;
+    filter: brightness(0.85) saturate(1.2);
+}
+
+/* Gradient that fades the video INTO the page above it — no hard edge */
+.bean-heap-fade-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 55%;
+    background: linear-gradient(to bottom, var(--bg-base) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .bean-heap-video-wrap { height: 260px; }
+    .bean-heap-label { font-size: 1rem; }
+}

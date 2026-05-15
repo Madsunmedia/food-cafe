@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         fallingBeans.push({
             mesh: bean,
-            speed: Math.random() * 0.08 + 0.04,
+            speed: Math.random() * 0.12 + 0.08,
             rotSpeedX: (Math.random() - 0.5) * 0.02,
             rotSpeedY: (Math.random() - 0.5) * 0.02,
             rotSpeedZ: (Math.random() - 0.5) * 0.02,
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Animate Falling Coffee Beans (linked to scroll)
         fallingBeans.forEach(bean => {
             // Speed is base speed + boost from scroll velocity
-            const currentSpeed = bean.speed + (scrollVelocity * 0.05);
+            const currentSpeed = bean.speed + (scrollVelocity * 0.12);
             bean.mesh.position.y -= currentSpeed;
             
             bean.mesh.rotation.x += bean.rotSpeedX;
