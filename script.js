@@ -357,8 +357,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Slow zoom-in on scroll for the image
-    gsap.to(".story-img", {
+    // Slow zoom-in on scroll for the image/video
+    gsap.to(".story-img, .story-video", {
         scale: 1.1,
         ease: "none",
         scrollTrigger: {

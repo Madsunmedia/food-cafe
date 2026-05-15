@@ -592,7 +592,7 @@ section {
     transform-style: preserve-3d;
 }
 
-.story-img {
+.story-img, .story-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -601,7 +601,7 @@ section {
     transform: translateZ(30px) scale(1); /* Increased Z-depth */
 }
 
-.story-visual:hover .story-img {
+.story-visual:hover .story-img, .story-visual:hover .story-video {
     transform: translateZ(50px) scale(0.97); /* Pop out even more while zooming out slightly */
 }
 
