@@ -1453,3 +1453,166 @@ section {
     .sub-items-grid { padding: 0 1rem 1rem; }
     .sub-desc { max-width: 220px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   PREMIUM IMAGE HOVER EFFECTS
+   Pure CSS — transforms only, no layout/color/spacing changes
+   Easing: cubic-bezier(0.16, 1, 0.3, 1) = luxury expo-out
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Shared base transition for all interactive images ── */
+.feature-card,
+.cat-thumb,
+.profile-img,
+.story-visual,
+.floating-asset,
+.testimonial-card {
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Feature Cards — 3D tilt + lift + warm glow ── */
+.feature-card {
+    transform-style: preserve-3d;
+    perspective: 800px;
+    cursor: default;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px) scale(1.03) rotateX(3deg);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(212, 163, 115, 0.18);
+    filter: brightness(1.06);
+}
+
+/* Feature icons: zoom in on card hover */
+.feature-card:hover .feature-icon {
+    transform: scale(1.12) translateY(-3px);
+    filter: drop-shadow(0 6px 16px rgba(212, 163, 115, 0.45));
+}
+
+.feature-icon {
+    transition:
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center bottom;
+}
+
+/* Icon glow pulse on card hover */
+.feature-card:hover .icon-glow {
+    opacity: 1;
+    transform: scale(1.4);
+}
+
+.icon-glow {
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Menu Category Thumbnails — soft zoom + golden glow ── */
+.cat-thumb {
+    transform-origin: center;
+    overflow: hidden;
+}
+
+.category-header:hover .cat-thumb {
+    transform: scale(1.1) rotate(-2deg);
+    filter:
+        brightness(1.12)
+        drop-shadow(0 4px 16px rgba(212, 163, 115, 0.5));
+    border-color: rgba(212, 163, 115, 0.5);
+}
+
+/* ── Testimonial Cards — gentle lift + depth shadow ── */
+.testimonial-card:hover {
+    transform: translateY(-8px) scale(1.015);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(212, 163, 115, 0.12);
+    filter: brightness(1.04);
+}
+
+/* Profile images inside testimonials — warm zoom ── */
+.profile-img {
+    transition:
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+}
+
+.testimonial-card:hover .profile-img {
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.4);
+    filter: brightness(1.1) saturate(1.1);
+}
+
+/* ── Story Visual — cinematic tilt handled by JS already,
+   add extra depth shadow and brightness on hover ── */
+.story-visual:hover {
+    filter: brightness(1.04);
+}
+
+.story-visual:hover .story-img,
+.story-visual:hover .story-video {
+    filter: brightness(1.08) saturate(1.1);
+}
+
+.story-img,
+.story-video {
+    transition:
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 1s ease;
+}
+
+/* ── Hero Floating Asset (coffee cup) — subtle float & glow ── */
+.floating-asset {
+    transition:
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+}
+
+.floating-asset:hover {
+    transform: scale(1.05) translateY(-12px) rotate(2deg) !important;
+    filter:
+        drop-shadow(0 20px 40px rgba(212, 163, 115, 0.4))
+        brightness(1.08);
+}
+
+/* ── Menu Category Cards — elegant lift on accordion hover ── */
+.menu-category:hover .cat-title {
+    color: var(--accent-amber);
+    text-shadow: 0 0 20px rgba(212, 163, 115, 0.3);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+/* ── Sub-item hover — inline image appears on row hover ── */
+.sub-item:hover .sub-name {
+    color: var(--accent-amber);
+    transition: color 0.3s ease;
+}
+
+/* ── Bean heap video — subtle zoom on hover ── */
+.bean-heap-video-wrap:hover .bean-heap-video {
+    transform: scale(1.03);
+    transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bean-heap-video {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Responsive: reduce tilt effect on touch devices ── */
+@media (hover: none) {
+    .feature-card:hover,
+    .testimonial-card:hover,
+    .floating-asset:hover {
+        transform: none;
+        filter: none;
+        box-shadow: none;
+    }
+}
