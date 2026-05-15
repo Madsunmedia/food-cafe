@@ -1616,3 +1616,119 @@ section {
         box-shadow: none;
     }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   MENU SECTION — Cinematic Interaction Enhancements
+   All additive — no layout, spacing, or color palette changes
+   ══════════════════════════════════════════════════════════════ */
+
+/* Allow box-shadow to bleed outside card bounds during hover lift */
+.menu-categories { overflow: visible; }
+.menu-category   { overflow: visible; }
+
+/* ── Filter Buttons — active state golden glow + hover lift ── */
+.filter-btn {
+    position: relative;
+    overflow: hidden;
+    transition:
+        background  0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        color       0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow  0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        transform   0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filter-btn:hover:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 163, 115, 0.2);
+}
+
+.filter-btn.active {
+    box-shadow:
+        0 0 0 1px rgba(212, 163, 115, 0.5),
+        0 4px 20px rgba(212, 163, 115, 0.25);
+}
+
+/* Shimmer sweep on active filter button */
+.filter-btn.active::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 100%
+    );
+    animation: filterShimmer 2.8s ease-in-out infinite;
+}
+
+@keyframes filterShimmer {
+    0%   { left: -100%; }
+    55%  { left: 160%; }
+    100% { left: 160%; }
+}
+
+/* ── Sub-items — animated left accent bar on hover ── */
+.sub-item { position: relative; }
+
+.sub-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 2px;
+    height: 55%;
+    background: linear-gradient(to bottom, transparent, var(--accent-amber), transparent);
+    border-radius: 2px;
+    transition:
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity   0.35s ease;
+    opacity: 0;
+}
+
+.sub-item:hover::before {
+    transform: translateY(-50%) scaleY(1);
+    opacity: 1;
+}
+
+/* ── Sub-item price — warm glow on row hover ── */
+.sub-item:hover .sub-price {
+    text-shadow: 0 0 12px rgba(212, 163, 115, 0.55);
+    transition: text-shadow 0.3s ease;
+}
+
+/* ── Category header — animated golden underline on hover ── */
+.category-header {
+    position: relative;
+}
+
+.category-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 2rem; right: 2rem;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(212,163,115,0.45), transparent);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.category-header:hover::after {
+    transform: scaleX(1);
+}
+
+/* ── Open accordion — subtle top separator glow ── */
+.menu-category.open .sub-items-wrap {
+    border-top: 1px solid rgba(212, 163, 115, 0.1);
+}
+
+/* ── Thumbnail pulse ring when category is open ── */
+.menu-category.open .cat-thumb {
+    box-shadow:
+        0 0 0 2px rgba(212, 163, 115, 0.38),
+        0 0 16px rgba(212, 163, 115, 0.15);
+    transition: box-shadow 0.4s ease;
+}

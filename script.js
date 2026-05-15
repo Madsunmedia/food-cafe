@@ -517,17 +517,104 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "back.out(1.2)"
     });
 
-    // Menu Cards Reveal
-    gsap.from(".menu-card", {
+    // ── MENU CATEGORIES — Cinematic Per-Card Stagger ─────────────────
+    // Each card gets its own ScrollTrigger so they trigger individually
+    // as the user scrolls — not all at once
+    const menuCats = gsap.utils.toArray('.menu-category');
+
+    // Set initial state
+    gsap.set(menuCats, { y: 55, opacity: 0, clipPath: 'inset(20% 0% 0% 0%)' });
+
+    menuCats.forEach((cat, i) => {
+        gsap.to(cat, {
+            y: 0,
+            opacity: 1,
+            clipPath: 'inset(0% 0% 0% 0%)',
+            duration: 1.1,
+            delay: i * 0.08,           // gentle cascade offset
+            ease: 'expo.out',
+            scrollTrigger: {
+                trigger: cat,
+                start: 'top 88%',
+                toggleActions: 'play none none none',
+            }
+        });
+
+        // GSAP hover: 3D tilt + golden glow reveal
+        const header = cat.querySelector('.category-header');
+        if (!header) return;
+
+        header.addEventListener('mouseenter', () => {
+            gsap.to(cat, {
+                y: -6,
+                scale: 1.012,
+                boxShadow: '0 16px 48px rgba(0,0,0,0.5), 0 0 28px rgba(212,163,115,0.18)',
+                duration: 0.45,
+                ease: 'power3.out',
+                overwrite: 'auto'
+            });
+            gsap.to(header.querySelector('.cat-chevron'), {
+                color: '#d4a373',
+                scale: 1.2,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        header.addEventListener('mouseleave', () => {
+            gsap.to(cat, {
+                y: 0,
+                scale: 1,
+                boxShadow: 'none',
+                duration: 0.6,
+                ease: 'power3.out',
+                overwrite: 'auto'
+            });
+            gsap.to(header.querySelector('.cat-chevron'), {
+                color: '',
+                scale: 1,
+                duration: 0.4,
+                ease: 'power2.out'
+            });
+        });
+    });
+
+    // ── FILTER BUTTONS — staggered entrance on scroll ─────────────────
+    gsap.from('.filter-btn', {
         scrollTrigger: {
-            trigger: ".menu-showcase",
-            start: "top 70%",
+            trigger: '.menu-filters',
+            start: 'top 90%',
         },
-        y: 50,
+        y: 20,
+        opacity: 0,
+        scale: 0.92,
+        duration: 0.7,
+        stagger: 0.07,
+        ease: 'back.out(1.6)'
+    });
+
+    // ── MENU SECTION TITLE — dramatic slide-up ────────────────────────
+    gsap.from('.menu-showcase .section-title', {
+        scrollTrigger: {
+            trigger: '.menu-showcase',
+            start: 'top 85%',
+        },
+        y: 40,
+        opacity: 0,
+        duration: 1.2,
+        ease: 'expo.out'
+    });
+
+    gsap.from('.menu-showcase .section-subtitle', {
+        scrollTrigger: {
+            trigger: '.menu-showcase',
+            start: 'top 85%',
+        },
+        y: 25,
         opacity: 0,
         duration: 1,
-        stagger: 0.2,
-        ease: "power3.out"
+        delay: 0.2,
+        ease: 'expo.out'
     });
 
     // Story Section Reveal
@@ -653,18 +740,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ease: "power3.out"
     });
 
-    // 5. Menu Categories — Scroll Reveal
-    gsap.from(".menu-category", {
-        scrollTrigger: {
-            trigger: ".menu-categories",
-            start: "top 80%",
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: "power3.out"
-    });
+    // (Menu category reveal now handled per-card above with individual ScrollTriggers)
 
     // 6. Category Filter (shows/hides full category blocks)
     const filterBtns = document.querySelectorAll('.filter-btn');
