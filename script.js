@@ -145,6 +145,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const bokehParticles = new THREE.Points(bokehGeometry, bokehMaterial);
     floatGroup.add(bokehParticles);
 
+    // --- Falling Coffee Beans Layer ---
+    const beanTexture = new THREE.TextureLoader().load('assets/coffee_bean_texture.png');
+    const beanGeometry = new THREE.SphereGeometry(1, 16, 16);
+    beanGeometry.scale(1, 0.7, 0.5); // Squashed to look like a bean
+    
+    const beanMaterial = new THREE.MeshStandardMaterial({
+        map: beanTexture,
+        roughness: 0.4,
+        metalness: 0.1,
+        transparent: true,
+        opacity: 0.9,
+    });
+
+    const fallingBeans = [];
+    const beanCount = 60;
+    const beanGroup = new THREE.Group();
+    scene.add(beanGroup);
+
+    for (let i = 0; i < beanCount; i++) {
+        const bean = new THREE.Mesh(beanGeometry, beanMaterial);
+        
+        // Initial random positions
+        bean.position.x = (Math.random() - 0.5) * 120;
+        bean.position.y = Math.random() * 120 - 60; // Spread throughout the height
+        bean.position.z = (Math.random() - 0.5) * 60; // Foreground and background
+        
+        // Random rotation
+        bean.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+        
+        // Random scale
+        const scale = Math.random() * 0.8 + 0.4;
+        bean.scale.set(scale, scale, scale);
+
+        beanGroup.add(bean);
+        
+        fallingBeans.push({
+            mesh: bean,
+            speed: Math.random() * 0.08 + 0.04,
+            rotSpeedX: (Math.random() - 0.5) * 0.02,
+            rotSpeedY: (Math.random() - 0.5) * 0.02,
+            rotSpeedZ: (Math.random() - 0.5) * 0.02,
+            initialX: bean.position.x
+        });
+    }
+
     // Mouse interaction
     let targetX = 0;
     let targetY = 0;
@@ -176,6 +221,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Slowly rotate entire group
         floatGroup.rotation.y = elapsedTime * 0.03;
+
+        // Animate Falling Coffee Beans
+        fallingBeans.forEach(bean => {
+            bean.mesh.position.y -= bean.speed;
+            bean.mesh.rotation.x += bean.rotSpeedX;
+            bean.mesh.rotation.y += bean.rotSpeedY;
+            bean.mesh.rotation.z += bean.rotSpeedZ;
+            
+            // Subtle sway based on mouse
+            bean.mesh.position.x = bean.initialX + (targetX * 20);
+
+            // Reset bean to top when it falls below view
+            if (bean.mesh.position.y < -60) {
+                bean.mesh.position.y = 60;
+                bean.mesh.position.x = (Math.random() - 0.5) * 120;
+                bean.initialX = bean.mesh.position.x;
+            }
+        });
 
         // Render
         renderer.render(scene, camera);
