@@ -3,7 +3,7 @@
     --bg-base: #0a0807;
     --bg-surface: #14110f;
     --text-primary: #f5f2eb;
-    --text-secondary: #a89f91;
+    --text-secondary: #b5ada1;
     --accent-amber: #d4a373;
     --accent-gold: #faedcd;
     --accent-glow: rgba(212, 163, 115, 0.15);
@@ -52,10 +52,10 @@ body {
     font-family: var(--font-body);
     background-color: var(--bg-base);
     color: var(--text-primary);
-    line-height: 1.6;
+    line-height: 1.8;
     overflow-x: hidden;
     position: relative;
-    overscroll-behavior: none;        /* No bounce/rubber-band on desktop */
+    overscroll-behavior: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -121,7 +121,9 @@ img, video {
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 500;
-    line-height: 1.2;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
 }
 
 .italic {
@@ -492,17 +494,18 @@ section {
 
 .section-title {
     font-size: 3.5rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
     color: var(--accent-gold);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
 }
 
 .section-subtitle {
     color: var(--text-secondary);
-    font-size: 1.2rem;
-    max-width: 600px;
+    font-size: 1.15rem;
+    max-width: 650px;
     margin: 0 auto;
-    line-height: 1.6;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
 }
 
 /* Menu Showcase & Filters */
@@ -609,7 +612,7 @@ section {
 .card-header h3 {
     font-size: 1.6rem;
     color: var(--text-primary);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
 }
 
 .price {
@@ -621,6 +624,8 @@ section {
 .card-desc {
     color: var(--text-secondary);
     font-size: 0.95rem;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
 }
 
 /* Story Section */
