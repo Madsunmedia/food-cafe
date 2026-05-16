@@ -107,10 +107,15 @@ document.addEventListener("DOMContentLoaded", () => {
         ScrollTrigger.refresh();
     };
 
-    // Global scroll velocity for particles
+    // Global scroll speed for bean physics — ramps up on scroll, decays smoothly
     let scrollVelocity = 0;
+    let scrollSpeed = 0;         // current additional fall speed from scroll
+    const maxScrollBoost = 0.25; // maximum extra fall speed
+
     lenis.on('scroll', (e) => {
         scrollVelocity = Math.abs(e.velocity);
+        // Ramp scroll boost — direct push each scroll event
+        scrollSpeed = Math.min(scrollVelocity * 0.04, maxScrollBoost);
     });
 
     // 2. Navbar Scroll Effect
@@ -123,12 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. Three.js Rich Cafe-Themed Background
+    // 3. Three.js Background — Falling Coffee Beans ONLY
     const canvas = document.getElementById('bg-canvas');
     const scene = new THREE.Scene();
     
-    // Add Fog for depth and cinematic feel
-    scene.fog = new THREE.FogExp2(0x0a0807, 0.015);
+    // Minimal fog for depth
+    scene.fog = new THREE.FogExp2(0x0a0807, 0.012);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 40;
@@ -137,108 +142,17 @@ document.addEventListener("DOMContentLoaded", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Lighting (Cinematic)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    // Warm cinematic lighting for beans
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
     scene.add(ambientLight);
 
-    const warmLight = new THREE.PointLight(0xd4a373, 2, 100);
-    warmLight.position.set(20, 20, 20);
+    const warmLight = new THREE.PointLight(0xd4a373, 2.5, 150);
+    warmLight.position.set(15, 30, 30);
     scene.add(warmLight);
 
-    const coolLight = new THREE.PointLight(0xfaedcd, 1, 100);
-    coolLight.position.set(-20, -20, 20);
-    scene.add(coolLight);
-
-    // Group for all floating objects
-    const floatGroup = new THREE.Group();
-    scene.add(floatGroup);
-
-    // Abstract Food Shapes
-    const geometries = [
-        new THREE.TorusGeometry(1.5, 0.6, 16, 32), // Donut/Bagel shape
-        new THREE.CylinderGeometry(1, 0.8, 2, 32), // Coffee cup shape
-        new THREE.SphereGeometry(1, 32, 32), // Bubbles/Drops
-        new THREE.IcosahedronGeometry(1.2, 0) // Modern abstract shape
-    ];
-
-    // Premium frosted glass material
-    const material = new THREE.MeshPhysicalMaterial({
-        color: 0xd4a373,
-        metalness: 0.2,
-        roughness: 0.2,
-        transparent: true,
-        opacity: 0.6,
-        transmission: 0.8, // Glass-like effect
-        thickness: 0.5,
-    });
-
-    const shapes = [];
-    for (let i = 0; i < 45; i++) {
-        const geo = geometries[Math.floor(Math.random() * geometries.length)];
-        const mesh = new THREE.Mesh(geo, material);
-        
-        // Random positioning across a wide volume
-        mesh.position.x = (Math.random() - 0.5) * 100;
-        mesh.position.y = (Math.random() - 0.5) * 100;
-        mesh.position.z = (Math.random() - 0.5) * 80 - 10;
-        
-        // Random rotation
-        mesh.rotation.x = Math.random() * Math.PI;
-        mesh.rotation.y = Math.random() * Math.PI;
-        
-        // Random scale
-        const scale = Math.random() * 0.6 + 0.4;
-        mesh.scale.set(scale, scale, scale);
-
-        floatGroup.add(mesh);
-        shapes.push({
-            mesh: mesh,
-            rotSpeedX: (Math.random() - 0.5) * 0.015,
-            rotSpeedY: (Math.random() - 0.5) * 0.015,
-            floatSpeed: Math.random() * 0.02 + 0.01
-        });
-    }
-
-    // Glowing Bokeh Lights
-    // Create soft circular texture programmatically
-    const createBokehTexture = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 128;
-        canvas.height = 128;
-        const ctx = canvas.getContext('2d');
-        
-        const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
-        gradient.addColorStop(0, 'rgba(250, 237, 205, 1)');
-        gradient.addColorStop(0.2, 'rgba(212, 163, 115, 0.8)');
-        gradient.addColorStop(0.5, 'rgba(212, 163, 115, 0.2)');
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 128, 128);
-        return new THREE.CanvasTexture(canvas);
-    };
-
-    const bokehGeometry = new THREE.BufferGeometry();
-    const bokehCount = 200;
-    const bokehPos = new Float32Array(bokehCount * 3);
-
-    for(let i = 0; i < bokehCount * 3; i++) {
-        bokehPos[i] = (Math.random() - 0.5) * 120;
-    }
-
-    bokehGeometry.setAttribute('position', new THREE.BufferAttribute(bokehPos, 3));
-
-    const bokehMaterial = new THREE.PointsMaterial({
-        size: 4,
-        map: createBokehTexture(),
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        opacity: 0.8
-    });
-
-    const bokehParticles = new THREE.Points(bokehGeometry, bokehMaterial);
-    floatGroup.add(bokehParticles);
+    const fillLight = new THREE.PointLight(0xfaedcd, 0.8, 120);
+    fillLight.position.set(-25, -15, 20);
+    scene.add(fillLight);
 
     // ── Realistic Falling Coffee Beans ─────────────────────────────
     // Each bean gets its own geometry instance for unique shape variation
@@ -315,15 +229,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Mouse interaction
+    // Mouse interaction — subtle parallax
     let targetX = 0;
-    let targetY = 0;
     const windowHalfX = window.innerWidth / 2;
-    const windowHalfY = window.innerHeight / 2;
 
     document.addEventListener('mousemove', (event) => {
         targetX = (event.clientX - windowHalfX) * 0.001;
-        targetY = (event.clientY - windowHalfY) * 0.001;
     });
 
     // Animation Loop
@@ -332,30 +243,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const tick = () => {
         const elapsedTime = clock.getElapsedTime();
 
-        // Decay scroll velocity over time for smooth slowing down
-        scrollVelocity *= 0.95;
+        // Decay scroll velocity and scroll speed each frame
+        scrollVelocity *= 0.92;
+        scrollSpeed *= 0.90; // Smooth deceleration when scroll stops
 
-        // Animate Shapes (subtle floating)
-        shapes.forEach(shape => {
-            shape.mesh.rotation.x += shape.rotSpeedX;
-            shape.mesh.rotation.y += shape.rotSpeedY;
-            shape.mesh.position.y += Math.sin(elapsedTime * shape.floatSpeed) * 0.01;
-        });
-
-        // Smooth camera movement for depth and parallax
-        camera.position.x += (targetX * 10 - camera.position.x) * 0.02;
-        camera.position.y += (-targetY * 10 - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-
-        // Slowly rotate entire group
-        floatGroup.rotation.y = elapsedTime * 0.03;
-
-        // ── Realistic Falling Coffee Beans ─────────────────
+        // ── Falling Coffee Beans ────────────────────────────
         fallingBeans.forEach((bean, i) => {
-            // Gravity: accelerate toward terminal velocity
+            // Base gravity + scroll boost
+            const totalGravity = bean.gravity + scrollSpeed * 0.5;
             bean.velocity = Math.min(
-                bean.velocity + bean.gravity + scrollVelocity * 0.003,
-                bean.terminalVelocity + scrollVelocity * 0.06
+                bean.velocity + totalGravity,
+                bean.terminalVelocity + scrollSpeed
             );
 
             // Fall downward
@@ -385,6 +283,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 bean.velocity = 0.04 + Math.random() * 0.04; // Reset to slow entry
             }
         });
+
+        // Subtle camera drift with mouse
+        camera.position.x += (targetX * 6 - camera.position.x) * 0.02;
+        camera.lookAt(scene.position);
 
         // Render
         renderer.render(scene, camera);
