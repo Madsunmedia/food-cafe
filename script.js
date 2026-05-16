@@ -1206,6 +1206,19 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
           y: 0, opacity: 1, duration: 1, stagger: 0.15, delay: 2.5, ease: 'power2.out' }
     );
+
+    // Story Visual Parallax
+    gsap.to('.story-visual', {
+        scrollTrigger: {
+            trigger: '.story-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1
+        },
+        y: -50,
+        rotateX: 2,
+        ease: 'none'
+    });
     gsap.fromTo('.contact-section .section-subtitle',
         { y: 20, opacity: 0 },
         { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },

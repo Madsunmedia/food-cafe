@@ -913,12 +913,14 @@ section {
 
 .story-visual {
     position: relative;
-    border-radius: 12px;
-    overflow: visible; /* Changed from hidden to allow 3D depth to pop */
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+    border-radius: 20px;
+    overflow: visible;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s ease;
     cursor: pointer;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    animation: storyFloat 8s ease-in-out infinite;
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(212, 163, 115, 0.05);
+    animation: storyCinematicFloat 12s ease-in-out infinite;
     transform-style: preserve-3d;
 }
 
@@ -986,12 +988,25 @@ section {
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1s ease;
-    transform: translateZ(30px) scale(1); /* Increased Z-depth */
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+    transform: translateZ(40px);
+    animation: slowCinematicZoom 30s infinite alternate linear;
+}
+
+@keyframes slowCinematicZoom {
+    0% { transform: translateZ(40px) scale(1); }
+    100% { transform: translateZ(60px) scale(1.12); }
+}
+
+@keyframes storyCinematicFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-15px) rotate(1deg); }
+    66% { transform: translateY(-8px) rotate(-0.5deg); }
 }
 
 .story-visual:hover .story-img, .story-visual:hover .story-video {
-    transform: translateZ(50px) scale(0.97); /* Pop out even more while zooming out slightly */
+    transform: translateZ(80px) scale(1.05);
+    filter: brightness(1.08) saturate(1.1);
 }
 
 @keyframes storyFloat {
