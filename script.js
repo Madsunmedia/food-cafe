@@ -1152,28 +1152,28 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     gsap.fromTo('.story-section .section-title.reveal-text span',
         { y: 30, opacity: 0, filter: 'blur(5px)' },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
-          y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.15, ease: 'expo.out' }
+        { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
+          y: 0, opacity: 1, filter: 'blur(0px)', duration: 1, stagger: 0.1, ease: 'expo.out' }
     );
     gsap.fromTo('.story-section .section-tagline',
         { y: 20, opacity: 0 },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
-          y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power2.out' }
+        { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
+          y: 0, opacity: 1, duration: 1, delay: 0.4, ease: 'power2.out' }
     );
     gsap.fromTo('.story-section .story-quote',
         { x: -20, opacity: 0 },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
-          x: 0, opacity: 1, duration: 1.2, delay: 1.2, ease: 'power3.out' }
+        { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
+          x: 0, opacity: 1, duration: 1, delay: 0.6, ease: 'power3.out' }
     );
     gsap.fromTo('.story-section p',
         { y: 30, opacity: 0 },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 75%' },
-          y: 0, opacity: 1, duration: 1, stagger: 0.2, delay: 1.4, ease: 'power2.out' }
+        { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1, stagger: 0.2, delay: 0.8, ease: 'power2.out' }
     );
     gsap.fromTo('.story-section .timeline-item',
         { x: -15, opacity: 0 },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
-          x: 0, opacity: 1, duration: 0.8, stagger: 0.15, delay: 1.8, ease: 'power2.out' }
+        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
+          x: 0, opacity: 1, duration: 0.8, stagger: 0.1, delay: 1.2, ease: 'power2.out' }
     );
 
     // Story Stats Count-up
