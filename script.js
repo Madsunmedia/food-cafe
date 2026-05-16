@@ -155,34 +155,22 @@ document.addEventListener("DOMContentLoaded", () => {
     scene.add(fillLight);
 
     // ── Realistic Falling Coffee Beans ─────────────────────────────
-    // Each bean gets its own geometry instance for unique shape variation
+    // ... (existing bean logic)
     const beanTexture = new THREE.TextureLoader().load('assets/coffee_bean_texture.png');
     const beanGroup = new THREE.Group();
     scene.add(beanGroup);
     const fallingBeans = [];
-    const beanCount = 80; // More beans for richer effect
-
-    // Warm cafe lighting for beans
-    const beanLight = new THREE.PointLight(0xd4a373, 1.5, 200);
-    beanLight.position.set(0, 30, 30);
-    scene.add(beanLight);
+    const beanCount = 80;
 
     for (let i = 0; i < beanCount; i++) {
-        // Unique squashed sphere per bean — varied proportions
         const rx = 0.8 + Math.random() * 0.5;
         const ry = 0.5 + Math.random() * 0.4;
         const rz = 0.3 + Math.random() * 0.3;
         const geo = new THREE.SphereGeometry(1, 14, 10);
         geo.scale(rx, ry, rz);
-
-        // Depth layer: 0 = far background, 1 = close foreground
-        const depth = Math.random(); // 0..1
-        const zPos = -40 + depth * 80; // z from -40 (far) to +40 (close)
-
-        // Depth-based size: closer beans appear larger
+        const depth = Math.random();
+        const zPos = -40 + depth * 80;
         const baseScale = 0.3 + depth * 1.0;
-
-        // Depth-based material: closer = more opaque + richer colour
         const opacity = 0.3 + depth * 0.65;
         const beanMat = new THREE.MeshStandardMaterial({
             map: beanTexture,
@@ -192,34 +180,21 @@ document.addEventListener("DOMContentLoaded", () => {
             opacity,
             color: new THREE.Color().setHSL(0.07, 0.6 + depth * 0.3, 0.25 + depth * 0.25),
         });
-
         const bean = new THREE.Mesh(geo, beanMat);
-
-        // Stagger starting Y so they don't all enter at once
         bean.position.x = (Math.random() - 0.5) * 130;
-        bean.position.y = 70 + Math.random() * 200;  // All above viewport, staggered
+        bean.position.y = 70 + Math.random() * 200;
         bean.position.z = zPos;
-
-        bean.rotation.set(
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2,
-            Math.random() * Math.PI * 2
-        );
+        bean.rotation.set(Math.random()*Math.PI*2, Math.random()*Math.PI*2, Math.random()*Math.PI*2);
         bean.scale.setScalar(baseScale);
-
         beanGroup.add(bean);
-
         fallingBeans.push({
             mesh: bean,
-            // Gravity: start slow, accelerate to terminal velocity
-            velocity: 0.04 + Math.random() * 0.06,   // initial fall speed
-            gravity: 0.0008 + Math.random() * 0.0006, // acceleration per frame
+            velocity: 0.04 + Math.random() * 0.06,
+            gravity: 0.0008 + Math.random() * 0.0006,
             terminalVelocity: 0.18 + Math.random() * 0.12,
-            // Per-axis rotation — tumbling motion
             rotX: (Math.random() - 0.5) * 0.018,
             rotY: (Math.random() - 0.5) * 0.022,
             rotZ: (Math.random() - 0.5) * 0.015,
-            // Gentle pendulum-style X sway
             swayAmplitude: 0.04 + Math.random() * 0.08,
             swayFrequency: 0.4 + Math.random() * 0.6,
             swayPhase: Math.random() * Math.PI * 2,
@@ -228,6 +203,51 @@ document.addEventListener("DOMContentLoaded", () => {
             baseScale,
         });
     }
+
+    // ── Cinematic Bokeh Lights ─────────────────────────────────────
+    const bokehGroup = new THREE.Group();
+    scene.add(bokehGroup);
+    const bokehLights = [];
+    const bokehCount = 15;
+    const bokehGeo = new THREE.SphereGeometry(4, 16, 16);
+
+    for(let i=0; i < bokehCount; i++) {
+        const bokehMat = new THREE.MeshBasicMaterial({
+            color: 0xd4a373,
+            transparent: true,
+            opacity: 0.05 + Math.random() * 0.08,
+            blending: THREE.AdditiveBlending
+        });
+        const mesh = new THREE.Mesh(bokehGeo, bokehMat);
+        mesh.position.set((Math.random()-0.5)*150, (Math.random()-0.5)*100, -50 + Math.random()*40);
+        mesh.scale.setScalar(1 + Math.random() * 3);
+        bokehGroup.add(mesh);
+        bokehLights.push({
+            mesh,
+            speed: 0.02 + Math.random() * 0.03,
+            offset: Math.random() * Math.PI * 2
+        });
+    }
+
+    // ── Floating Dust Motes (Particles) ───────────────────────────
+    const dustCount = 200;
+    const dustGeo = new THREE.BufferGeometry();
+    const dustPositions = new Float32Array(dustCount * 3);
+    for(let i=0; i < dustCount * 3; i++) dustPositions[i] = (Math.random()-0.5) * 150;
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+    const dustMat = new THREE.PointsMaterial({
+        color: 0xfaedcd,
+        size: 0.25,
+        transparent: true,
+        opacity: 0.4,
+        blending: THREE.AdditiveBlending
+    });
+    const dustParticles = new THREE.Points(dustGeo, dustMat);
+    scene.add(dustParticles);
+
+    // Dynamic Orbiting Light for Atmosphere
+    const orbitLight = new THREE.PointLight(0xd4a373, 2, 150);
+    scene.add(orbitLight);
 
     // Mouse interaction — subtle parallax
     let targetX = 0;
@@ -249,40 +269,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ── Falling Coffee Beans ────────────────────────────
         fallingBeans.forEach((bean, i) => {
-            // Base gravity + scroll boost
             const totalGravity = bean.gravity + scrollSpeed * 0.5;
-            bean.velocity = Math.min(
-                bean.velocity + totalGravity,
-                bean.terminalVelocity + scrollSpeed
-            );
-
-            // Fall downward
+            bean.velocity = Math.min(bean.velocity + totalGravity, bean.terminalVelocity + scrollSpeed);
             bean.mesh.position.y -= bean.velocity;
-
-            // Pendulum sway on X axis — sinusoidal drift
             const swayOffset = Math.sin(elapsedTime * bean.swayFrequency + bean.swayPhase) * bean.swayAmplitude;
-            bean.mesh.position.x = bean.originX + swayOffset * 18;
-
-            // Tumbling rotation on all axes
+            bean.mesh.position.x = bean.originX + swayOffset * 18 + targetX * 12 * bean.depth;
             bean.mesh.rotation.x += bean.rotX;
             bean.mesh.rotation.y += bean.rotY;
             bean.mesh.rotation.z += bean.rotZ;
-
-            // Depth-based parallax: closer beans shift more with mouse
-            bean.mesh.position.x += targetX * 12 * bean.depth;
-
-            // Subtle scale breath for 3D living feel
             const breathe = 1 + Math.sin(elapsedTime * 0.8 + i) * 0.015;
             bean.mesh.scale.setScalar(bean.baseScale * breathe);
-
-            // Reset to top when bean exits bottom of scene
             if (bean.mesh.position.y < -70) {
-                bean.mesh.position.y = 70 + Math.random() * 60; // Re-enter from top
+                bean.mesh.position.y = 70 + Math.random() * 60;
                 bean.mesh.position.x = (Math.random() - 0.5) * 130;
                 bean.originX = bean.mesh.position.x;
-                bean.velocity = 0.04 + Math.random() * 0.04; // Reset to slow entry
+                bean.velocity = 0.04 + Math.random() * 0.04;
             }
         });
+
+        // ── Bokeh Lights Animation ───────────────────────────
+        bokehLights.forEach(light => {
+            light.mesh.position.y += light.speed;
+            light.mesh.position.x += Math.sin(elapsedTime * 0.5 + light.offset) * 0.05;
+            if (light.mesh.position.y > 60) light.mesh.position.y = -60;
+        });
+
+        // ── Dust Particles Animation ─────────────────────────
+        const positions = dustParticles.geometry.attributes.position.array;
+        for (let i = 0; i < dustCount; i++) {
+            const i3 = i * 3;
+            positions[i3 + 1] += 0.02 + Math.sin(elapsedTime * 0.2 + i) * 0.01;
+            positions[i3] += Math.cos(elapsedTime * 0.3 + i) * 0.015;
+            if (positions[i3 + 1] > 75) positions[i3 + 1] = -75;
+        }
+        dustParticles.geometry.attributes.position.needsUpdate = true;
+
+        // ── Orbit Light Animation ────────────────────────────
+        orbitLight.position.x = Math.sin(elapsedTime * 0.4) * 40;
+        orbitLight.position.z = Math.cos(elapsedTime * 0.4) * 30 + 10;
+        orbitLight.position.y = Math.cos(elapsedTime * 0.2) * 20;
 
         // Subtle camera drift with mouse
         camera.position.x += (targetX * 6 - camera.position.x) * 0.02;
