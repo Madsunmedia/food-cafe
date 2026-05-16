@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina | Premium Food Cafe</title>
-    <meta name="description" content="Experience culinary excellence in a cinematic atmosphere.">
+    <title>Lumina | Premium Cafe &amp; Restaurant — Artisan Coffee &amp; Gourmet Dining</title>
+    <meta name="description" content="Lumina Cafe — Experience artisan coffee, gourmet cuisine, and cinematic ambiance. Reservations open for breakfast, lunch, dinner and happy hour in Flavor City.">
+    <meta name="keywords" content="premium cafe, artisan coffee, gourmet restaurant, fine dining, Lumina, reservations">
+    <meta property="og:title" content="Lumina — Premium Cafe & Restaurant">
+    <meta property="og:description" content="Artisan coffee, gourmet cuisine, cinematic atmosphere.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
     
     <!-- Preconnect to fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,15 +64,93 @@
         <div class="nav-links">
             <a href="#home" class="nav-link">Home</a>
             <a href="#menu" class="nav-link">Menu</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
             <a href="#story" class="nav-link">Story</a>
+            <a href="#contact" class="nav-link">Contact</a>
         </div>
-        <button class="cta-btn">Reservations</button>
-        <div class="hamburger">
+        <button class="cta-btn" id="nav-reserve-btn">Reservations</button>
+        <div class="hamburger" id="hamburger-btn">
             <span></span>
             <span></span>
             <span></span>
         </div>
     </nav>
+
+    <!-- Full-Screen Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close-btn">&times;</button>
+        <div class="mobile-menu-content">
+            <a href="#home" class="mobile-link">Home</a>
+            <a href="#menu" class="mobile-link">Menu</a>
+            <a href="#gallery" class="mobile-link">Gallery</a>
+            <a href="#story" class="mobile-link">Story</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+            <button class="primary-btn mobile-reserve-btn" id="mobile-reserve-btn">Reserve a Table</button>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="reservation-modal" id="reservation-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-container glass">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">Reserve Your Table</h2>
+            <p class="modal-subtitle">Experience an unforgettable evening at Lumina</p>
+            <form class="reservation-form" id="reservation-form" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="res-name">Full Name</label>
+                        <input type="text" id="res-name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-email">Email</label>
+                        <input type="email" id="res-email" name="email" placeholder="you@email.com" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="res-date">Date</label>
+                        <input type="date" id="res-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-time">Time</label>
+                        <input type="time" id="res-time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="res-guests">Guests</label>
+                        <select id="res-guests" name="guests">
+                            <option value="1">1 Guest</option>
+                            <option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5+">5+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="res-occasion">Occasion</label>
+                        <select id="res-occasion" name="occasion">
+                            <option value="casual">Casual Dining</option>
+                            <option value="birthday">Birthday</option>
+                            <option value="anniversary">Anniversary</option>
+                            <option value="business">Business Meeting</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="res-notes">Special Requests</label>
+                    <textarea id="res-notes" name="notes" placeholder="Allergies, seating preference, etc." rows="3"></textarea>
+                </div>
+                <button type="submit" class="primary-btn gold-btn submit-btn">Confirm Reservation</button>
+            </form>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="success-icon">✓</span>
+                <h3>Reservation Confirmed!</h3>
+                <p>We look forward to welcoming you at Lumina.</p>
+            </div>
+        </div>
+    </div>
 
     <main>
         <!-- Hero Section -->
@@ -101,6 +185,78 @@
             <div class="scroll-indicator">
                 <div class="mouse"></div>
                 <span class="text">Scroll to discover</span>
+            </div>
+        </section>
+
+        <!-- Promo Banner -->
+        <div class="promo-banner">
+            <span class="promo-icon">✦</span>
+            <p class="promo-text">Happy Hour · Mon–Fri · 3 PM – 6 PM · <strong>20% off all beverages</strong></p>
+            <span class="promo-icon">✦</span>
+        </div>
+
+        <!-- Stats Counter Section -->
+        <section class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1200">0</span><span class="stat-suffix">+</span>
+                    <p class="stat-label">Happy Guests</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="8">0</span>
+                    <p class="stat-label">Years of Excellence</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="42">0</span>
+                    <p class="stat-label">Curated Dishes</p>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="4.9">0</span><span class="stat-suffix">★</span>
+                    <p class="stat-label">Average Rating</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chef's Picks -->
+        <section class="chefs-picks-section">
+            <div class="section-header">
+                <h2 class="section-title">Chef's Signature Picks</h2>
+                <p class="section-subtitle">Handcrafted favorites from our culinary team.</p>
+            </div>
+            <div class="picks-grid">
+                <div class="pick-card glass">
+                    <div class="pick-img-wrap">
+                        <img src="assets/chef_latte.png" alt="Signature Latte" class="pick-img">
+                        <span class="pick-badge">Today's Special</span>
+                    </div>
+                    <div class="pick-info">
+                        <h3>Golden Hour Latte</h3>
+                        <p>Single-origin Ethiopian, oat milk, saffron infusion</p>
+                        <span class="pick-price">$7</span>
+                    </div>
+                </div>
+                <div class="pick-card glass">
+                    <div class="pick-img-wrap">
+                        <img src="assets/chef_burger.png" alt="Wagyu Burger" class="pick-img">
+                        <span class="pick-badge">Bestseller</span>
+                    </div>
+                    <div class="pick-info">
+                        <h3>Wagyu Truffle Burger</h3>
+                        <p>A5 wagyu, black truffle aioli, brioche, aged cheddar</p>
+                        <span class="pick-price">$28</span>
+                    </div>
+                </div>
+                <div class="pick-card glass">
+                    <div class="pick-img-wrap">
+                        <img src="assets/chef_tiramisu.png" alt="Tiramisu" class="pick-img">
+                        <span class="pick-badge">Chef's Choice</span>
+                    </div>
+                    <div class="pick-info">
+                        <h3>Noir Tiramisu</h3>
+                        <p>Dark cocoa, mascarpone, espresso-soaked ladyfingers</p>
+                        <span class="pick-price">$12</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -383,6 +539,83 @@
             </div>
         </section>
 
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section">
+            <div class="section-header">
+                <h2 class="section-title">Our Ambience</h2>
+                <p class="section-subtitle">Step inside the world of Lumina.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item gallery-item--tall">
+                    <img src="assets/gallery_interior.png" alt="Lumina Interior" loading="lazy">
+                    <div class="gallery-overlay"><span>Interior</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery_pour.png" alt="Espresso Pour" loading="lazy">
+                    <div class="gallery-overlay"><span>The Pour</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/gallery_plating.png" alt="Chef Plating" loading="lazy">
+                    <div class="gallery-overlay"><span>Craft</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/chef_burger.png" alt="Wagyu Burger" loading="lazy">
+                    <div class="gallery-overlay"><span>Wagyu</span></div>
+                </div>
+                <div class="gallery-item gallery-item--wide">
+                    <img src="assets/chef_tiramisu.png" alt="Dessert" loading="lazy">
+                    <div class="gallery-overlay"><span>Dessert</span></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="assets/chef_latte.png" alt="Latte Art" loading="lazy">
+                    <div class="gallery-overlay"><span>Latte Art</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="section-header">
+                <h2 class="section-title">Get in Touch</h2>
+                <p class="section-subtitle">We'd love to hear from you.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info-block glass">
+                    <div class="contact-item">
+                        <span class="contact-ico">📍</span>
+                        <div><strong>Visit Us</strong><p>123 Cinematic Ave, Flavor City</p></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-ico">📞</span>
+                        <div><strong>Call Us</strong><p>+1 (555) 123-4567</p></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-ico">✉️</span>
+                        <div><strong>Email Us</strong><p>reserve@luminacafe.com</p></div>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-ico">🕐</span>
+                        <div><strong>Hours</strong><p>Mon–Fri 7AM–10PM · Sat–Sun 8AM–11PM</p></div>
+                    </div>
+                </div>
+                <form class="contact-form glass" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                    <div class="form-group">
+                        <label for="ct-name">Name</label>
+                        <input type="text" id="ct-name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ct-email">Email</label>
+                        <input type="email" id="ct-email" name="email" placeholder="you@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ct-message">Message</label>
+                        <textarea id="ct-message" name="message" placeholder="How can we help?" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="primary-btn gold-btn">Send Message</button>
+                </form>
+            </div>
+        </section>
+
         <!-- Footer -->
         <footer class="footer">
             <div class="footer-bg-glow"></div>
@@ -451,6 +684,16 @@
             </div>
         </div>
     </main>
+
+    <!-- Floating CTA -->
+    <button class="floating-cta" id="floating-cta">
+        <span>Reserve a Table</span>
+    </button>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">
+        ↑
+    </button>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

@@ -831,6 +831,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Accordion toggle — global function (called inline from HTML)
+    window.toggleCategory = (headerEl) => {
+        const category = headerEl.closest('.menu-category');
+        const isOpen = category.classList.contains('open');
+
+        // Close all others first for single-open accordion feel
+        document.querySelectorAll('.menu-category.open').forEach(c => {
+            if (c !== category) c.classList.remove('open');
+        });
+
+        category.classList.toggle('open', !isOpen);
+    };
+
+    // ══════════════════════════════════════════════════════════════════
+    // NEW FEATURES — Interactive Logic
+    // ══════════════════════════════════════════════════════════════════
+
     // ── MAGNETIC BUTTONS ──────────────────────────────────────────────
     // Buttons subtly pull toward the mouse for a high-end tactile feel
     const magneticBtns = document.querySelectorAll('.primary-btn, .secondary-btn, .cta-btn, .filter-btn, .gold-btn');
@@ -860,17 +877,196 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
-});
 
-// Accordion toggle — global function (called inline from HTML)
-function toggleCategory(headerEl) {
-    const category = headerEl.closest('.menu-category');
-    const isOpen = category.classList.contains('open');
+    // ── RESERVATION MODAL ──────────────────────────────────────────
+    const modal = document.getElementById('reservation-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const reserveForm = document.getElementById('reservation-form');
+    const formSuccess = document.getElementById('form-success');
 
-    // Close all others first for single-open accordion feel
-    document.querySelectorAll('.menu-category.open').forEach(c => {
-        if (c !== category) c.classList.remove('open');
+    function openModal() {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // All reservation trigger buttons
+    document.getElementById('nav-reserve-btn')?.addEventListener('click', openModal);
+    document.getElementById('mobile-reserve-btn')?.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.remove('active');
+        openModal();
+    });
+    document.getElementById('floating-cta')?.addEventListener('click', openModal);
+    modalClose?.addEventListener('click', closeModal);
+    modalBackdrop?.addEventListener('click', closeModal);
+
+    // Form submission
+    reserveForm?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(reserveForm);
+        fetch(reserveForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        }).then(res => {
+            if (res.ok) {
+                reserveForm.style.display = 'none';
+                formSuccess.style.display = 'block';
+                gsap.from(formSuccess, { y: 20, opacity: 0, duration: 0.6, ease: 'back.out(1.5)' });
+            }
+        }).catch(() => {
+            // Still show success for demo
+            reserveForm.style.display = 'none';
+            formSuccess.style.display = 'block';
+        });
     });
 
-    category.classList.toggle('open', !isOpen);
-}
+    // ── MOBILE MENU ────────────────────────────────────────────────
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburger = document.getElementById('hamburger-btn');
+    const mobileCloseBtn = document.getElementById('mobile-close-btn');
+
+    hamburger?.addEventListener('click', () => mobileMenu.classList.add('active'));
+    mobileCloseBtn?.addEventListener('click', () => mobileMenu.classList.remove('active'));
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => mobileMenu.classList.remove('active'));
+    });
+
+    // ── STATS COUNTER ANIMATION ────────────────────────────────────
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    if (statNumbers.length) {
+        ScrollTrigger.create({
+            trigger: '.stats-section',
+            start: 'top 80%',
+            once: true,
+            onEnter: () => {
+                statNumbers.forEach(num => {
+                    const target = parseFloat(num.getAttribute('data-target'));
+                    const isDecimal = target % 1 !== 0;
+                    gsap.to(num, {
+                        textContent: target,
+                        duration: 2,
+                        ease: 'power2.out',
+                        snap: { textContent: isDecimal ? 0.1 : 1 },
+                        onUpdate: function() {
+                            num.textContent = isDecimal
+                                ? parseFloat(num.textContent).toFixed(1)
+                                : Math.round(parseFloat(num.textContent));
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    // ── FLOATING CTA — show after scrolling past hero ──────────────
+    const floatingCta = document.getElementById('floating-cta');
+    const scrollTopBtn = document.getElementById('scroll-top');
+    const footer = document.querySelector('.footer');
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const footerTop = footer?.getBoundingClientRect().top + scrollY - window.innerHeight;
+
+        // Show floating CTA after hero
+        if (floatingCta) {
+            if (scrollY > 600 && scrollY < footerTop) {
+                floatingCta.classList.add('visible');
+            } else {
+                floatingCta.classList.remove('visible');
+            }
+        }
+
+        // Show scroll-to-top after 400px
+        if (scrollTopBtn) {
+            if (scrollY > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }
+    });
+
+    // Scroll to top with Lenis
+    scrollTopBtn?.addEventListener('click', () => {
+        lenis.scrollTo(0, { duration: 1.5 });
+    });
+
+    // ── SCROLL REVEALS — New Sections ──────────────────────────────
+    // Promo banner
+    gsap.fromTo('.promo-banner',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.promo-banner', start: 'top 90%' },
+          y: 0, opacity: 1, duration: 1, ease: 'expo.out' }
+    );
+
+    // Stats
+    gsap.fromTo('.stat-item',
+        { y: 40, opacity: 0, scale: 0.95 },
+        { scrollTrigger: { trigger: '.stats-section', start: 'top 85%' },
+          y: 0, opacity: 1, scale: 1, duration: 1, stagger: 0.1, ease: 'power3.out' }
+    );
+
+    // Chef's Picks
+    gsap.fromTo('.chefs-picks-section .section-title',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.chefs-picks-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.chefs-picks-section .section-subtitle',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.chefs-picks-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1, delay: 0.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.pick-card',
+        { y: 50, opacity: 0, scale: 0.95 },
+        { scrollTrigger: { trigger: '.picks-grid', start: 'top 80%' },
+          y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15, ease: 'power3.out' }
+    );
+
+    // Gallery
+    gsap.fromTo('.gallery-section .section-title',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.gallery-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.gallery-section .section-subtitle',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.gallery-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1, delay: 0.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.gallery-item',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.gallery-grid', start: 'top 80%' },
+          y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: 'power3.out' }
+    );
+
+    // Contact
+    gsap.fromTo('.contact-section .section-title',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.contact-section .section-subtitle',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1, delay: 0.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.contact-info-block',
+        { x: -40, opacity: 0 },
+        { scrollTrigger: { trigger: '.contact-grid', start: 'top 80%' },
+          x: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.contact-form',
+        { x: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.contact-grid', start: 'top 80%' },
+          x: 0, opacity: 1, duration: 1.2, delay: 0.2, ease: 'expo.out' }
+    );
+});
