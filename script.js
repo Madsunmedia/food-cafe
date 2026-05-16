@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Initialize Lenis Smooth Scrolling — Cinematic Premium Config
     const lenis = new Lenis({
-        duration: 1.6,                                          // Longer = more cinematic inertia
-        easing: (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),// Exponential ease-out for luxury decel
-        lerp: 0.07,                                             // Low lerp = silky smooth catch-up
+        duration: 1.8,                                          // More inertia
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smoother exponential
+        lerp: 0.05,                                             // Silky smooth catch-up
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
-        smoothTouch: false,                                     // Native touch on mobile
-        touchMultiplier: 1.8,
-        wheelMultiplier: 0.9,                                   // Slightly slower wheel = more control
+        smoothTouch: false,
+        touchMultiplier: 1.5,
+        wheelMultiplier: 0.8,                                   // Slower wheel = more cinematic
         infinite: false,
         autoResize: true,
     });
@@ -1133,6 +1133,43 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.signature-section', start: 'top 70%' },
           scale: 1, opacity: 1, duration: 1.5, delay: 0.3, ease: 'expo.out' }
     );
+
+    // ── GLOBAL CINEMATIC PARALLAX ─────────────────────────────────
+    // Subtle movement for background elements or images
+    document.querySelectorAll('[data-parallax]').forEach(el => {
+        const speed = el.getAttribute('data-parallax') || 0.1;
+        gsap.to(el, {
+            y: (i, target) => -ScrollTrigger.maxScroll(window) * speed,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: el,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+    });
+
+    // ── GLOBAL SECTION STAGGER REVEAL ──────────────────────────────
+    // Catch-all for any content blocks not explicitly animated
+    const revealItems = document.querySelectorAll('section:not(.hero) .glass, section:not(.hero) .section-header');
+    revealItems.forEach(item => {
+        if (gsap.getProperty(item, "opacity") === 0) { // Only if not already handled
+            gsap.fromTo(item, 
+                { y: 30, opacity: 0 },
+                { 
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 90%',
+                    },
+                    y: 0, 
+                    opacity: 1, 
+                    duration: 1.2, 
+                    ease: 'expo.out' 
+                }
+            );
+        }
+    });
 
     // Link signature button to modal
     document.getElementById('signature-reserve-btn')?.addEventListener('click', openModal);
