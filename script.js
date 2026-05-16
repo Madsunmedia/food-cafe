@@ -1188,6 +1188,13 @@ document.addEventListener("DOMContentLoaded", () => {
           scale: 1, opacity: 1, duration: 1.5, delay: 0.3, ease: 'expo.out' }
     );
 
+    // Testimonials Reveal
+    gsap.fromTo('.experience-card',
+        { y: 50, opacity: 0 },
+        { scrollTrigger: { trigger: '.experience-grid', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: 'expo.out' }
+    );
+
     // ── GLOBAL CINEMATIC PARALLAX ─────────────────────────────────
     // Subtle movement for background elements or images
     document.querySelectorAll('[data-parallax]').forEach(el => {
