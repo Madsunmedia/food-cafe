@@ -688,10 +688,66 @@ section {
     letter-spacing: 0.01em;
 }
 
-/* Story Section */
+/* Story Section Atmosphere */
 .story-section {
     background: var(--bg-surface);
     position: relative;
+    overflow: hidden;
+}
+
+.story-ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.story-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    background: radial-gradient(circle, var(--accent-amber) 0%, transparent 70%);
+}
+
+.story-orb--1 {
+    width: 600px;
+    height: 600px;
+    top: -10%;
+    left: -10%;
+    animation: drift 20s infinite alternate ease-in-out;
+}
+
+.story-orb--2 {
+    width: 400px;
+    height: 400px;
+    bottom: 5%;
+    right: 5%;
+    background: radial-gradient(circle, #fff 0%, transparent 70%);
+    opacity: 0.05;
+    animation: drift 15s infinite alternate-reverse ease-in-out;
+}
+
+.story-leak {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, 
+        transparent 0%, 
+        rgba(212, 163, 115, 0.03) 40%, 
+        rgba(250, 237, 205, 0.05) 50%, 
+        rgba(212, 163, 115, 0.03) 60%, 
+        transparent 100%);
+    animation: leakSweep 12s infinite alternate ease-in-out;
+}
+
+@keyframes drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30px, 20px) scale(1.1); }
+}
+
+@keyframes leakSweep {
+    0% { transform: translateX(-20%) skewX(-15deg); opacity: 0.3; }
+    100% { transform: translateX(20%) skewX(-15deg); opacity: 0.7; }
 }
 
 .story-container {
@@ -732,6 +788,21 @@ section {
     z-index: 5;
     opacity: 0;
     transition: opacity 0.5s ease;
+}
+
+.steam-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 60%);
+    filter: blur(20px);
+    z-index: 4;
+    pointer-events: none;
+    animation: steamBreathe 8s infinite ease-in-out;
+}
+
+@keyframes steamBreathe {
+    0%, 100% { opacity: 0.3; transform: scale(1) translateY(0); }
+    50% { opacity: 0.6; transform: scale(1.1) translateY(-10px); }
 }
 
 .story-visual:hover .light-reflection {
