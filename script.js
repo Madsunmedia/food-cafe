@@ -309,60 +309,102 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── MASTER REVEAL SYSTEM ──────────────────────────────────────────
     // Set initial hidden states (no flash of content)
     gsap.set(".navbar",          { y: -80, opacity: 0 });
-    gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)" });
+    gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)", letterSpacing: "-0.05em" });
     gsap.set(".hero-subtitle",   { y: 30, opacity: 0 });
     gsap.set(".hero-actions",    { y: 25, opacity: 0 });
     gsap.set(".scroll-indicator",{ opacity: 0 });
-    gsap.set(".hero-3d-assets",  { y: -60, opacity: 0, scale: 0.92 });
-    gsap.set(".hero-bg-video",   { scale: 1.08, opacity: 0 });
+    gsap.set(".hero-3d-assets",  { y: 40, opacity: 0, scale: 0.9, filter: "blur(10px)" });
+    gsap.set(".hero-bg-video",   { scale: 1.15, opacity: 0 });
 
     // This timeline handles the hero entrance and is triggered by the loader
     const heroTL = gsap.timeline({ 
         paused: true, 
-        delay: 0.2, 
+        delay: 0.4, 
         defaults: { ease: "expo.out" } 
     });
 
     window.masterReveal = () => {
         heroTL.play();
+        startHeroParallax();
     };
 
     heroTL
-        // 1. Navbar glides in from top
-        .to(".navbar", {
-            y: 0, opacity: 1, duration: 1.1, ease: "power3.out"
-        })
-        // 2. Background video fades and subtly de-zooms into place
+        // 1. Background video fades and subtly de-zooms into place
         .to(".hero-bg-video", {
-            scale: 1, opacity: 1, duration: 2.2, ease: "power2.out"
-        }, "-=0.8")
-        // 3. Title lines clip-path reveal + slide up — staggered per word
+            scale: 1.05, opacity: 0.7, duration: 2.5, ease: "power2.inOut"
+        })
+        // 2. Navbar glides in from top
+        .to(".navbar", {
+            y: 0, opacity: 1, duration: 1.2, ease: "expo.out"
+        }, "-=1.8")
+        // 3. Title lines clip-path reveal + slide up
         .to(".title-line", {
             y: 0,
             opacity: 1,
             clipPath: "inset(0% 0% 0% 0%)",
-            duration: 1.3,
-            stagger: { each: 0.18, ease: "power2.out" },
+            letterSpacing: "0.02em",
+            duration: 1.8,
+            stagger: 0.2,
             ease: "expo.out"
-        }, "-=1.6")
+        }, "-=1.5")
         // 4. Subtitle fades up softly
         .to(".hero-subtitle", {
-            y: 0, opacity: 1, duration: 1.0, ease: "power3.out"
-        }, "-=0.7")
+            y: 0, opacity: 1, duration: 1.2, ease: "power3.out"
+        }, "-=1.2")
         // 5. CTA buttons emerge with a gentle scale+fade
         .fromTo(".hero-actions .primary-btn, .hero-actions .secondary-btn",
             { y: 20, opacity: 0, scale: 0.96 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.9, stagger: 0.12, ease: "back.out(1.4)" },
-            "-=0.6"
+            { y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15, ease: "back.out(1.2)" },
+            "-=1.0"
         )
-        // 6. Coffee cup / 3D assets drop gracefully from above
+        // 6. Coffee cup / 3D assets reveal with a blur-to-sharp transition
         .to(".hero-3d-assets", {
-            y: 0, opacity: 1, scale: 1, duration: 1.8, ease: "expo.out"
-        }, "-=1.0")
-        // 7. Scroll indicator fades in last, subtly
+            y: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 2.2, ease: "expo.out"
+        }, "-=1.5")
+        // 7. Scroll indicator fades in last
         .to(".scroll-indicator", {
-            opacity: 0.6, duration: 1.2, ease: "power2.out"
-        }, "-=0.6");
+            opacity: 0.6, duration: 1.5, ease: "power2.out"
+        }, "-=1.2");
+
+    // Cinematic Mouse Parallax for Hero Depth
+    function startHeroParallax() {
+        const hero = document.querySelector('.hero');
+        const cup = document.querySelector('.main-cup');
+        const content = document.querySelector('.hero-content');
+        const glow = document.querySelector('.hero-ambient-glow');
+
+        if (!hero) return;
+
+        hero.addEventListener('mousemove', (e) => {
+            const { width, height } = hero.getBoundingClientRect();
+            const xVal = (e.clientX - width / 2) / (width / 2);
+            const yVal = (e.clientY - height / 2) / (height / 2);
+
+            // Move elements at different speeds for depth
+            gsap.to(cup, {
+                x: xVal * 30,
+                y: yVal * 20,
+                rotationY: xVal * 10,
+                rotationX: -yVal * 5,
+                duration: 1.2,
+                ease: "power2.out"
+            });
+
+            gsap.to(content, {
+                x: xVal * -15,
+                y: yVal * -10,
+                duration: 1.2,
+                ease: "power2.out"
+            });
+
+            gsap.to(glow, {
+                x: xVal * 50,
+                y: yVal * 40,
+                duration: 1.5,
+                ease: "power2.out"
+            });
+        });
+    }
 
     // ── FULL-SITE PARALLAX DEPTH SYSTEM ───────────────────────────────
     // All scrub values are high (2–4) so motion is buttery slow
