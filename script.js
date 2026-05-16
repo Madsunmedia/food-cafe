@@ -1160,10 +1160,15 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
           y: 0, opacity: 1, duration: 1, delay: 0.4, ease: 'power2.out' }
     );
+    gsap.fromTo('.story-section .story-philosophy',
+        { x: -30, opacity: 0 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
+          x: 0, opacity: 1, duration: 1.2, delay: 0.6, ease: 'expo.out' }
+    );
     gsap.fromTo('.story-section .story-quote',
         { x: -20, opacity: 0 },
         { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
-          x: 0, opacity: 1, duration: 1, delay: 0.6, ease: 'power3.out' }
+          x: 0, opacity: 1, duration: 1, delay: 1, ease: 'power3.out' }
     );
     gsap.fromTo('.story-section p',
         { y: 30, opacity: 0 },

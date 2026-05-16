@@ -665,6 +665,39 @@ section {
     color: var(--text-muted);
 }
 
+.story-philosophy {
+    margin: 2.5rem 0;
+    padding: 1.8rem;
+    background: rgba(212, 163, 115, 0.05);
+    border-left: 2px solid var(--accent-amber);
+    border-radius: 0 16px 16px 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.story-philosophy p {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    opacity: 0.95;
+    letter-spacing: 0.02em;
+}
+
+.philosophy-accent {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, var(--accent-amber) 0%, transparent 70%);
+    opacity: 0.15;
+    filter: blur(15px);
+}
+
 .section-subtitle {
     color: var(--text-secondary);
     font-size: 1.15rem;
