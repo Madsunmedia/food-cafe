@@ -955,10 +955,27 @@ document.addEventListener("DOMContentLoaded", () => {
     function openModal() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        
+        // Staggered reveal for form elements
+        gsap.fromTo('.modal-container > *', 
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'expo.out', delay: 0.2 }
+        );
     }
     function closeModal() {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
+        gsap.to('.modal-container', { 
+            y: 40, opacity: 0, scale: 0.95, duration: 0.4, ease: 'power2.in',
+            onComplete: () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                // Reset form state if needed
+                setTimeout(() => {
+                    reserveForm.style.display = 'flex';
+                    formSuccess.style.display = 'none';
+                    gsap.set('.modal-container', { clearProps: 'all' });
+                }, 400);
+            }
+        });
     }
 
     // All reservation trigger buttons
@@ -974,6 +991,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Form submission
     reserveForm?.addEventListener('submit', (e) => {
         e.preventDefault();
+        const submitBtn = reserveForm.querySelector('.submit-btn');
+        submitBtn.innerHTML = '<span class="loading-dots">...</span>';
+        
         const formData = new FormData(reserveForm);
         fetch(reserveForm.action, {
             method: 'POST',
@@ -981,14 +1001,23 @@ document.addEventListener("DOMContentLoaded", () => {
             headers: { 'Accept': 'application/json' }
         }).then(res => {
             if (res.ok) {
-                reserveForm.style.display = 'none';
-                formSuccess.style.display = 'block';
-                gsap.from(formSuccess, { y: 20, opacity: 0, duration: 0.6, ease: 'back.out(1.5)' });
+                gsap.to(reserveForm, { opacity: 0, y: -20, duration: 0.4, onComplete: () => {
+                    reserveForm.style.display = 'none';
+                    formSuccess.style.display = 'block';
+                    gsap.fromTo(formSuccess, 
+                        { scale: 0.8, opacity: 0 },
+                        { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.75)' }
+                    );
+                }});
             }
         }).catch(() => {
             // Still show success for demo
             reserveForm.style.display = 'none';
             formSuccess.style.display = 'block';
+            gsap.fromTo(formSuccess, 
+                { scale: 0.8, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 1, ease: 'elastic.out(1, 0.75)' }
+            );
         });
     });
 
