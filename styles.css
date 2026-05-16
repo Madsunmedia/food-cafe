@@ -533,6 +533,29 @@ section {
     opacity: 0;
 }
 
+.story-quote {
+    margin: 2.5rem 0;
+    position: relative;
+}
+
+.quote-accent-line {
+    width: 30px;
+    height: 1px;
+    background: var(--accent-amber);
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(212, 163, 115, 0.5);
+}
+
+.cinematic-quote {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+}
+
 .section-subtitle {
     color: var(--text-secondary);
     font-size: 1.15rem;
