@@ -765,6 +765,38 @@ section {
     opacity: 0.8;
 }
 
+/* Form Feedback Styles */
+.form-feedback {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-align: center;
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.form-feedback.active {
+    display: block;
+}
+
+.form-feedback.success {
+    background: rgba(212, 163, 115, 0.1);
+    color: var(--accent-amber);
+    border: 1px solid rgba(212, 163, 115, 0.3);
+}
+
+.form-feedback.error {
+    background: rgba(255, 107, 107, 0.1);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 .section-subtitle {
     color: var(--text-secondary);
     font-size: 1.15rem;

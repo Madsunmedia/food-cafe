@@ -747,7 +747,8 @@
                         <div><strong>Hours</strong><p>Mon–Fri 7AM–10PM · Sat–Sun 8AM–11PM</p></div>
                     </div>
                 </div>
-                <form class="contact-form glass" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <form class="contact-form glass" action="https://api.web3forms.com/submit" method="POST">
+                    <input type="hidden" name="access_key" value="0357876a-545a-4953-8321-72993806a66a">
                     <div class="form-group">
                         <label for="ct-name">Name</label>
                         <input type="text" id="ct-name" name="name" placeholder="Your Name" required>
@@ -761,6 +762,7 @@
                         <textarea id="ct-message" name="message" placeholder="How can we help?" rows="4" required></textarea>
                     </div>
                     <button type="submit" class="primary-btn gold-btn">Send Message</button>
+                    <div class="form-feedback" id="contact-feedback"></div>
                 </form>
             </div>
         </section>

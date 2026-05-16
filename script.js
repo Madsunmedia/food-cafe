@@ -1343,4 +1343,59 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
     });
+    // ── CONTACT FORM SUBMISSION ──────────────────────────────────
+    const contactForm = document.querySelector('.contact-form');
+    const feedback = document.getElementById('contact-feedback');
+
+    if (contactForm && feedback) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            
+            // Start Loading State
+            submitBtn.innerText = "Sending...";
+            submitBtn.disabled = true;
+            feedback.classList.remove('active', 'success', 'error');
+            feedback.innerText = "";
+
+            const formData = new FormData(contactForm);
+            
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    feedback.innerText = "Thank you! Your message has been sent successfully.";
+                    feedback.classList.add('active', 'success');
+                    contactForm.reset();
+                    submitBtn.innerText = "Message Sent";
+                } else {
+                    feedback.innerText = "Oops! Something went wrong. Please try again.";
+                    feedback.classList.add('active', 'error');
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+                }
+            } catch (err) {
+                feedback.innerText = "Connection error. Please check your internet and try again.";
+                feedback.classList.add('active', 'error');
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+
+            // Optional: Hide success message after 5 seconds
+            if (feedback.classList.contains('success')) {
+                setTimeout(() => {
+                    feedback.classList.remove('active');
+                    submitBtn.innerText = originalText;
+                    submitBtn.disabled = false;
+                }, 5000);
+            }
+        });
+    }
 });
