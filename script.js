@@ -1170,6 +1170,11 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 75%' },
           y: 0, opacity: 1, duration: 1, stagger: 0.2, delay: 1.4, ease: 'power2.out' }
     );
+    gsap.fromTo('.story-section .timeline-item',
+        { x: -15, opacity: 0 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
+          x: 0, opacity: 1, duration: 0.8, stagger: 0.15, delay: 1.8, ease: 'power2.out' }
+    );
     gsap.fromTo('.contact-section .section-subtitle',
         { y: 20, opacity: 0 },
         { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
