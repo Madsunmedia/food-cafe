@@ -1361,11 +1361,17 @@ document.addEventListener("DOMContentLoaded", () => {
             feedback.innerText = "";
 
             const formData = new FormData(contactForm);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
             
             try {
                 const response = await fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
                 });
                 
                 const data = await response.json();
@@ -1376,12 +1382,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     contactForm.reset();
                     submitBtn.innerText = "Message Sent";
                 } else {
-                    feedback.innerText = "Oops! Something went wrong. Please try again.";
+                    console.error("Web3Forms Error:", data);
+                    feedback.innerText = data.message || "Oops! Something went wrong. Please try again.";
                     feedback.classList.add('active', 'error');
                     submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                 }
             } catch (err) {
+                console.error("Submission Catch Error:", err);
                 feedback.innerText = "Connection error. Please check your internet and try again.";
                 feedback.classList.add('active', 'error');
                 submitBtn.innerText = originalText;
