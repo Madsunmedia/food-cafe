@@ -1450,6 +1450,15 @@ section {
     gap: 1.4rem;
 }
 
+.cat-thumb-wrapper {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
 .cat-thumb {
     width: 64px;
     height: 64px;
@@ -2345,7 +2354,57 @@ section {
     transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
 .pick-card:hover .pick-img {
-    transform: scale(1.08);
+    transform: scale(1.1);
+}
+
+/* Cinematic Image Interactions & Refinements */
+@keyframes softFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(1deg); }
+    66% { transform: translateY(-4px) rotate(-0.5deg); }
+}
+
+/* Premium Image Reflections */
+.pick-img-wrap::after, 
+.gallery-item::after, 
+.signature-img-wrapper::after,
+.cat-thumb-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        115deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.08) 45%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.08) 55%,
+        transparent 100%
+    );
+    transform: skewX(-25deg);
+    transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.pick-card:hover .pick-img-wrap::after, 
+.gallery-item:hover::after, 
+.signature-img-wrapper:hover::after,
+.category-header:hover .cat-thumb-wrapper::after {
+    left: 150%;
+}
+
+/* Floating for Featured Visuals */
+.main-cup, .signature-img {
+    animation: softFloat 12s infinite ease-in-out;
+}
+
+.pick-img, .gallery-item img, .signature-img, .cat-thumb {
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.6s ease, 
+                box-shadow 0.9s var(--transition-smooth) !important;
 }
 .pick-badge {
     position: absolute;

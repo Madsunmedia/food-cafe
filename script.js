@@ -1173,4 +1173,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Link signature button to modal
     document.getElementById('signature-reserve-btn')?.addEventListener('click', openModal);
+
+    // ── PREMIUM IMAGE TILT SYSTEM ──────────────────────────────────
+    const tiltElements = document.querySelectorAll('.pick-card, .gallery-item, .signature-img-wrapper, .cat-thumb-wrapper');
+    
+    tiltElements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = el.getBoundingClientRect();
+            const x = (e.clientX - left) / width - 0.5;
+            const y = (e.clientY - top) / height - 0.5;
+            
+            // Apply slight 3D tilt
+            gsap.to(el.querySelector('img'), {
+                rotateY: x * 10,
+                rotateX: -y * 10,
+                scale: 1.05,
+                duration: 0.6,
+                ease: "power2.out"
+            });
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            gsap.to(el.querySelector('img'), {
+                rotateY: 0,
+                rotateX: 0,
+                scale: 1,
+                duration: 0.8,
+                ease: "power3.out"
+            });
+        });
+    });
 });
