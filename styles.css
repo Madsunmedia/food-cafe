@@ -492,6 +492,19 @@ section {
     margin-bottom: 4rem;
 }
 
+.section-badge {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--accent-amber);
+    display: inline-block;
+    margin-bottom: 1.2rem;
+    opacity: 0.9;
+    text-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
+}
+
 .section-title {
     font-size: 3.5rem;
     margin-bottom: 1.5rem;

@@ -1144,8 +1144,13 @@ document.addEventListener("DOMContentLoaded", () => {
           y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: 'power3.out' }
     );
 
-    // Contact
-    gsap.fromTo('.contact-section .section-title',
+    // Story Section
+    gsap.fromTo('.story-section .section-badge',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
+    );
+    gsap.fromTo('.story-section .section-title',
         { y: 40, opacity: 0 },
         { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
           y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
