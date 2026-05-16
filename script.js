@@ -1180,6 +1180,32 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
           x: 0, opacity: 1, duration: 1, delay: 2.2, ease: 'power3.out' }
     );
+
+    // Story Stats Count-up
+    const storyStats = document.querySelectorAll('.story-section .stat-number');
+    storyStats.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'));
+        gsap.fromTo(stat, 
+            { innerText: 0 }, 
+            { 
+                scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
+                innerText: target, 
+                duration: 2.5, 
+                delay: 2.5,
+                ease: 'power2.out',
+                snap: { innerText: 1 },
+                onUpdate: function() {
+                    stat.innerText = Math.ceil(this.targets()[0].innerText);
+                }
+            }
+        );
+    });
+
+    gsap.fromTo('.story-section .stat-box',
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 70%' },
+          y: 0, opacity: 1, duration: 1, stagger: 0.15, delay: 2.5, ease: 'power2.out' }
+    );
     gsap.fromTo('.contact-section .section-subtitle',
         { y: 20, opacity: 0 },
         { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
