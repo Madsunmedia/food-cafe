@@ -1111,4 +1111,29 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.contact-grid', start: 'top 80%' },
           x: 0, opacity: 1, duration: 1.2, delay: 0.2, ease: 'expo.out' }
     );
+
+    // Signature Section Reveals
+    gsap.fromTo('.signature-label', 
+        { y: 20, opacity: 0 },
+        { scrollTrigger: { trigger: '.signature-section', start: 'top 80%' },
+          y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
+    );
+    gsap.fromTo('.signature-title', 
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.signature-section', start: 'top 75%' },
+          y: 0, opacity: 1, duration: 1.2, delay: 0.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.signature-description', 
+        { y: 30, opacity: 0 },
+        { scrollTrigger: { trigger: '.signature-section', start: 'top 75%' },
+          y: 0, opacity: 1, duration: 1, delay: 0.4, ease: 'power3.out' }
+    );
+    gsap.fromTo('.signature-visual', 
+        { scale: 0.95, opacity: 0 },
+        { scrollTrigger: { trigger: '.signature-section', start: 'top 70%' },
+          scale: 1, opacity: 1, duration: 1.5, delay: 0.3, ease: 'expo.out' }
+    );
+
+    // Link signature button to modal
+    document.getElementById('signature-reserve-btn')?.addEventListener('click', openModal);
 });
