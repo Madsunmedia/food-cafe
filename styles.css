@@ -559,7 +559,7 @@ section {
 .story-timeline {
     position: relative;
     padding-left: 2rem;
-    margin: 3.5rem 0;
+    margin: 2.5rem 0 3rem 0;
 }
 
 .timeline-line {
@@ -603,66 +603,6 @@ section {
     letter-spacing: 0.15em;
     text-transform: uppercase;
     font-weight: 500;
-}
-
-.ritual-highlight {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.2rem;
-    background: rgba(212, 163, 115, 0.05);
-    border: 1px solid rgba(212, 163, 115, 0.1);
-    border-radius: 16px;
-    margin: 2.5rem 0;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
-    cursor: default;
-    opacity: 0;
-}
-
-.ritual-highlight:hover {
-    transform: translateX(10px);
-    border-color: rgba(212, 163, 115, 0.3);
-}
-
-.ritual-visual {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    border-radius: 12px;
-    overflow: hidden;
-    flex-shrink: 0;
-}
-
-.ritual-visual img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.ritual-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, var(--accent-amber) 0%, transparent 70%);
-    opacity: 0.2;
-    mix-blend-mode: screen;
-}
-
-.ritual-info h3 {
-    font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--text-primary);
-}
-
-.ritual-tag {
-    display: block;
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--accent-amber);
-    margin-bottom: 0.4rem;
 }
 
 .story-stats {
