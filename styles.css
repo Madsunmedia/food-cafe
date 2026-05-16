@@ -505,6 +505,16 @@ section {
     text-shadow: 0 0 12px rgba(212, 163, 115, 0.4);
 }
 
+.reveal-text span {
+    display: inline-block;
+    will-change: transform, opacity, filter;
+    margin-right: 0.25em;
+}
+
+.reveal-text span:last-child {
+    margin-right: 0;
+}
+
 .section-title {
     font-size: 3.5rem;
     margin-bottom: 1.5rem;

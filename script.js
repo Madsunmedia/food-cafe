@@ -1150,10 +1150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
           y: 0, opacity: 1, duration: 1, ease: 'power2.out' }
     );
-    gsap.fromTo('.story-section .section-title',
-        { y: 40, opacity: 0 },
-        { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
-          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    gsap.fromTo('.story-section .section-title.reveal-text span',
+        { y: 30, opacity: 0, filter: 'blur(5px)' },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
+          y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.2, stagger: 0.15, ease: 'expo.out' }
     );
     gsap.fromTo('.contact-section .section-subtitle',
         { y: 20, opacity: 0 },
