@@ -522,6 +522,17 @@ section {
     letter-spacing: 0.03em;
 }
 
+.section-tagline {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.05em;
+    position: relative;
+    opacity: 0;
+}
+
 .section-subtitle {
     color: var(--text-secondary);
     font-size: 1.15rem;
