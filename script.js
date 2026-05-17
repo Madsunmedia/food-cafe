@@ -1180,6 +1180,11 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
           x: 0, opacity: 1, duration: 1, delay: 1.4, ease: 'power3.out' }
     );
+    gsap.fromTo('.story-section .story-inline-images',
+        { y: 30, opacity: 0 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, delay: 0.8, ease: 'expo.out' }
+    );
     gsap.fromTo('.story-section p',
         { y: 30, opacity: 0 },
         { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
