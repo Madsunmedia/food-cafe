@@ -1406,4 +1406,66 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // ── TESTIMONIALS EXPAND LOGIC ──────────────────────────────────
+    const showMoreBtn = document.getElementById('show-more-testimonials');
+    const extraTestimonials = document.querySelectorAll('.extra-testimonial');
+    let isExpanded = false;
+
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+            
+            if (isExpanded) {
+                // Show items
+                extraTestimonials.forEach(item => item.style.display = 'flex');
+                
+                // Animate entrance
+                gsap.fromTo(extraTestimonials, 
+                    { opacity: 0, y: 30, scale: 0.95 },
+                    { 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1, 
+                        duration: 0.8, 
+                        stagger: 0.15, 
+                        ease: "expo.out",
+                        onComplete: () => {
+                            ScrollTrigger.refresh(); // Refresh ScrollTrigger to account for new height
+                        }
+                    }
+                );
+
+                // Update button
+                showMoreBtn.classList.add('active');
+                showMoreBtn.querySelector('.btn-text').innerText = "Show Fewer Experiences";
+                
+                // Smooth scroll to the first new item
+                lenis.scrollTo(extraTestimonials[0], { offset: -100, duration: 1.2 });
+                
+            } else {
+                // Hide items
+                gsap.to(extraTestimonials, {
+                    opacity: 0,
+                    y: 20,
+                    scale: 0.95,
+                    duration: 0.5,
+                    stagger: {
+                        each: 0.05,
+                        from: "end"
+                    },
+                    ease: "power2.in",
+                    onComplete: () => {
+                        extraTestimonials.forEach(item => item.style.display = 'none');
+                        showMoreBtn.classList.remove('active');
+                        showMoreBtn.querySelector('.btn-text').innerText = "Show More Experiences";
+                        ScrollTrigger.refresh();
+                        
+                        // Scroll back to the top of testimonials section
+                        lenis.scrollTo('#testimonials', { offset: -80, duration: 1 });
+                    }
+                });
+            }
+        });
+    }
 });

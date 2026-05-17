@@ -1678,6 +1678,47 @@ section {
     margin-bottom: 0.2rem;
 }
 
+/* Extra Testimonials Toggle Styles */
+.extra-testimonial.hidden-item {
+    display: none;
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+}
+
+.testimonials-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 4rem;
+    position: relative;
+    z-index: 10;
+}
+
+#show-more-testimonials {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 2.5rem;
+    font-weight: 600;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#show-more-testimonials .btn-icon {
+    font-size: 1.2rem;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#show-more-testimonials:hover .btn-icon {
+    transform: translateY(5px);
+}
+
+#show-more-testimonials.active .btn-icon {
+    transform: rotate(180deg);
+}
+
+#show-more-testimonials.active:hover .btn-icon {
+    transform: rotate(180deg) translateY(-5px);
+}
+
 .stars {
     color: var(--accent-amber);
     font-size: 1rem;
