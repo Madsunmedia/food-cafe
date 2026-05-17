@@ -1110,6 +1110,48 @@ section {
     50% { transform: translateY(-12px); }
 }
 
+/* Top Gallery Duo above main visual */
+.story-visual-top-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.8rem;
+    width: 100%;
+}
+
+.top-gallery-card {
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(212, 163, 115, 0.1);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(212, 163, 115, 0.03);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 160px;
+    cursor: pointer;
+}
+
+.top-gallery-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: transform 0.6s ease;
+}
+
+.top-gallery-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 163, 115, 0.35);
+    background: rgba(212, 163, 115, 0.04);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.5), 0 0 15px var(--accent-glow);
+}
+
+.top-gallery-card:hover img {
+    transform: scale(1.05);
+}
+
 /* Inline Visual Highlight Cards inside Story Content */
 .story-inline-images {
     display: grid;
@@ -1795,6 +1837,14 @@ section {
     }
     .inline-img-card img {
         height: 130px;
+    }
+    .story-visual-top-gallery {
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .top-gallery-card {
+        height: 130px;
+        border-radius: 16px;
     }
     
     .stunning-hero {
