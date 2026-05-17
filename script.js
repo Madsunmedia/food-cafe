@@ -1428,7 +1428,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         y: 0, 
                         scale: 1, 
                         duration: 0.8, 
-                        stagger: 0.15, 
+                        stagger: 0.06, 
                         ease: "expo.out",
                         onComplete: () => {
                             ScrollTrigger.refresh(); // Refresh ScrollTrigger to account for new height
@@ -1451,7 +1451,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     scale: 0.95,
                     duration: 0.5,
                     stagger: {
-                        each: 0.05,
+                        each: 0.03,
                         from: "end"
                     },
                     ease: "power2.in",
