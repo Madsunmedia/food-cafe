@@ -580,6 +580,7 @@ section {
     position: relative;
     padding-left: 2rem;
     margin: 1.5rem 0 2rem 0;
+    opacity: 1 !important; /* Overrides .story-content > * wildcard */
 }
 
 .timeline-line {
@@ -629,6 +630,7 @@ section {
     display: flex;
     gap: 3.5rem;
     margin: 2rem 0;
+    opacity: 1 !important; /* Overrides .story-content > * wildcard */
 }
 
 .stat-box {
@@ -721,6 +723,7 @@ section {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
     margin: 1.5rem 0;
+    opacity: 1 !important; /* Overrides .story-content > * wildcard */
 }
 
 .experience-item {
@@ -934,7 +937,7 @@ section {
     background: var(--bg-surface);
     position: relative;
     overflow: hidden;
-    padding: 12rem 5% !important; /* Increased for cinematic breathing room */
+    padding: 6rem 5% !important; /* Settled padding for perfect spacing */
 }
 
 .story-ambient {
@@ -998,7 +1001,7 @@ section {
     gap: 4rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 6rem 5%;
+    padding: 4rem 4%;
     border-radius: 24px; /* Slightly softer corners for premium feel */
     align-items: center;
     perspective: 2000px; /* Enhanced perspective for the container */
@@ -1728,11 +1731,11 @@ section {
 /* Responsive Design */
 @media (max-width: 992px) {
     .story-section {
-        padding: 8rem 5% !important;
+        padding: 4rem 5% !important;
     }
     .story-container {
         grid-template-columns: 1fr;
-        padding: 4rem 2rem;
+        padding: 3rem 1.5rem;
     }
     
     .stunning-hero {
