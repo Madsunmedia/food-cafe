@@ -336,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(".navbar",          { y: -80, opacity: 0 });
     gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)", letterSpacing: "-0.05em" });
     gsap.set(".hero-subtitle",   { y: 30, opacity: 0 });
-    gsap.set(".hero-actions",    { y: 25, opacity: 0 });
+    // removed: gsap.set(".hero-actions", { y: 25, opacity: 0 }); so it doesn't hide the container when children fade in
     gsap.set(".scroll-indicator",{ opacity: 0 });
     gsap.set(".hero-3d-assets",  { y: 40, opacity: 0, scale: 0.9, filter: "blur(10px)" });
     gsap.set(".hero-bg-video",   { scale: 1.15, opacity: 0 });
@@ -377,6 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
             y: 0, opacity: 1, duration: 1.2, ease: "power3.out"
         }, "-=1.2")
         // 5. CTA buttons emerge with a gentle scale+fade
+        .to(".hero-actions", { opacity: 1, duration: 0.1 }, "-=1.0")
         .fromTo(".hero-actions .primary-btn, .hero-actions .secondary-btn",
             { y: 20, opacity: 0, scale: 0.96 },
             { y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15, ease: "back.out(1.2)" },
@@ -1065,15 +1066,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── FLOATING CTA — show after scrolling past hero ──────────────
     const floatingCta = document.getElementById('floating-cta');
     const scrollTopBtn = document.getElementById('scroll-top');
-    const footer = document.querySelector('.footer');
+    const contactSection = document.querySelector('.contact-section');
 
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-        const footerTop = footer?.getBoundingClientRect().top + scrollY - window.innerHeight;
+        // Hide CTA when contact section is in view to prevent overlapping the submit button
+        const hideBoundary = contactSection ? contactSection.getBoundingClientRect().top + scrollY - window.innerHeight + 100 : Infinity;
 
         // Show floating CTA after hero
         if (floatingCta) {
-            if (scrollY > 600 && scrollY < footerTop) {
+            if (scrollY > 600 && scrollY < hideBoundary) {
                 floatingCta.classList.add('visible');
             } else {
                 floatingCta.classList.remove('visible');
@@ -1180,11 +1182,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
           x: 0, opacity: 1, duration: 1, delay: 1.4, ease: 'power3.out' }
     );
-    gsap.fromTo('.story-section .story-inline-images',
-        { y: 30, opacity: 0 },
-        { scrollTrigger: { trigger: '.story-section', start: 'top 85%' },
-          y: 0, opacity: 1, duration: 1.2, delay: 0.8, ease: 'expo.out' }
-    );
     gsap.fromTo('.story-section p',
         { y: 30, opacity: 0 },
         { scrollTrigger: { trigger: '.story-section', start: 'top 90%' },
@@ -1234,6 +1231,16 @@ document.addEventListener("DOMContentLoaded", () => {
         rotateX: 2,
         ease: 'none'
     });
+    gsap.fromTo('.contact-section .section-title',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
+    gsap.fromTo('.experience-section .section-title',
+        { y: 40, opacity: 0 },
+        { scrollTrigger: { trigger: '.experience-section', start: 'top 85%' },
+          y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }
+    );
     gsap.fromTo('.contact-section .section-subtitle',
         { y: 20, opacity: 0 },
         { scrollTrigger: { trigger: '.contact-section', start: 'top 85%' },
@@ -1305,7 +1312,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 { 
                     scrollTrigger: {
                         trigger: item,
-                        start: 'top 90%',
+                        start: 'top 95%',
                     },
                     y: 0, 
                     opacity: 1, 
