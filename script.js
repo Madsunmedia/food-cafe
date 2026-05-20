@@ -118,14 +118,36 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollSpeed = Math.min(scrollVelocity * 0.04, maxScrollBoost);
     });
 
-    // 2. Navbar Scroll Effect
+    // 2. Navbar Scroll Effect & Scroll Spy
     const navbar = document.querySelector('.navbar');
+    const sections = document.querySelectorAll('section, header');
+    const navLinks = document.querySelectorAll('.nav-link');
+
     window.addEventListener('scroll', () => {
+        // Toggle scrolled background
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
+
+        // Active link scroll spy
+        let current = 'home';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 180)) {
+                const id = section.getAttribute('id');
+                if (id) current = id;
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
     });
 
     // 3. Three.js Background — Falling Coffee Beans ONLY
