@@ -957,7 +957,7 @@ section {
     background: var(--bg-surface);
     position: relative;
     overflow: hidden;
-    padding: 6rem 5% !important; /* Settled padding for perfect spacing */
+    padding: 5rem 5% !important; /* Standardized padding for perfect spacing and alignment rhythm */
 }
 
 .story-ambient {
@@ -2853,12 +2853,12 @@ section {
 
 /* ── Stats Counter ─────────────────────────────────────────────── */
 .stats-section {
-    padding: 4rem 2rem;
+    padding: 5rem 5%;
     position: relative;
     z-index: 2;
 }
 .stats-grid {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -2898,7 +2898,7 @@ section {
 
 /* ── Chef's Picks ──────────────────────────────────────────────── */
 .chefs-picks-section {
-    padding: 5rem 2rem;
+    padding: 5rem 5%;
     position: relative;
     z-index: 2;
 }
@@ -3022,7 +3022,7 @@ section {
 
 /* ── Gallery Section ───────────────────────────────────────────── */
 .gallery-section {
-    padding: 5rem 2rem;
+    padding: 5rem 5%;
     position: relative;
     z-index: 2;
 }
@@ -3077,12 +3077,12 @@ section {
 
 /* ── Contact Section ───────────────────────────────────────────── */
 .contact-section {
-    padding: 5rem 2rem;
+    padding: 5rem 5%;
     position: relative;
     z-index: 2;
 }
 .contact-grid {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 3rem auto 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -3455,7 +3455,7 @@ section {
 
 /* ── Featured Experience Section ────────────────────────────────── */
 .signature-section {
-    padding: 6rem 5%;
+    padding: 5rem 5%;
     background: linear-gradient(to bottom, var(--bg-base), var(--bg-surface));
     position: relative;
     overflow: hidden;
