@@ -3835,3 +3835,80 @@ section {
     .story-mosaic-item--tall { min-height: 200px; }
     .story-mosaic-col .story-mosaic-item { min-height: 140px; }
 }
+
+/* ── Story Experience Image Cards ── */
+.experience-item.exp-img-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    background: linear-gradient(145deg, rgba(20,17,15,0.75), rgba(10,8,7,0.92));
+    border: 1px solid rgba(212,163,115,0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03);
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s;
+    cursor: default;
+}
+
+.experience-item.exp-img-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 24px 56px rgba(0,0,0,0.55), 0 0 28px rgba(212,163,115,0.12);
+    border-color: rgba(212,163,115,0.28);
+}
+
+.exp-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.exp-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.78) saturate(0.82);
+    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.7s;
+}
+
+.experience-item.exp-img-card:hover .exp-img-wrap img {
+    transform: scale(1.1);
+    filter: brightness(0.9) saturate(1.05);
+}
+
+.exp-img-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,8,7,0.8) 0%, transparent 55%);
+    pointer-events: none;
+}
+
+.exp-item-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.1rem;
+}
+
+.exp-item-foot i {
+    color: var(--accent-amber);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+    transition: text-shadow 0.3s;
+}
+
+.experience-item.exp-img-card:hover .exp-item-foot i {
+    text-shadow: 0 0 12px rgba(212,163,115,0.55);
+}
+
+.exp-item-foot span {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+    .experience-item.exp-img-card { min-width: unset; }
+}
