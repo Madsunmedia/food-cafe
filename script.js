@@ -934,6 +934,38 @@ document.addEventListener("DOMContentLoaded", () => {
         category.classList.toggle('open', !isOpen);
     };
 
+    // ── PREMIUM EDITORIAL MENU NAV ─────────────────────────────────
+    const menuNavBtns = document.querySelectorAll('.menu-nav-btn');
+    const menuChapters = document.querySelectorAll('.menu-chapter');
+
+    menuNavBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const target = document.getElementById(targetId);
+            if (target) {
+                const offset = 140; // navbar + sticky menu nav height
+                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                lenis.scrollTo(top, { duration: 1.4, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+            }
+        });
+    });
+
+    // IntersectionObserver to highlight active chapter in sticky nav
+    if (menuChapters.length && menuNavBtns.length) {
+        const chapterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    menuNavBtns.forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('data-target') === id);
+                    });
+                }
+            });
+        }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+        menuChapters.forEach(ch => chapterObserver.observe(ch));
+    }
+
     // ══════════════════════════════════════════════════════════════════
     // NEW FEATURES — Interactive Logic
     // ══════════════════════════════════════════════════════════════════

@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
     <!-- Cinematic Preloader -->
@@ -317,167 +317,215 @@
             </div>
         </section>
 
-        <!-- Menu Showcase Section -->
+        <!-- ══ PREMIUM EDITORIAL MENU ══ -->
         <section id="menu" class="menu-showcase">
-            <div class="section-header">
+            <div class="menu-atmosphere" aria-hidden="true">
+                <div class="menu-orb menu-orb--1"></div>
+                <div class="menu-orb menu-orb--2"></div>
+                <div class="menu-grain"></div>
+            </div>
+            <div class="section-header menu-section-header">
+                <span class="menu-eyebrow">✦ Curated Selections ✦</span>
                 <h2 class="section-title">Artisan Offerings</h2>
-                <p class="section-subtitle">Curated with the finest ingredients, designed to delight.</p>
+                <p class="section-subtitle">Handcrafted with the world's finest ingredients.</p>
+                <div class="menu-header-divider"></div>
+            </div>
+            <div class="menu-nav-wrap" id="menuNavWrap">
+                <div class="menu-nav" id="menuNav">
+                    <button class="menu-nav-btn active" data-target="menu-coffee">Coffee</button>
+                    <button class="menu-nav-btn" data-target="menu-burgers">Burgers</button>
+                    <button class="menu-nav-btn" data-target="menu-pizza">Pizza</button>
+                    <button class="menu-nav-btn" data-target="menu-sides">Sides</button>
+                    <button class="menu-nav-btn" data-target="menu-desserts">Desserts</button>
+                    <div class="menu-nav-indicator"></div>
+                </div>
             </div>
 
-            <!-- Category Filters -->
-            <div class="menu-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="coffee">Coffee</button>
-                <button class="filter-btn" data-filter="desserts">Desserts</button>
-                <button class="filter-btn" data-filter="burgers">Burgers</button>
-                <button class="filter-btn" data-filter="pizza">Pizza</button>
-                <button class="filter-btn" data-filter="snacks">Snacks</button>
+            <!-- COFFEE -->
+            <div class="menu-chapter" id="menu-coffee">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">01 / 05</span>
+                        <h3 class="chapter-title">Coffee &amp; Espresso</h3>
+                        <p class="chapter-sub">Hand-pulled, single-origin perfection</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80" alt="Golden Hour Latte" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Chef's Signature</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Handcrafted · Single Origin</span></div>
+                        <h4 class="hero-item-name">Golden Hour Latte</h4>
+                        <p class="hero-item-desc">Single-origin Ethiopian beans, silky oat milk, hand-poured with saffron infusion and a kiss of Madagascan vanilla. A ritual in every cup.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Ethiopian Yirgacheffe</span>
+                            <span class="ingredient-tag">Oat Milk</span>
+                            <span class="ingredient-tag">Saffron</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$7</span><span class="hero-item-craft">Handcrafted to order</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&auto=format&fit=crop&q=80" alt="Espresso" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Espresso</h5><p class="item-desc">Pure, intense single-origin shot with a golden crema</p><div class="item-footer"><span class="item-price">$4</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&auto=format&fit=crop&q=80" alt="Cappuccino" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Cappuccino</h5><p class="item-desc">Velvety steamed milk, bold espresso, airy microfoam crown</p><div class="item-footer"><span class="item-price">$6</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&auto=format&fit=crop&q=80" alt="Flat White" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Flat White</h5><p class="item-desc">Ristretto double-shot with microfoam, Australian-style</p><div class="item-footer"><span class="item-price">$6</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&auto=format&fit=crop&q=80" alt="Dark Mocha" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Dark Mocha</h5><p class="item-desc">70% dark chocolate espresso blended with steamed milk</p><div class="item-footer"><span class="item-price">$7</span></div></div></div></div>
+                </div>
             </div>
-            
-            <!-- Expanded Menu Categories -->
-            <div class="menu-categories" id="menuCategories">
 
-                <!-- ═══ COFFEE ═══ -->
-                <div class="menu-category" data-category="coffee">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <div class="category-header-left">
-                            <div class="cat-thumb-wrapper">
-                                <img src="assets/artisan_coffee.png" alt="Coffee" class="cat-thumb">
-                            </div>
-                            <div>
-                                <h3 class="cat-title">Coffee &amp; Espresso</h3>
-                                <p class="cat-tagline">Hand-pulled, single-origin perfection</p>
-                            </div>
-                        </div>
-                        <div class="cat-meta">
-                            <span class="cat-count">5 items</span>
-                            <span class="cat-chevron">&#8964;</span>
-                        </div>
+            <!-- BURGERS -->
+            <div class="menu-chapter" id="menu-burgers">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">02 / 05</span>
+                        <h3 class="chapter-title">Artisan Burgers</h3>
+                        <p class="chapter-sub">Handcrafted patties, luxurious toppings</p>
                     </div>
-                    <div class="sub-items-wrap">
-                        <div class="sub-items-grid">
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Espresso</span><span class="sub-desc">Pure, intense single-origin shot with a golden crema</span></div><span class="sub-price">$4</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Cappuccino</span><span class="sub-desc">Velvety steamed milk, bold espresso, airy microfoam crown</span></div><span class="sub-price">$6</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Signature Latte</span><span class="sub-desc">Silky oat milk latte with house vanilla and caramel swirl</span></div><span class="sub-price">$7</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Flat White</span><span class="sub-desc">Ristretto double-shot with microfoam, Australian-style</span></div><span class="sub-price">$6</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Dark Mocha</span><span class="sub-desc">70% dark chocolate espresso blended with steamed milk</span></div><span class="sub-price">$7</span></div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item menu-hero-item--reversed">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80" alt="Wagyu Truffle Burger" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Bestseller</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">A5 Wagyu · Black Truffle</span></div>
+                        <h4 class="hero-item-name">Wagyu Truffle Burger</h4>
+                        <p class="hero-item-desc">A5 Japanese wagyu patty, aged cheddar, hand-shaved black truffle aioli, house-baked brioche bun. The pinnacle of burger craftsmanship.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">A5 Wagyu</span>
+                            <span class="ingredient-tag">Black Truffle</span>
+                            <span class="ingredient-tag">Brioche</span>
                         </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$24</span><span class="hero-item-craft">Premium cut</span></div>
                     </div>
                 </div>
-
-                <!-- ═══ BURGERS ═══ -->
-                <div class="menu-category" data-category="burgers">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <div class="category-header-left">
-                            <div class="cat-thumb-wrapper">
-                                <img src="assets/burger_premium.png" alt="Burgers" class="cat-thumb">
-                            </div>
-                            <div>
-                                <h3 class="cat-title">Artisan Burgers</h3>
-                                <p class="cat-tagline">Handcrafted patties, luxurious toppings</p>
-                            </div>
-                        </div>
-                        <div class="cat-meta">
-                            <span class="cat-count">5 items</span>
-                            <span class="cat-chevron">&#8964;</span>
-                        </div>
-                    </div>
-                    <div class="sub-items-wrap">
-                        <div class="sub-items-grid">
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Wagyu Truffle Burger</span><span class="sub-desc">A5 wagyu patty, aged cheddar, black truffle aioli, brioche bun</span></div><span class="sub-price">$24</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Classic Beef Burger</span><span class="sub-desc">Prime beef, caramelised onions, pickles, house secret sauce</span></div><span class="sub-price">$16</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Spicy Smash Burger</span><span class="sub-desc">Double smash patty, jalapeños, pepper jack, sriracha mayo</span></div><span class="sub-price">$18</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Crispy Chicken Burger</span><span class="sub-desc">Southern-fried chicken thigh, slaw, honey mustard, dill pickle</span></div><span class="sub-price">$17</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Mushroom Swiss Burger</span><span class="sub-desc">Wild mushroom medley, Swiss cheese, garlic butter, sourdough</span></div><span class="sub-price">$19</span></div>
-                        </div>
-                    </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&auto=format&fit=crop&q=80" alt="Classic Beef" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Classic Beef Burger</h5><p class="item-desc">Prime beef, caramelised onions, pickles, house secret sauce</p><div class="item-footer"><span class="item-price">$16</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400&auto=format&fit=crop&q=80" alt="Smash Burger" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Spicy Smash Burger</h5><p class="item-desc">Double smash patty, jalapeños, pepper jack, sriracha mayo</p><div class="item-footer"><span class="item-price">$18</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&auto=format&fit=crop&q=80" alt="Chicken Burger" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Crispy Chicken Burger</h5><p class="item-desc">Southern-fried chicken thigh, slaw, honey mustard, dill pickle</p><div class="item-footer"><span class="item-price">$17</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400&auto=format&fit=crop&q=80" alt="Mushroom Swiss" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Mushroom Swiss</h5><p class="item-desc">Wild mushroom medley, Swiss cheese, garlic butter, sourdough</p><div class="item-footer"><span class="item-price">$19</span></div></div></div></div>
                 </div>
-
-                <!-- ═══ PIZZA ═══ -->
-                <div class="menu-category" data-category="pizza">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <div class="category-header-left">
-                            <div class="cat-thumb-wrapper">
-                                <img src="assets/pizza_premium.png" alt="Pizza" class="cat-thumb">
-                            </div>
-                            <div>
-                                <h3 class="cat-title">Wood-Fired Pizza</h3>
-                                <p class="cat-tagline">Neapolitan-style with premium toppings</p>
-                            </div>
-                        </div>
-                        <div class="cat-meta">
-                            <span class="cat-count">5 items</span>
-                            <span class="cat-chevron">&#8964;</span>
-                        </div>
-                    </div>
-                    <div class="sub-items-wrap">
-                        <div class="sub-items-grid">
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Margherita</span><span class="sub-desc">San Marzano tomato, fior di latte, fresh basil, extra-virgin olive oil</span></div><span class="sub-price">$14</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Truffle Mushroom</span><span class="sub-desc">Black truffle paste, wild mushrooms, fontina, rosemary oil</span></div><span class="sub-price">$18</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Pepperoni Slice</span><span class="sub-desc">Spiced pepperoni, smoked mozzarella, crushed tomato, honey drizzle</span></div><span class="sub-price">$15</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Four Cheese</span><span class="sub-desc">Gorgonzola, ricotta, mozzarella, pecorino on a white cream base</span></div><span class="sub-price">$16</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Spicy Chicken</span><span class="sub-desc">Grilled chicken, nduja, roasted peppers, smoked paprika, basil</span></div><span class="sub-price">$17</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ═══ SNACKS / SIDES ═══ -->
-                <div class="menu-category" data-category="snacks">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <div class="category-header-left">
-                            <div class="cat-thumb-wrapper">
-                                <img src="assets/snack_premium.png" alt="Fries" class="cat-thumb">
-                            </div>
-                            <div>
-                                <h3 class="cat-title">Fries &amp; Sides</h3>
-                                <p class="cat-tagline">Golden, crispy, elevated classics</p>
-                            </div>
-                        </div>
-                        <div class="cat-meta">
-                            <span class="cat-count">5 items</span>
-                            <span class="cat-chevron">&#8964;</span>
-                        </div>
-                    </div>
-                    <div class="sub-items-wrap">
-                        <div class="sub-items-grid">
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Parmesan Truffle Fries</span><span class="sub-desc">Double-fried russet fries, white truffle oil, aged parmesan, chives</span></div><span class="sub-price">$9</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Loaded Cheese Fries</span><span class="sub-desc">Crispy fries topped with molten cheddar sauce and crispy shallots</span></div><span class="sub-price">$10</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Sweet Potato Fries</span><span class="sub-desc">Lightly spiced sweet potato fries with chipotle dipping cream</span></div><span class="sub-price">$9</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Garlic Herb Fries</span><span class="sub-desc">Thin-cut fries tossed in roasted garlic butter, parsley, lemon zest</span></div><span class="sub-price">$8</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Spicy Cajun Fries</span><span class="sub-desc">Waffle-cut fries dusted in Cajun spice blend, with remoulade sauce</span></div><span class="sub-price">$8</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ═══ DESSERTS ═══ -->
-                <div class="menu-category" data-category="desserts">
-                    <div class="category-header" onclick="toggleCategory(this)">
-                        <div class="category-header-left">
-                            <div class="cat-thumb-wrapper">
-                                <img src="assets/luxury_pastry.png" alt="Desserts" class="cat-thumb">
-                            </div>
-                            <div>
-                                <h3 class="cat-title">Desserts</h3>
-                                <p class="cat-tagline">Sweet finales, crafted with passion</p>
-                            </div>
-                        </div>
-                        <div class="cat-meta">
-                            <span class="cat-count">5 items</span>
-                            <span class="cat-chevron">&#8964;</span>
-                        </div>
-                    </div>
-                    <div class="sub-items-wrap">
-                        <div class="sub-items-grid">
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Noir Truffle Cake</span><span class="sub-desc">Mirror-glazed chocolate cake with edible gold leaf and ganache</span></div><span class="sub-price">$13</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Chocolate Lava Cake</span><span class="sub-desc">Warm dark chocolate fondant, molten centre, served with vanilla ice cream</span></div><span class="sub-price">$11</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Tiramisu</span><span class="sub-desc">Classic Italian espresso-soaked ladyfingers, mascarpone, cocoa dust</span></div><span class="sub-price">$10</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Cheesecake</span><span class="sub-desc">New York baked cheesecake, mixed berry compote, graham cracker base</span></div><span class="sub-price">$10</span></div>
-                            <div class="sub-item"><div class="sub-item-info"><span class="sub-name">Brownie Delight</span><span class="sub-desc">Fudgy walnut brownie, salted caramel drizzle, scoop of gelato</span></div><span class="sub-price">$9</span></div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- PIZZA -->
+            <div class="menu-chapter" id="menu-pizza">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">03 / 05</span>
+                        <h3 class="chapter-title">Wood-Fired Pizza</h3>
+                        <p class="chapter-sub">Neapolitan-style with premium toppings</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=800&auto=format&fit=crop&q=80" alt="Truffle Mushroom Pizza" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Chef's Choice</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Wood-Fired · 900°F Stone</span></div>
+                        <h4 class="hero-item-name">Truffle Mushroom</h4>
+                        <p class="hero-item-desc">Black truffle paste, wild mushroom medley, fontina cheese, fresh rosemary oil on a 72-hour cold-fermented Neapolitan dough.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Black Truffle</span>
+                            <span class="ingredient-tag">Wild Mushrooms</span>
+                            <span class="ingredient-tag">Fontina</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$18</span><span class="hero-item-craft">72hr cold-fermented dough</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format&fit=crop&q=80" alt="Margherita" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Margherita</h5><p class="item-desc">San Marzano tomato, fior di latte, fresh basil, olive oil</p><div class="item-footer"><span class="item-price">$14</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format&fit=crop&q=80" alt="Pepperoni" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Pepperoni Slice</h5><p class="item-desc">Spiced pepperoni, smoked mozzarella, honey drizzle</p><div class="item-footer"><span class="item-price">$15</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop&q=80" alt="Four Cheese" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Four Cheese</h5><p class="item-desc">Gorgonzola, ricotta, mozzarella, pecorino on white cream</p><div class="item-footer"><span class="item-price">$16</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop&q=80" alt="Spicy Chicken" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Spicy Chicken</h5><p class="item-desc">Grilled chicken, nduja, roasted peppers, smoked paprika</p><div class="item-footer"><span class="item-price">$17</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- SIDES -->
+            <div class="menu-chapter" id="menu-sides">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">04 / 05</span>
+                        <h3 class="chapter-title">Fries &amp; Sides</h3>
+                        <p class="chapter-sub">Golden, crispy, elevated classics</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item menu-hero-item--reversed">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800&auto=format&fit=crop&q=80" alt="Parmesan Truffle Fries" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Most Loved</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Double-Fried · Aged Parmesan</span></div>
+                        <h4 class="hero-item-name">Parmesan Truffle Fries</h4>
+                        <p class="hero-item-desc">Double-fried russet potatoes, hand-shaved aged parmesan, white truffle oil, fresh chives. An indulgent side elevated to centrepiece status.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">White Truffle Oil</span>
+                            <span class="ingredient-tag">Aged Parmesan</span>
+                            <span class="ingredient-tag">Fresh Chives</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$9</span><span class="hero-item-craft">Double-fried technique</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&auto=format&fit=crop&q=80" alt="Cheese Fries" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Loaded Cheese Fries</h5><p class="item-desc">Molten cheddar sauce, crispy shallots</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&auto=format&fit=crop&q=80" alt="Sweet Potato Fries" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Sweet Potato Fries</h5><p class="item-desc">Lightly spiced with chipotle dipping cream</p><div class="item-footer"><span class="item-price">$9</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400&auto=format&fit=crop&q=80" alt="Garlic Herb" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Garlic Herb Fries</h5><p class="item-desc">Roasted garlic butter, parsley, lemon zest</p><div class="item-footer"><span class="item-price">$8</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1598679253544-2c97992403ea?w=400&auto=format&fit=crop&q=80" alt="Cajun Fries" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Spicy Cajun Fries</h5><p class="item-desc">Cajun spice blend, remoulade dipping sauce</p><div class="item-footer"><span class="item-price">$8</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- DESSERTS -->
+            <div class="menu-chapter" id="menu-desserts">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">05 / 05</span>
+                        <h3 class="chapter-title">Desserts</h3>
+                        <p class="chapter-sub">Sweet finales, crafted with passion</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&auto=format&fit=crop&q=80" alt="Noir Truffle Cake" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Signature Dessert</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Mirror Glazed · Edible Gold</span></div>
+                        <h4 class="hero-item-name">Noir Truffle Cake</h4>
+                        <p class="hero-item-desc">Mirror-glazed dark chocolate cake, hand-decorated with edible gold leaf, dark ganache cascade and a dusting of Valrhona cocoa. Pure luxury.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Valrhona Chocolate</span>
+                            <span class="ingredient-tag">Edible Gold</span>
+                            <span class="ingredient-tag">Dark Ganache</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$13</span><span class="hero-item-craft">Patisserie crafted</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1617305855058-65e98abe8deb?w=400&auto=format&fit=crop&q=80" alt="Lava Cake" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Chocolate Lava Cake</h5><p class="item-desc">Warm fondant, molten centre, vanilla ice cream</p><div class="item-footer"><span class="item-price">$11</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&auto=format&fit=crop&q=80" alt="Tiramisu" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Tiramisu</h5><p class="item-desc">Espresso-soaked ladyfingers, mascarpone, cocoa dust</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format&fit=crop&q=80" alt="Cheesecake" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Cheesecake</h5><p class="item-desc">New York baked, mixed berry compote, graham cracker base</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&auto=format&fit=crop&q=80" alt="Brownie" loading="lazy"></div><div class="item-card-body"><h5 class="item-name">Brownie Delight</h5><p class="item-desc">Fudgy walnut brownie, salted caramel drizzle, gelato</p><div class="item-footer"><span class="item-price">$9</span></div></div></div></div>
+                </div>
+            </div>
+
         </section>
 
         <!-- Story/About Section -->
@@ -1072,6 +1120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <script src="script.js?v=3"></script>
+    <script src="script.js?v=4"></script>
 </body>
 </html>
