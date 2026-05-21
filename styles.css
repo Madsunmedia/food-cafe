@@ -3762,3 +3762,76 @@ section {
     .hero-item-content { padding:1.5rem; }
     .menu-nav-btn { font-size:.7rem;padding:.4rem 1rem; }
 }
+
+/* ── Story Image Mosaic ── */
+.story-img-mosaic {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin: 1.8rem 0;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.story-mosaic-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.story-mosaic-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: default;
+}
+
+.story-mosaic-item--tall {
+    min-height: 300px;
+}
+
+.story-mosaic-col .story-mosaic-item {
+    flex: 1;
+    min-height: 136px;
+}
+
+.story-mosaic-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.8) saturate(0.85);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s;
+}
+
+.story-mosaic-item:hover img {
+    transform: scale(1.07);
+    filter: brightness(0.92) saturate(1.05);
+}
+
+.mosaic-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 8, 7, 0.72) 0%, transparent 55%);
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem 1.1rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.story-mosaic-item:hover .mosaic-overlay { opacity: 1; }
+
+.mosaic-overlay span {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--accent-gold);
+    letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+    .story-img-mosaic { grid-template-columns: 1fr; }
+    .story-mosaic-item--tall { min-height: 200px; }
+    .story-mosaic-col .story-mosaic-item { min-height: 140px; }
+}
