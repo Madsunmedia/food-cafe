@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Lumina — Our Cinematic Ambience</title>
+    <meta name="description" content="Step inside Lumina's world — a gallery of cinematic ambience, artisan craft, and unforgettable dining moments.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=7">
+    <style>
+        .page-hero {
+            position: relative;
+            min-height: 38vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 2rem 4rem;
+            overflow: hidden;
+            background: linear-gradient(160deg, #0d0b08 0%, #1a1208 60%, #0a0807 100%);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(212,163,115,0.13) 0%, transparent 70%);
+        }
+        .page-hero-content { position: relative; text-align: center; z-index: 2; }
+        .page-hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .page-hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            color: var(--cream);
+            line-height: 1;
+            margin: 0;
+        }
+        .page-hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(240,230,210,0.55);
+            margin-top: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        .breadcrumb {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            color: rgba(240,230,210,0.45);
+            z-index: 10;
+        }
+        .breadcrumb a { color: var(--gold); text-decoration: none; }
+        .breadcrumb span { opacity: 0.4; }
+
+        /* Extended gallery grid */
+        .gallery-extended {
+            padding: 4rem 2rem 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .gallery-category-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+        .gallery-category-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+        .gallery-category-header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(240,230,210,0.5);
+            letter-spacing: 0.05em;
+        }
+        .gallery-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1rem auto;
+            opacity: 0.5;
+        }
+
+        /* Masonry-style gallery rows */
+        .gallery-masonry {
+            columns: 3;
+            column-gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 900px) { .gallery-masonry { columns: 2; } }
+        @media (max-width: 560px) { .gallery-masonry { columns: 1; } }
+
+        .gallery-masonry-item {
+            position: relative;
+            break-inside: avoid;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .gallery-masonry-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .gallery-masonry-item:hover img { transform: scale(1.04); }
+        .gallery-masonry-item .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,8,7,0.75) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-masonry-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-masonry-item .gallery-overlay span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            letter-spacing: 0.05em;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(5,4,3,0.95);
+            backdrop-filter: blur(16px);
+            align-items: center;
+            justify-content: center;
+            animation: fadeInLB 0.3s ease;
+        }
+        .lightbox.active { display: flex; }
+        @keyframes fadeInLB { from { opacity: 0; } to { opacity: 1; } }
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 12px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+            object-fit: contain;
+        }
+        .lightbox-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: 1px solid rgba(212,163,115,0.4);
+            color: var(--gold);
+            font-size: 1.5rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .lightbox-close:hover { background: var(--gold); color: #0a0807; }
+        .lightbox-caption {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: rgba(240,230,210,0.6);
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+        .lightbox-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(212,163,115,0.15);
+            border: 1px solid rgba(212,163,115,0.3);
+            color: var(--gold);
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .lightbox-nav:hover { background: rgba(212,163,115,0.3); }
+        .lightbox-prev { left: 1.5rem; }
+        .lightbox-next { right: 1.5rem; }
+    </style>
+</head>
+<body>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lb-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lb-prev">&#8249;</button>
+        <img class="lightbox-img" id="lb-img" src="" alt="">
+        <button class="lightbox-nav lightbox-next" id="lb-next">&#8250;</button>
+        <div class="lightbox-caption" id="lb-caption"></div>
+    </div>
+
+    <!-- Three.js Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ambient Layer -->
+    <div class="ambient-layer" aria-hidden="true">
+        <div class="amb-orb amb-orb--1"></div>
+        <div class="amb-orb amb-orb--2"></div>
+        <div class="amb-orb amb-orb--3"></div>
+        <div class="amb-orb amb-orb--4"></div>
+        <div class="amb-vignette"></div>
+        <div class="amb-bokeh"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">LUMINA</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="menu.html" class="nav-link">Menu</a>
+            <a href="gallery.html" class="nav-link active">Gallery</a>
+            <a href="story.html" class="nav-link">Story</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <button class="cta-btn" id="nav-reserve-btn">Reservations</button>
+        <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close-btn">&times;</button>
+        <div class="mobile-menu-content">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="menu.html" class="mobile-link">Menu</a>
+            <a href="gallery.html" class="mobile-link">Gallery</a>
+            <a href="story.html" class="mobile-link">Story</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            <button class="primary-btn mobile-reserve-btn" id="mobile-reserve-btn">Reserve a Table</button>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="reservation-modal" id="reservation-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-container glass">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">Reserve Your Table</h2>
+            <p class="modal-subtitle">Experience an unforgettable evening at Lumina</p>
+            <form class="reservation-form" id="reservation-form" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <div class="form-row">
+                    <div class="form-group"><label for="res-name">Full Name</label><input type="text" id="res-name" name="name" placeholder="Your Name" required></div>
+                    <div class="form-group"><label for="res-email">Email</label><input type="email" id="res-email" name="email" placeholder="you@email.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="res-date">Date</label><input type="date" id="res-date" name="date" required></div>
+                    <div class="form-group"><label for="res-time">Time</label><input type="time" id="res-time" name="time" required></div>
+                </div>
+                <div class="form-group full-width"><label for="res-notes">Special Requests</label><textarea id="res-notes" name="notes" placeholder="Allergies, seating preference, etc." rows="3"></textarea></div>
+                <button type="submit" class="primary-btn gold-btn submit-btn">Confirm Reservation</button>
+            </form>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="success-icon">✓</span>
+                <h3>Reservation Confirmed!</h3>
+                <p>We look forward to welcoming you at Lumina.</p>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <div class="page-hero" style="padding-top: 100px;">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>›</span>
+                <span style="color: var(--cream);">Gallery</span>
+            </div>
+            <div class="page-hero-content">
+                <p class="page-hero-eyebrow">✦ Visual Stories ✦</p>
+                <h1 class="page-hero-title">Our <span class="italic gold-text">Ambience</span></h1>
+                <p class="page-hero-subtitle">Step inside the world of Lumina — where every frame tells a story.</p>
+            </div>
+        </div>
+
+        <div class="gallery-extended">
+
+            <!-- Atmosphere -->
+            <div class="gallery-category-header">
+                <p class="page-hero-eyebrow" style="text-align:center;">01 / 03</p>
+                <h2>The Atmosphere</h2>
+                <div class="gallery-divider"></div>
+                <p>Warm lights, rich textures, and an ambience unlike anywhere else.</p>
+            </div>
+            <div class="gallery-masonry">
+                <div class="gallery-masonry-item" data-caption="Interior">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=900&auto=format&fit=crop" alt="Lumina Interior" loading="lazy">
+                    <div class="gallery-overlay"><span>Interior</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Warm Light">
+                    <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=900&auto=format&fit=crop" alt="Warm Cafe Lighting" loading="lazy">
+                    <div class="gallery-overlay"><span>Warm Light</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Evening Glow">
+                    <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?q=80&w=900&auto=format&fit=crop" alt="Evening Ambience" loading="lazy">
+                    <div class="gallery-overlay"><span>Evening Glow</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="The Lounge">
+                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=900&auto=format&fit=crop" alt="Lounge Area" loading="lazy">
+                    <div class="gallery-overlay"><span>The Lounge</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Window Seat">
+                    <img src="https://images.unsplash.com/photo-1493857671505-72967e2e2760?q=80&w=900&auto=format&fit=crop" alt="Window Seating" loading="lazy">
+                    <div class="gallery-overlay"><span>Window Seat</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Candlelit">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=900&auto=format&fit=crop" alt="Candlelit Dining" loading="lazy">
+                    <div class="gallery-overlay"><span>Candlelit</span></div>
+                </div>
+            </div>
+
+            <!-- Craft -->
+            <div class="gallery-category-header">
+                <p class="page-hero-eyebrow" style="text-align:center;">02 / 03</p>
+                <h2>The Craft</h2>
+                <div class="gallery-divider"></div>
+                <p>Artisan skill and passion in every pour, plate, and creation.</p>
+            </div>
+            <div class="gallery-masonry">
+                <div class="gallery-masonry-item" data-caption="The Perfect Pour">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=900&auto=format&fit=crop" alt="Espresso Pour" loading="lazy">
+                    <div class="gallery-overlay"><span>The Perfect Pour</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Latte Art">
+                    <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=900&auto=format&fit=crop" alt="Latte Art" loading="lazy">
+                    <div class="gallery-overlay"><span>Latte Art</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Chef Plating">
+                    <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?q=80&w=900&auto=format&fit=crop" alt="Chef Plating" loading="lazy">
+                    <div class="gallery-overlay"><span>Chef Plating</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Artisan Craft">
+                    <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=900&auto=format&fit=crop" alt="Pastry Craft" loading="lazy">
+                    <div class="gallery-overlay"><span>Artisan Craft</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Barista at Work">
+                    <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=900&auto=format&fit=crop" alt="Barista" loading="lazy">
+                    <div class="gallery-overlay"><span>Barista at Work</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Coffee Ritual">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=900&auto=format&fit=crop" alt="Coffee Ritual" loading="lazy">
+                    <div class="gallery-overlay"><span>Coffee Ritual</span></div>
+                </div>
+            </div>
+
+            <!-- Food -->
+            <div class="gallery-category-header">
+                <p class="page-hero-eyebrow" style="text-align:center;">03 / 03</p>
+                <h2>The Food</h2>
+                <div class="gallery-divider"></div>
+                <p>Gourmet creations that are as beautiful as they are delicious.</p>
+            </div>
+            <div class="gallery-masonry">
+                <div class="gallery-masonry-item" data-caption="Wagyu Burger">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=900&auto=format&fit=crop" alt="Wagyu Burger" loading="lazy">
+                    <div class="gallery-overlay"><span>Wagyu Burger</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Signature Dessert">
+                    <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=900&auto=format&fit=crop" alt="Dessert" loading="lazy">
+                    <div class="gallery-overlay"><span>Signature Dessert</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Truffle Pizza">
+                    <img src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?q=80&w=900&auto=format&fit=crop" alt="Truffle Pizza" loading="lazy">
+                    <div class="gallery-overlay"><span>Truffle Pizza</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Noir Cake">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=900&auto=format&fit=crop" alt="Noir Cake" loading="lazy">
+                    <div class="gallery-overlay"><span>Noir Cake</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="The Golden Eclipse">
+                    <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?q=80&w=900&auto=format&fit=crop" alt="Golden Eclipse" loading="lazy">
+                    <div class="gallery-overlay"><span>The Golden Eclipse</span></div>
+                </div>
+                <div class="gallery-masonry-item" data-caption="Artisan Latte">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=900&auto=format&fit=crop" alt="Artisan Latte" loading="lazy">
+                    <div class="gallery-overlay"><span>Artisan Latte</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bg-glow"></div>
+            <div class="footer-container">
+                <div class="footer-column brand-col">
+                    <h2 class="footer-brand-logo">LUMINA</h2>
+                    <p class="brand-desc">Elevating your coffee and dining experience through a perfect symphony of flavors, cinematic ambiance, and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Our Menu</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><span class="contact-icon">📍</span> 123 Cinematic Ave, Flavor City</li>
+                        <li><span class="contact-icon">📞</span> +1 (555) 123-4567</li>
+                        <li><span class="contact-icon">✉️</span> reserve@luminacafe.com</li>
+                    </ul>
+                    <div class="hours">
+                        <h4 class="hours-heading">Opening Hours</h4>
+                        <p>Mon - Fri: 7:00 AM - 10:00 PM</p>
+                        <p>Sat - Sun: 8:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="footer-column map-col">
+                    <h3 class="footer-heading">Location</h3>
+                    <div class="css-map-preview">
+                        <div class="map-grid-lines"></div>
+                        <div class="map-pin"><div class="pin-glow"></div><div class="pin-dot"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumina Cafe. All Rights Reserved. Crafted with passion.</p>
+            </div>
+        </footer>
+    </main>
+
+    <button class="floating-cta" id="floating-cta"><span>Reserve a Table</span></button>
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js?v=7"></script>
+    <script>
+    // Lightbox logic
+    (function(){
+        const items = document.querySelectorAll('.gallery-masonry-item');
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbCaption = document.getElementById('lb-caption');
+        const lbClose = document.getElementById('lb-close');
+        const lbPrev = document.getElementById('lb-prev');
+        const lbNext = document.getElementById('lb-next');
+        let currentIndex = 0;
+        const images = Array.from(items).map(item => ({
+            src: item.querySelector('img').src,
+            caption: item.dataset.caption || ''
+        }));
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lbImg.src = images[index].src;
+            lbCaption.textContent = images[index].caption;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        items.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
+        lbClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+        lbPrev.addEventListener('click', () => openLightbox((currentIndex - 1 + images.length) % images.length));
+        lbNext.addEventListener('click', () => openLightbox((currentIndex + 1) % images.length));
+        document.addEventListener('keydown', e => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') openLightbox((currentIndex - 1 + images.length) % images.length);
+            if (e.key === 'ArrowRight') openLightbox((currentIndex + 1) % images.length);
+        });
+    })();
+    </script>
+</body>
+</html>

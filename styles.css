@@ -81,13 +81,18 @@ img, video {
 }
 
 /* ── Section Reveals — FOUC prevention ──
-   Ensures sections stay hidden until GSAP ScrollTrigger reveals them. */
-.navbar,
-.title-line,
-.hero-subtitle,
-.hero-actions,
-.scroll-indicator,
-.hero-3d-assets,
+   Only hides elements on the homepage (body.has-loader).
+   Sub-pages never get this class so content is always visible. */
+body.has-loader .title-line,
+body.has-loader .hero-subtitle,
+body.has-loader .hero-actions,
+body.has-loader .scroll-indicator,
+body.has-loader .hero-3d-assets,
+body.has-loader .hero-bg-video {
+    opacity: 0;
+}
+
+/* These animate in via ScrollTrigger on ALL pages */
 .feature-card,
 .menu-category,
 .testimonial-card,
@@ -96,6 +101,11 @@ img, video {
 .section-subtitle,
 .story-content > *,
 .story-visual {
+    opacity: 0;
+}
+
+/* Navbar: hidden initially only on homepage (GSAP reveals it after loader) */
+body.has-loader .navbar {
     opacity: 0;
 }
 

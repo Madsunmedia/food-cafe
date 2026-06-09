@@ -25,82 +25,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     requestAnimationFrame(raf);
 
-    // Disable scrolling initially for loader
-    lenis.stop();
+    // Detect whether this page has the loader (i.e. is the homepage)
+    const hasLoader = !!document.getElementById('loader');
 
-    // Safety Fallback: Hide loader after 5s no matter what
-    setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader && loader.style.display !== 'none') {
-            gsap.to(loader, { 
-                opacity: 0, 
-                duration: 0.8, 
-                onComplete: () => {
-                    loader.style.display = 'none';
-                    lenis.start();
-                    if (typeof masterReveal === "function") masterReveal();
-                } 
-            });
-        }
-    }, 5000);
+    // Apply scoping class so CSS FOUC-prevention rules activate only on homepage
+    if (hasLoader) {
+        document.body.classList.add('has-loader');
+    }
 
-    // ── MASTER LOADER SEQUENCE ──────────────────────────────────────
-    const loaderTL = gsap.timeline({
-        onComplete: () => {
-            // Once loader is done, enable scrolling and start page reveal
-            lenis.start();
-            if (typeof refreshTriggers === "function") refreshTriggers();
-            if (typeof masterReveal === "function") masterReveal();
-        }
+    // Wire up any page-specific reserve buttons (menu, story pages etc.)
+    const pageReserveBtns = document.querySelectorAll('#menu-reserve-btn, #story-reserve-btn, #signature-reserve-btn');
+    pageReserveBtns.forEach(btn => {
+        btn?.addEventListener('click', () => {
+            const modal = document.getElementById('reservation-modal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                gsap.fromTo('.modal-container > *',
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: 'expo.out', delay: 0.2 }
+                );
+            }
+        });
     });
 
-    // Initial states for loader elements
-    gsap.set(".bean-bit", { y: 20, opacity: 0 });
-    gsap.set(".loader-steam span", { y: 20, opacity: 0 });
-    gsap.set(".loader-logo", { opacity: 0, y: 10 });
+    if (hasLoader) {
+        // Disable scrolling initially for loader
+        lenis.stop();
 
-    loaderTL
-        // 1. Beans assembly
-        .to(".bean-bit", {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.2,
-            ease: "power2.out"
-        })
-        // 2. Steam drifts up
-        .to(".loader-steam span", {
-            opacity: 1,
-            y: -30,
-            duration: 2,
-            stagger: 0.3,
-            ease: "sine.inOut",
-            repeat: 1,
-            yoyo: true
-        }, "-=0.5")
-        // 3. Progress bar fills smoothly
-        .to(".status-bar", {
-            width: "100%",
-            duration: 2.8,
-            ease: "power1.inOut"
-        }, 0.5)
-        // 4. Logo elegantly fades and expands
-        .to(".loader-logo", {
-            opacity: 1,
-            y: 0,
-            letterSpacing: "0.45em",
-            duration: 1.5,
-            ease: "expo.out"
-        }, "-=1.8")
-        // 5. Final exit — fade out full loader
-        .to("#loader", {
-            opacity: 0,
-            duration: 1,
-            ease: "power2.inOut",
-            onComplete: () => {
-                document.getElementById('loader').style.display = 'none';
+        // Safety Fallback: Hide loader after 5s no matter what
+        setTimeout(() => {
+            const loader = document.getElementById('loader');
+            if (loader && loader.style.display !== 'none') {
+                gsap.to(loader, { 
+                    opacity: 0, 
+                    duration: 0.8, 
+                    onComplete: () => {
+                        loader.style.display = 'none';
+                        lenis.start();
+                        if (typeof masterReveal === "function") masterReveal();
+                    } 
+                });
             }
-        }, "+=0.2");
+        }, 5000);
+
+        // ── MASTER LOADER SEQUENCE ──────────────────────────────────────
+        const loaderTL = gsap.timeline({
+            onComplete: () => {
+                lenis.start();
+                if (typeof refreshTriggers === "function") refreshTriggers();
+                if (typeof masterReveal === "function") masterReveal();
+            }
+        });
+
+        // Initial states for loader elements
+        gsap.set(".bean-bit", { y: 20, opacity: 0 });
+        gsap.set(".loader-steam span", { y: 20, opacity: 0 });
+        gsap.set(".loader-logo", { opacity: 0, y: 10 });
+
+        loaderTL
+            .to(".bean-bit", { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" })
+            .to(".loader-steam span", { opacity: 1, y: -30, duration: 2, stagger: 0.3, ease: "sine.inOut", repeat: 1, yoyo: true }, "-=0.5")
+            .to(".status-bar", { width: "100%", duration: 2.8, ease: "power1.inOut" }, 0.5)
+            .to(".loader-logo", { opacity: 1, y: 0, letterSpacing: "0.45em", duration: 1.5, ease: "expo.out" }, "-=1.8")
+            .to("#loader", {
+                opacity: 0, duration: 1, ease: "power2.inOut",
+                onComplete: () => { document.getElementById('loader').style.display = 'none'; }
+            }, "+=0.2");
+    } else {
+        // Sub-page: no loader — start scrolling immediately and reveal navbar
+        lenis.start();
+        gsap.to(".navbar", { y: 0, opacity: 1, duration: 0.8, ease: "expo.out", delay: 0.1 });
+    }
 
     // Helper to refresh all triggers
     window.refreshTriggers = () => {
@@ -131,23 +127,23 @@ document.addEventListener("DOMContentLoaded", () => {
             navbar.classList.remove('scrolled');
         }
 
-        // Active link scroll spy
-        let current = 'home';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (window.scrollY >= (sectionTop - 180)) {
-                const id = section.getAttribute('id');
-                if (id) current = id;
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
+        // Active link scroll spy — only runs on homepage (anchor-based links)
+        if (hasLoader) {
+            let current = 'home';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= (sectionTop - 180)) {
+                    const id = section.getAttribute('id');
+                    if (id) current = id;
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
     });
 
     // 3. Three.js Background — Falling Coffee Beans ONLY
@@ -353,66 +349,37 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
-    // ── MASTER REVEAL SYSTEM ──────────────────────────────────────────
-    // Set initial hidden states (no flash of content)
-    gsap.set(".navbar",          { y: -80, opacity: 0 });
-    gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)", letterSpacing: "-0.05em" });
-    gsap.set(".hero-subtitle",   { y: 30, opacity: 0 });
-    // removed: gsap.set(".hero-actions", { y: 25, opacity: 0 }); so it doesn't hide the container when children fade in
-    gsap.set(".scroll-indicator",{ opacity: 0 });
-    gsap.set(".hero-3d-assets",  { y: 40, opacity: 0, scale: 0.9, filter: "blur(10px)" });
-    gsap.set(".hero-bg-video",   { scale: 1.15, opacity: 0 });
+    // ── MASTER REVEAL SYSTEM — Homepage only ─────────────────────────
+    if (hasLoader) {
+        // Set initial hidden states (no flash of content)
+        gsap.set(".navbar",          { y: -80, opacity: 0 });
+        gsap.set(".title-line",      { y: 80, opacity: 0, clipPath: "inset(100% 0% 0% 0%)", letterSpacing: "-0.05em" });
+        gsap.set(".hero-subtitle",   { y: 30, opacity: 0 });
+        gsap.set(".scroll-indicator",{ opacity: 0 });
+        gsap.set(".hero-3d-assets",  { y: 40, opacity: 0, scale: 0.9, filter: "blur(10px)" });
+        gsap.set(".hero-bg-video",   { scale: 1.15, opacity: 0 });
 
-    // This timeline handles the hero entrance and is triggered by the loader
-    const heroTL = gsap.timeline({ 
-        paused: true, 
-        delay: 0.4, 
-        defaults: { ease: "expo.out" } 
-    });
+        const heroTL = gsap.timeline({ paused: true, delay: 0.4, defaults: { ease: "expo.out" } });
 
-    window.masterReveal = () => {
-        heroTL.play();
-        startHeroParallax();
-    };
+        window.masterReveal = () => {
+            heroTL.play();
+            startHeroParallax();
+        };
 
-    heroTL
-        // 1. Background video fades and subtly de-zooms into place
-        .to(".hero-bg-video", {
-            scale: 1.05, opacity: 0.7, duration: 2.5, ease: "power2.inOut"
-        })
-        // 2. Navbar glides in from top
-        .to(".navbar", {
-            y: 0, opacity: 1, duration: 1.2, ease: "expo.out"
-        }, "-=1.8")
-        // 3. Title lines clip-path reveal + slide up
-        .to(".title-line", {
-            y: 0,
-            opacity: 1,
-            clipPath: "inset(0% 0% 0% 0%)",
-            letterSpacing: "0.02em",
-            duration: 1.8,
-            stagger: 0.2,
-            ease: "expo.out"
-        }, "-=1.5")
-        // 4. Subtitle fades up softly
-        .to(".hero-subtitle", {
-            y: 0, opacity: 1, duration: 1.2, ease: "power3.out"
-        }, "-=1.2")
-        // 5. CTA buttons emerge with a gentle scale+fade
-        .to(".hero-actions", { opacity: 1, duration: 0.1 }, "-=1.0")
-        .fromTo(".hero-actions .primary-btn, .hero-actions .secondary-btn",
-            { y: 20, opacity: 0, scale: 0.96 },
-            { y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15, ease: "back.out(1.2)" },
-            "-=1.0"
-        )
-        // 6. Coffee cup / 3D assets reveal with a blur-to-sharp transition
-        .to(".hero-3d-assets", {
-            y: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 2.2, ease: "expo.out"
-        }, "-=1.5")
-        // 7. Scroll indicator fades in last
-        .to(".scroll-indicator", {
-            opacity: 0.6, duration: 1.5, ease: "power2.out"
-        }, "-=1.2");
+        heroTL
+            .to(".hero-bg-video", { scale: 1.05, opacity: 0.7, duration: 2.5, ease: "power2.inOut" })
+            .to(".navbar", { y: 0, opacity: 1, duration: 1.2, ease: "expo.out" }, "-=1.8")
+            .to(".title-line", { y: 0, opacity: 1, clipPath: "inset(0% 0% 0% 0%)", letterSpacing: "0.02em", duration: 1.8, stagger: 0.2, ease: "expo.out" }, "-=1.5")
+            .to(".hero-subtitle", { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }, "-=1.2")
+            .to(".hero-actions", { opacity: 1, duration: 0.1 }, "-=1.0")
+            .fromTo(".hero-actions .primary-btn, .hero-actions .secondary-btn",
+                { y: 20, opacity: 0, scale: 0.96 },
+                { y: 0, opacity: 1, scale: 1, duration: 1.1, stagger: 0.15, ease: "back.out(1.2)" },
+                "-=1.0"
+            )
+            .to(".hero-3d-assets", { y: 0, opacity: 1, scale: 1, filter: "blur(0px)", duration: 2.2, ease: "expo.out" }, "-=1.5")
+            .to(".scroll-indicator", { opacity: 0.6, duration: 1.5, ease: "power2.out" }, "-=1.2");
+    }
 
     // Cinematic Mouse Parallax for Hero Depth
     function startHeroParallax() {

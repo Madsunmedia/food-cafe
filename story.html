@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | Lumina — A Symphony of Flavors</title>
+    <meta name="description" content="Discover the story behind Lumina — born from a passion for refined flavors, artisan coffee, and intimate, cinematic experiences.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=7">
+    <style>
+        .page-hero {
+            position: relative;
+            min-height: 38vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 2rem 4rem;
+            overflow: hidden;
+            background: linear-gradient(160deg, #0d0b08 0%, #1a1208 60%, #0a0807 100%);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(212,163,115,0.13) 0%, transparent 70%);
+        }
+        .page-hero-content { position: relative; text-align: center; z-index: 2; }
+        .page-hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .page-hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            color: var(--cream);
+            line-height: 1;
+            margin: 0;
+        }
+        .page-hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(240,230,210,0.55);
+            margin-top: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        .breadcrumb {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            color: rgba(240,230,210,0.45);
+            z-index: 10;
+        }
+        .breadcrumb a { color: var(--gold); text-decoration: none; }
+        .breadcrumb span { opacity: 0.4; }
+
+        /* Team Section */
+        .team-section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .team-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .team-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--cream);
+            margin-bottom: 0.8rem;
+        }
+        .team-header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            color: rgba(240,230,210,0.5);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .team-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(212,163,115,0.12);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35), 0 0 30px rgba(212,163,115,0.1);
+        }
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.2rem;
+            display: block;
+            border: 2px solid rgba(212,163,115,0.4);
+        }
+        .team-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--cream);
+            margin-bottom: 0.3rem;
+        }
+        .team-role {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .team-bio {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: rgba(240,230,210,0.55);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(212,163,115,0.04) 50%, transparent 100%);
+        }
+        .values-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .values-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .values-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--cream);
+            margin-bottom: 0.8rem;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .value-item {
+            padding: 2rem;
+            border-left: 2px solid rgba(212,163,115,0.3);
+        }
+        .value-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            opacity: 0.25;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .value-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--cream);
+            margin-bottom: 0.8rem;
+        }
+        .value-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            color: rgba(240,230,210,0.55);
+        }
+
+        /* CTA Band */
+        .story-cta-band {
+            padding: 5rem 2rem;
+            text-align: center;
+            background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(212,163,115,0.07) 0%, transparent 70%);
+        }
+        .story-cta-band h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+        .story-cta-band p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(240,230,210,0.55);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        .story-cta-band .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ambient Layer -->
+    <div class="ambient-layer" aria-hidden="true">
+        <div class="amb-orb amb-orb--1"></div>
+        <div class="amb-orb amb-orb--2"></div>
+        <div class="amb-orb amb-orb--3"></div>
+        <div class="amb-orb amb-orb--4"></div>
+        <div class="amb-vignette"></div>
+        <div class="amb-bokeh"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">LUMINA</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="menu.html" class="nav-link">Menu</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="story.html" class="nav-link active">Story</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <button class="cta-btn" id="nav-reserve-btn">Reservations</button>
+        <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close-btn">&times;</button>
+        <div class="mobile-menu-content">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="menu.html" class="mobile-link">Menu</a>
+            <a href="gallery.html" class="mobile-link">Gallery</a>
+            <a href="story.html" class="mobile-link">Story</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            <button class="primary-btn mobile-reserve-btn" id="mobile-reserve-btn">Reserve a Table</button>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="reservation-modal" id="reservation-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-container glass">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">Reserve Your Table</h2>
+            <p class="modal-subtitle">Experience an unforgettable evening at Lumina</p>
+            <form class="reservation-form" id="reservation-form" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <div class="form-row">
+                    <div class="form-group"><label for="res-name">Full Name</label><input type="text" id="res-name" name="name" placeholder="Your Name" required></div>
+                    <div class="form-group"><label for="res-email">Email</label><input type="email" id="res-email" name="email" placeholder="you@email.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="res-date">Date</label><input type="date" id="res-date" name="date" required></div>
+                    <div class="form-group"><label for="res-time">Time</label><input type="time" id="res-time" name="time" required></div>
+                </div>
+                <div class="form-group full-width"><label for="res-notes">Special Requests</label><textarea id="res-notes" name="notes" placeholder="Allergies, seating preference, etc." rows="3"></textarea></div>
+                <button type="submit" class="primary-btn gold-btn submit-btn">Confirm Reservation</button>
+            </form>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="success-icon">✓</span>
+                <h3>Reservation Confirmed!</h3>
+                <p>We look forward to welcoming you at Lumina.</p>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <div class="page-hero" style="padding-top: 100px;">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>›</span>
+                <span style="color: var(--cream);">Our Story</span>
+            </div>
+            <div class="page-hero-content">
+                <p class="page-hero-eyebrow">✦ EST. 2026 · ARTISAN CAFE ✦</p>
+                <h1 class="page-hero-title">A <span class="italic gold-text">Symphony</span> of Flavors</h1>
+                <p class="page-hero-subtitle">Where every sip tells a story and every visit becomes a memory.</p>
+            </div>
+        </div>
+
+        <!-- Story Section (full content) -->
+        <section id="story" class="story-section">
+            <div class="story-ambient">
+                <div class="story-orb story-orb--1"></div>
+                <div class="story-orb story-orb--2"></div>
+                <div class="story-leak"></div>
+            </div>
+            <div class="story-container glass">
+                <div class="story-content">
+                    <div class="story-watermark">ARTISAN</div>
+                    <span class="section-badge">EST. 2026 • ARTISAN CAFE EXPERIENCE</span>
+                    <h2 class="section-title reveal-text">
+                        <span class="craft-icon">✦</span>
+                        <span>A</span> <span>Symphony</span> <span>of</span> <span>Flavors</span>
+                        <span class="craft-icon">✦</span>
+                    </h2>
+                    <p class="section-tagline">Where every sip tells a story</p>
+                    <div class="elegant-divider"></div>
+                    <div class="story-philosophy">
+                        <p>Every detail at Lumina is crafted to create warmth, intimacy, and unforgettable moments. From artisan coffee to candle-lit ambience, every experience is designed to awaken the senses.</p>
+                        <div class="philosophy-accent"></div>
+                    </div>
+                    <p>Born from a passion for refined flavors and intimate conversations, Lumina was created to transform the simple act of coffee into an unforgettable cinematic experience. What began as a personal quest for the perfect roast has evolved into a sanctuary where every detail—from the gentle aroma of fresh beans to the soft amber glow of our space—is orchestrated to tell a story of dedication and craft.</p>
+                    <div class="story-highlight-block luxury-quote-box">
+                        <i class="fas fa-quote-left quote-mark"></i>
+                        <p class="highlight-text">"At Lumina, coffee is more than a drink — it is an atmosphere, a ritual, and a moment of connection."</p>
+                    </div>
+                    <p>Every roast is selected with intention, every detail curated to create harmony between flavor, aroma, and ambience. Step away from the world and lose yourself in a symphony of aromas, where the boundaries between dining and art are blurred, and every visit is a journey through the senses. Experience the perfect harmony of premium ingredients, luxurious ambiance, and exceptional service.</p>
+                    
+                    <div class="elegant-divider alt-divider"></div>
+                    
+                    <div class="story-quote">
+                        <div class="quote-accent-line"></div>
+                        <blockquote class="cinematic-quote">"Crafted with passion, served with elegance."</blockquote>
+                        <p class="quote-subtext">Where conversations slow down and every cup becomes a memory.</p>
+                    </div>
+                    <div class="story-timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <span class="timeline-text">Freshly Roasted Beans</span>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <span class="timeline-text">Handcrafted Brewing</span>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <span class="timeline-text">Chef Curated Pairings</span>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <span class="timeline-text">Luxury Dining Experience</span>
+                        </div>
+                    </div>
+                    <div class="story-stats">
+                        <div class="stat-box">
+                            <div class="stat-num-wrap">
+                                <span class="stat-number" data-target="15">0</span><span class="stat-suffix">+</span>
+                            </div>
+                            <span class="stat-desc">Signature Coffees</span>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-num-wrap">
+                                <span class="stat-number" data-target="50">0</span><span class="stat-suffix">K+</span>
+                            </div>
+                            <span class="stat-desc">Happy Guests</span>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-num-wrap">
+                                <span class="stat-number" data-target="100">0</span><span class="stat-suffix">%</span>
+                            </div>
+                            <span class="stat-desc">Artisan Crafted</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="primary-btn mt-4">Get in Touch</a>
+                </div>
+
+                <!-- Right side visual column -->
+                <div class="story-visual-column">
+                    <div class="story-visual">
+                        <div class="visual-accent"></div>
+                        <div class="visual-inner">
+                            <div class="light-reflection"></div>
+                            <div class="steam-overlay"></div>
+                            <video class="story-video" autoplay muted loop playsinline poster="assets/artisan_coffee.png">
+                                <source src="https://www.pexels.com/download/video/16234554/" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <!-- Mosaic -->
+                    <div class="story-img-mosaic">
+                        <div class="story-mosaic-item story-mosaic-item--tall">
+                            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop&q=85" alt="Artisan espresso pour" loading="lazy">
+                            <div class="mosaic-overlay"><span>The Perfect Pour</span></div>
+                        </div>
+                        <div class="story-mosaic-col">
+                            <div class="story-mosaic-item">
+                                <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=600&auto=format&fit=crop&q=85" alt="Warm cafe ambiance" loading="lazy">
+                                <div class="mosaic-overlay"><span>Our Ambiance</span></div>
+                            </div>
+                            <div class="story-mosaic-item">
+                                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&auto=format&fit=crop&q=85" alt="Artisan dessert plating" loading="lazy">
+                                <div class="mosaic-overlay"><span>Artisan Craft</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section">
+            <div class="team-header">
+                <p class="page-hero-eyebrow" style="margin-bottom:1rem;">✦ The People Behind The Magic ✦</p>
+                <h2>Meet the <span class="italic gold-text">Team</span></h2>
+                <p>Passionate artisans dedicated to creating your perfect experience.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card glass">
+                    <img src="assets/profile_1.png" alt="Chef Marcus Veil" class="team-avatar">
+                    <div class="team-name">Marcus Veil</div>
+                    <div class="team-role">Head Chef &amp; Founder</div>
+                    <p class="team-bio">With 15 years of Michelin experience across Paris and Tokyo, Marcus channels a singular obsession: transforming premium ingredients into edible artistry.</p>
+                </div>
+                <div class="team-card glass">
+                    <img src="assets/profile_2.png" alt="Barista Elena Roux" class="team-avatar">
+                    <div class="team-name">Elena Roux</div>
+                    <div class="team-role">Head Barista</div>
+                    <p class="team-bio">World Barista Championship finalist and a devotee of single-origin beans, Elena crafts each cup as a complete sensory narrative — from bean selection to the final pour.</p>
+                </div>
+                <div class="team-card glass">
+                    <img src="assets/profile_3.png" alt="Patissier Nico Chen" class="team-avatar">
+                    <div class="team-name">Nico Chen</div>
+                    <div class="team-role">Pastry Chef</div>
+                    <p class="team-bio">Trained in Lyon and Vienna, Nico's desserts blur the line between plate and canvas. Each creation is a study in texture, temperature, and refined sweetness.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="values-inner">
+                <div class="values-header">
+                    <p class="page-hero-eyebrow" style="margin-bottom:1rem;">✦ What We Stand For ✦</p>
+                    <h2>Our <span class="italic gold-text">Values</span></h2>
+                </div>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <div class="value-num">01</div>
+                        <div class="value-title">Craft Over Convenience</div>
+                        <p class="value-desc">We take time. Every cup is pulled with precision, every dish plated with intent. There are no shortcuts in our kitchen or behind our bar.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-num">02</div>
+                        <div class="value-title">Provenance Matters</div>
+                        <p class="value-desc">From Ethiopian single-origin beans to A5 Wagyu, we source from growers and producers who share our obsession with quality and ethical farming.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-num">03</div>
+                        <div class="value-title">Atmosphere as Ingredient</div>
+                        <p class="value-desc">The warm light, the soft music, the texture of the table — these are not afterthoughts. Ambience is the invisible ingredient that elevates every meal.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-num">04</div>
+                        <div class="value-title">Genuine Hospitality</div>
+                        <p class="value-desc">We welcome every guest not as a transaction, but as a memory in the making. Every interaction is an opportunity to create warmth that lingers.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Band -->
+        <section class="story-cta-band">
+            <p class="page-hero-eyebrow">Ready to Experience Lumina?</p>
+            <h2>Come <span class="italic gold-text">Visit Us</span></h2>
+            <p>Reserve your table or simply walk in. We're ready to craft your perfect moment.</p>
+            <div class="btn-group">
+                <button class="cta-btn" id="story-reserve-btn">Reserve a Table</button>
+                <a href="contact.html" class="secondary-btn">Get in Touch</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bg-glow"></div>
+            <div class="footer-container">
+                <div class="footer-column brand-col">
+                    <h2 class="footer-brand-logo">LUMINA</h2>
+                    <p class="brand-desc">Elevating your coffee and dining experience through a perfect symphony of flavors, cinematic ambiance, and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Our Menu</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><span class="contact-icon">📍</span> 123 Cinematic Ave, Flavor City</li>
+                        <li><span class="contact-icon">📞</span> +1 (555) 123-4567</li>
+                        <li><span class="contact-icon">✉️</span> reserve@luminacafe.com</li>
+                    </ul>
+                    <div class="hours">
+                        <h4 class="hours-heading">Opening Hours</h4>
+                        <p>Mon - Fri: 7:00 AM - 10:00 PM</p>
+                        <p>Sat - Sun: 8:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="footer-column map-col">
+                    <h3 class="footer-heading">Location</h3>
+                    <div class="css-map-preview">
+                        <div class="map-grid-lines"></div>
+                        <div class="map-pin"><div class="pin-glow"></div><div class="pin-dot"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumina Cafe. All Rights Reserved. Crafted with passion.</p>
+            </div>
+        </footer>
+    </main>
+
+    <button class="floating-cta" id="floating-cta"><span>Reserve a Table</span></button>
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js?v=7"></script>
+    <script>
+    // Bind story page reserve btn
+    document.addEventListener('DOMContentLoaded', () => {
+        const storyBtn = document.getElementById('story-reserve-btn');
+        if (storyBtn) {
+            storyBtn.addEventListener('click', () => {
+                const modal = document.getElementById('reservation-modal');
+                if (modal) modal.classList.add('active');
+            });
+        }
+    });
+    </script>
+</body>
+</html>

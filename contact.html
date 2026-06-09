@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Lumina — Get in Touch</title>
+    <meta name="description" content="Contact Lumina Cafe — make a reservation, ask a question, or simply say hello. We'd love to hear from you.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=7">
+    <style>
+        .page-hero {
+            position: relative;
+            min-height: 38vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 2rem 4rem;
+            overflow: hidden;
+            background: linear-gradient(160deg, #0d0b08 0%, #1a1208 60%, #0a0807 100%);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(212,163,115,0.13) 0%, transparent 70%);
+        }
+        .page-hero-content { position: relative; text-align: center; z-index: 2; }
+        .page-hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .page-hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            color: var(--cream);
+            line-height: 1;
+            margin: 0;
+        }
+        .page-hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(240,230,210,0.55);
+            margin-top: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        .breadcrumb {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            color: rgba(240,230,210,0.45);
+            z-index: 10;
+        }
+        .breadcrumb a { color: var(--gold); text-decoration: none; }
+        .breadcrumb span { opacity: 0.4; }
+
+        /* ── Contact Page Layout ── */
+        .contact-page-section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .contact-page-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        @media (max-width: 900px) {
+            .contact-page-grid { grid-template-columns: 1fr; gap: 3rem; }
+        }
+
+        /* Info Column */
+        .contact-page-info h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+        .contact-page-info > p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.92rem;
+            color: rgba(240,230,210,0.5);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .contact-detail-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(212,163,115,0.1);
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+        .contact-detail-card:hover {
+            border-color: rgba(212,163,115,0.25);
+            background: rgba(255,255,255,0.05);
+        }
+        .contact-detail-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: rgba(212,163,115,0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .contact-detail-body strong {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            margin-bottom: 0.25rem;
+        }
+        .contact-detail-body p, .contact-detail-body a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(240,230,210,0.55);
+            line-height: 1.5;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-detail-body a:hover { color: var(--gold); }
+
+        .social-contact-row {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .social-contact-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(240,230,210,0.4);
+        }
+
+        /* Form Column */
+        .contact-page-form {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,163,115,0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+        .contact-page-form h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--cream);
+            margin-bottom: 0.4rem;
+        }
+        .contact-page-form > p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(240,230,210,0.45);
+            margin-bottom: 2rem;
+        }
+        .cp-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 560px) { .cp-form-row { grid-template-columns: 1fr; } }
+        .cp-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .cp-form-group label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(240,230,210,0.5);
+        }
+        .cp-form-group input,
+        .cp-form-group select,
+        .cp-form-group textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,163,115,0.15);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s ease, background 0.3s ease;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .cp-form-group input::placeholder,
+        .cp-form-group textarea::placeholder { color: rgba(240,230,210,0.25); }
+        .cp-form-group input:focus,
+        .cp-form-group select:focus,
+        .cp-form-group textarea:focus {
+            border-color: rgba(212,163,115,0.5);
+            background: rgba(212,163,115,0.06);
+        }
+        .cp-form-group select { appearance: none; cursor: pointer; }
+        .cp-form-group textarea { resize: vertical; min-height: 130px; }
+        .cp-submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold) 0%, #c4883c 100%);
+            color: #0a0807;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        .cp-submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .cp-form-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .cp-form-success .success-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 1rem;
+        }
+        .cp-form-success h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+        .cp-form-success p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(240,230,210,0.55);
+        }
+
+        /* Hours Table */
+        .hours-table {
+            margin-top: 1.5rem;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .hours-table tr {
+            border-bottom: 1px solid rgba(212,163,115,0.08);
+        }
+        .hours-table td {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            color: rgba(240,230,210,0.5);
+            padding: 0.6rem 0;
+        }
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--gold);
+            opacity: 0.85;
+        }
+        .hours-today td {
+            color: var(--cream) !important;
+            font-weight: 500;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .faq-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--cream);
+            margin-bottom: 0.5rem;
+        }
+        .faq-header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(240,230,210,0.45);
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(212,163,115,0.12);
+            padding: 1.2rem 0;
+        }
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            gap: 1rem;
+        }
+        .faq-question span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--cream);
+            transition: color 0.3s ease;
+        }
+        .faq-question:hover span { color: var(--gold); }
+        .faq-icon {
+            font-size: 1.2rem;
+            color: var(--gold);
+            transition: transform 0.35s ease;
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+        .faq-item.open .faq-answer { max-height: 300px; padding-top: 0.8rem; }
+        .faq-answer p {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            line-height: 1.75;
+            color: rgba(240,230,210,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Three.js Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ambient Layer -->
+    <div class="ambient-layer" aria-hidden="true">
+        <div class="amb-orb amb-orb--1"></div>
+        <div class="amb-orb amb-orb--2"></div>
+        <div class="amb-orb amb-orb--3"></div>
+        <div class="amb-orb amb-orb--4"></div>
+        <div class="amb-vignette"></div>
+        <div class="amb-bokeh"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">LUMINA</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="menu.html" class="nav-link">Menu</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="story.html" class="nav-link">Story</a>
+            <a href="contact.html" class="nav-link active">Contact</a>
+        </div>
+        <button class="cta-btn" id="nav-reserve-btn">Reservations</button>
+        <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close-btn">&times;</button>
+        <div class="mobile-menu-content">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="menu.html" class="mobile-link">Menu</a>
+            <a href="gallery.html" class="mobile-link">Gallery</a>
+            <a href="story.html" class="mobile-link">Story</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            <button class="primary-btn mobile-reserve-btn" id="mobile-reserve-btn">Reserve a Table</button>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="reservation-modal" id="reservation-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-container glass">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">Reserve Your Table</h2>
+            <p class="modal-subtitle">Experience an unforgettable evening at Lumina</p>
+            <form class="reservation-form" id="reservation-form" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <div class="form-row">
+                    <div class="form-group"><label for="res-name">Full Name</label><input type="text" id="res-name" name="name" placeholder="Your Name" required></div>
+                    <div class="form-group"><label for="res-email">Email</label><input type="email" id="res-email" name="email" placeholder="you@email.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="res-date">Date</label><input type="date" id="res-date" name="date" required></div>
+                    <div class="form-group"><label for="res-time">Time</label><input type="time" id="res-time" name="time" required></div>
+                </div>
+                <div class="form-group full-width"><label for="res-notes">Special Requests</label><textarea id="res-notes" name="notes" placeholder="Allergies, seating preference, etc." rows="3"></textarea></div>
+                <button type="submit" class="primary-btn gold-btn submit-btn">Confirm Reservation</button>
+            </form>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="success-icon">✓</span>
+                <h3>Reservation Confirmed!</h3>
+                <p>We look forward to welcoming you at Lumina.</p>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <div class="page-hero" style="padding-top: 100px;">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>›</span>
+                <span style="color: var(--cream);">Contact</span>
+            </div>
+            <div class="page-hero-content">
+                <p class="page-hero-eyebrow">✦ We'd Love to Hear From You ✦</p>
+                <h1 class="page-hero-title">Get in <span class="italic gold-text">Touch</span></h1>
+                <p class="page-hero-subtitle">Reservations, questions, or just a hello — we're always here.</p>
+            </div>
+        </div>
+
+        <!-- Main Contact Section -->
+        <section class="contact-page-section">
+            <div class="contact-page-grid">
+
+                <!-- Info Column -->
+                <div class="contact-page-info">
+                    <h2>Let's Create Your <span class="italic gold-text">Perfect</span> Moment</h2>
+                    <p>Whether you're planning a special occasion, have a question about our menu, or simply want to connect — reach out. Our team responds within a few hours.</p>
+
+                    <div class="contact-detail-card">
+                        <div class="contact-detail-icon">📍</div>
+                        <div class="contact-detail-body">
+                            <strong>Visit Us</strong>
+                            <p>123 Cinematic Ave, Flavor City<br>Open 7 days a week</p>
+                        </div>
+                    </div>
+                    <div class="contact-detail-card">
+                        <div class="contact-detail-icon">📞</div>
+                        <div class="contact-detail-body">
+                            <strong>Call Us</strong>
+                            <a href="tel:+15551234567">+1 (555) 123-4567</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail-card">
+                        <div class="contact-detail-icon">✉️</div>
+                        <div class="contact-detail-body">
+                            <strong>Email Us</strong>
+                            <a href="mailto:reserve@luminacafe.com">reserve@luminacafe.com</a>
+                        </div>
+                    </div>
+                    <div class="contact-detail-card">
+                        <div class="contact-detail-icon">🕐</div>
+                        <div class="contact-detail-body">
+                            <strong>Opening Hours</strong>
+                            <table class="hours-table">
+                                <tr id="hours-mon"><td>Mon – Fri</td><td>7:00 AM – 10:00 PM</td></tr>
+                                <tr id="hours-sat"><td>Saturday</td><td>8:00 AM – 11:00 PM</td></tr>
+                                <tr id="hours-sun"><td>Sunday</td><td>8:00 AM – 11:00 PM</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="social-contact-row">
+                        <span class="social-contact-label">Follow us</span>
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Form Column -->
+                <div class="contact-page-form">
+                    <h3>Send a Message</h3>
+                    <p>We typically respond within 2–4 hours during opening hours.</p>
+
+                    <form id="cp-contact-form" action="https://api.web3forms.com/submit" method="POST">
+                        <input type="hidden" name="access_key" value="0357876a-545a-4953-8321-72993806a66a">
+                        <div class="cp-form-row">
+                            <div class="cp-form-group">
+                                <label for="cp-name">Name</label>
+                                <input type="text" id="cp-name" name="name" placeholder="Your full name" required>
+                            </div>
+                            <div class="cp-form-group">
+                                <label for="cp-email">Email</label>
+                                <input type="email" id="cp-email" name="email" placeholder="you@email.com" required>
+                            </div>
+                        </div>
+                        <div class="cp-form-row">
+                            <div class="cp-form-group">
+                                <label for="cp-phone">Phone (optional)</label>
+                                <input type="tel" id="cp-phone" name="phone" placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="cp-form-group">
+                                <label for="cp-subject">Subject</label>
+                                <select id="cp-subject" name="subject">
+                                    <option value="reservation">Reservation Enquiry</option>
+                                    <option value="private">Private Event</option>
+                                    <option value="menu">Menu Question</option>
+                                    <option value="feedback">Feedback</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="cp-form-group">
+                            <label for="cp-message">Message</label>
+                            <textarea id="cp-message" name="message" placeholder="Tell us how we can help…" required></textarea>
+                        </div>
+                        <button type="submit" class="cp-submit-btn" id="cp-submit">Send Message</button>
+                    </form>
+
+                    <div class="cp-form-success" id="cp-form-success">
+                        <span class="success-icon">✓</span>
+                        <h3>Message Received!</h3>
+                        <p>Thank you for reaching out. Our team will get back to you shortly.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Map / Location Banner -->
+        <div style="background: rgba(212,163,115,0.04); border-top: 1px solid rgba(212,163,115,0.08); border-bottom: 1px solid rgba(212,163,115,0.08); padding: 3rem 2rem; text-align: center;">
+            <p class="page-hero-eyebrow" style="margin-bottom:1rem;">✦ Find Us ✦</p>
+            <p style="font-family:'Inter',sans-serif; font-size:0.9rem; color:rgba(240,230,210,0.45); max-width:440px; margin:0 auto 2rem;">
+                We're nestled on Cinematic Ave — look for the warm amber glow and the scent of freshly ground beans.
+            </p>
+            <div style="max-width:700px; margin:0 auto; border-radius:16px; overflow:hidden; border:1px solid rgba(212,163,115,0.15);">
+                <div class="css-map-preview" style="width:100%; height:200px; position:relative;">
+                    <div class="map-grid-lines"></div>
+                    <div class="map-pin">
+                        <div class="pin-glow"></div>
+                        <div class="pin-dot"></div>
+                    </div>
+                    <div style="position:absolute; bottom:1rem; left:50%; transform:translateX(-50%); background:rgba(10,8,7,0.8); border:1px solid rgba(212,163,115,0.2); border-radius:8px; padding:0.5rem 1rem;">
+                        <p style="font-family:'Cormorant Garamond',serif; color:var(--cream); font-size:1rem; margin:0;">123 Cinematic Ave, Flavor City</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-header">
+                <p class="page-hero-eyebrow" style="margin-bottom:1rem;">✦ Quick Answers ✦</p>
+                <h2>Frequently <span class="italic gold-text">Asked</span></h2>
+                <p>Everything you need to know before your visit.</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need a reservation?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Walk-ins are always welcome, but we strongly recommend reservations for dinner service and weekends, as we often fill up quickly. You can reserve directly through our website or by calling us.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you cater to dietary requirements?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Absolutely. We offer vegetarian, vegan, and gluten-free options across our menu. Please mention any allergies or dietary restrictions when booking or speak to your server — our kitchen team will be happy to accommodate.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can I host a private event at Lumina?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! We host intimate private events, corporate dinners, anniversary celebrations, and birthday gatherings. Our team will craft a bespoke menu and atmosphere tailored to your occasion. Contact us via the form above to get started.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is there parking nearby?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>There is street parking available on Cinematic Ave and a public car park one block away on Flavor Street. We are also well-served by public transport — the nearest stop is Cinematic Square, a 2-minute walk.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer gift cards?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, Lumina gift cards are available in any denomination and make the perfect present. Pick one up in-store or email us at reserve@luminacafe.com and we'll arrange delivery.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is your cancellation policy?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We kindly ask for at least 24 hours' notice for cancellations or changes to your reservation. This helps us ensure other guests have the opportunity to secure a table. Late cancellations may incur a small fee for large groups.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bg-glow"></div>
+            <div class="footer-container">
+                <div class="footer-column brand-col">
+                    <h2 class="footer-brand-logo">LUMINA</h2>
+                    <p class="brand-desc">Elevating your coffee and dining experience through a perfect symphony of flavors, cinematic ambiance, and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Our Menu</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><span class="contact-icon">📍</span> 123 Cinematic Ave, Flavor City</li>
+                        <li><span class="contact-icon">📞</span> +1 (555) 123-4567</li>
+                        <li><span class="contact-icon">✉️</span> reserve@luminacafe.com</li>
+                    </ul>
+                    <div class="hours">
+                        <h4 class="hours-heading">Opening Hours</h4>
+                        <p>Mon - Fri: 7:00 AM - 10:00 PM</p>
+                        <p>Sat - Sun: 8:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="footer-column map-col">
+                    <h3 class="footer-heading">Location</h3>
+                    <div class="css-map-preview">
+                        <div class="map-grid-lines"></div>
+                        <div class="map-pin"><div class="pin-glow"></div><div class="pin-dot"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumina Cafe. All Rights Reserved. Crafted with passion.</p>
+            </div>
+        </footer>
+    </main>
+
+    <button class="floating-cta" id="floating-cta"><span>Reserve a Table</span></button>
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js?v=7"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.closest('.faq-item');
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+
+        // Contact form AJAX
+        const cpForm = document.getElementById('cp-contact-form');
+        const cpSuccess = document.getElementById('cp-form-success');
+        const cpBtn = document.getElementById('cp-submit');
+        if (cpForm) {
+            cpForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                cpBtn.textContent = 'Sending…';
+                cpBtn.disabled = true;
+                try {
+                    const data = new FormData(cpForm);
+                    const res = await fetch(cpForm.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+                    if (res.ok) {
+                        cpForm.style.display = 'none';
+                        cpSuccess.style.display = 'block';
+                    } else {
+                        cpBtn.textContent = 'Error — Try Again';
+                        cpBtn.disabled = false;
+                    }
+                } catch {
+                    cpBtn.textContent = 'Error — Try Again';
+                    cpBtn.disabled = false;
+                }
+            });
+        }
+
+        // Highlight today's hours
+        const day = new Date().getDay(); // 0=Sun,6=Sat
+        if (day === 0) document.getElementById('hours-sun')?.classList.add('hours-today');
+        else if (day === 6) document.getElementById('hours-sat')?.classList.add('hours-today');
+        else document.getElementById('hours-mon')?.classList.add('hours-today');
+    });
+    </script>
+</body>
+</html>

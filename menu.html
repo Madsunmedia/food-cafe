@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Lumina — Artisan Coffee & Gourmet Dining</title>
+    <meta name="description" content="Explore Lumina's full menu — artisan coffees, gourmet burgers, wood-fired pizza, premium sides and handcrafted desserts.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=7">
+    <style>
+        /* Page Hero Banner */
+        .page-hero {
+            position: relative;
+            min-height: 38vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0 2rem 4rem;
+            overflow: hidden;
+            background: linear-gradient(160deg, #0d0b08 0%, #1a1208 60%, #0a0807 100%);
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(212,163,115,0.13) 0%, transparent 70%);
+        }
+        .page-hero-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+        .page-hero-eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+        .page-hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 600;
+            color: var(--cream);
+            line-height: 1;
+            margin: 0;
+        }
+        .page-hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: rgba(240,230,210,0.55);
+            margin-top: 1.2rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        /* Breadcrumb */
+        .breadcrumb {
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.1em;
+            color: rgba(240,230,210,0.45);
+            z-index: 10;
+        }
+        .breadcrumb a { color: var(--gold); text-decoration: none; }
+        .breadcrumb span { opacity: 0.4; }
+    </style>
+</head>
+<body>
+    <!-- Three.js Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Ambient Layer -->
+    <div class="ambient-layer" aria-hidden="true">
+        <div class="amb-orb amb-orb--1"></div>
+        <div class="amb-orb amb-orb--2"></div>
+        <div class="amb-orb amb-orb--3"></div>
+        <div class="amb-orb amb-orb--4"></div>
+        <div class="amb-vignette"></div>
+        <div class="amb-bokeh"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">LUMINA</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="menu.html" class="nav-link active">Menu</a>
+            <a href="gallery.html" class="nav-link">Gallery</a>
+            <a href="story.html" class="nav-link">Story</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </div>
+        <button class="cta-btn" id="nav-reserve-btn">Reservations</button>
+        <div class="hamburger" id="hamburger-btn">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="mobile-close" id="mobile-close-btn">&times;</button>
+        <div class="mobile-menu-content">
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="menu.html" class="mobile-link">Menu</a>
+            <a href="gallery.html" class="mobile-link">Gallery</a>
+            <a href="story.html" class="mobile-link">Story</a>
+            <a href="contact.html" class="mobile-link">Contact</a>
+            <button class="primary-btn mobile-reserve-btn" id="mobile-reserve-btn">Reserve a Table</button>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div class="reservation-modal" id="reservation-modal">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-container glass">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <h2 class="modal-title">Reserve Your Table</h2>
+            <p class="modal-subtitle">Experience an unforgettable evening at Lumina</p>
+            <form class="reservation-form" id="reservation-form" action="https://formspree.io/f/xpzvqgqk" method="POST">
+                <div class="form-row">
+                    <div class="form-group"><label for="res-name">Full Name</label><input type="text" id="res-name" name="name" placeholder="Your Name" required></div>
+                    <div class="form-group"><label for="res-email">Email</label><input type="email" id="res-email" name="email" placeholder="you@email.com" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="res-date">Date</label><input type="date" id="res-date" name="date" required></div>
+                    <div class="form-group"><label for="res-time">Time</label><input type="time" id="res-time" name="time" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label for="res-guests">Guests</label>
+                        <select id="res-guests" name="guests">
+                            <option value="1">1 Guest</option><option value="2" selected>2 Guests</option>
+                            <option value="3">3 Guests</option><option value="4">4 Guests</option><option value="5+">5+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="res-occasion">Occasion</label>
+                        <select id="res-occasion" name="occasion">
+                            <option value="casual">Casual Dining</option><option value="birthday">Birthday</option>
+                            <option value="anniversary">Anniversary</option><option value="business">Business Meeting</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group full-width"><label for="res-notes">Special Requests</label><textarea id="res-notes" name="notes" placeholder="Allergies, seating preference, etc." rows="3"></textarea></div>
+                <button type="submit" class="primary-btn gold-btn submit-btn">Confirm Reservation</button>
+            </form>
+            <div class="form-success" id="form-success" style="display:none;">
+                <span class="success-icon">✓</span>
+                <h3>Reservation Confirmed!</h3>
+                <p>We look forward to welcoming you at Lumina.</p>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Page Hero -->
+        <div class="page-hero" style="padding-top: 100px;">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>›</span>
+                <span style="color: var(--cream);">Menu</span>
+            </div>
+            <div class="page-hero-content">
+                <p class="page-hero-eyebrow">✦ Curated Selections ✦</p>
+                <h1 class="page-hero-title">Artisan <span class="italic gold-text">Offerings</span></h1>
+                <p class="page-hero-subtitle">Handcrafted with the world's finest ingredients.</p>
+            </div>
+        </div>
+
+        <!-- Promo Banner -->
+        <div class="promo-banner">
+            <span class="promo-icon">✦</span>
+            <p class="promo-text">Happy Hour · Mon–Fri · 3 PM – 6 PM · <strong>20% off all beverages</strong></p>
+            <span class="promo-icon">✦</span>
+        </div>
+
+        <!-- ══ PREMIUM EDITORIAL MENU ══ -->
+        <section id="menu" class="menu-showcase">
+            <div class="menu-atmosphere" aria-hidden="true">
+                <div class="menu-orb menu-orb--1"></div>
+                <div class="menu-orb menu-orb--2"></div>
+                <div class="menu-grain"></div>
+            </div>
+            <div class="menu-showcase-frame" aria-hidden="true"></div>
+
+            <div class="menu-nav-wrap" id="menuNavWrap">
+                <div class="menu-nav" id="menuNav">
+                    <button class="menu-nav-btn active" data-target="menu-coffee">Coffee</button>
+                    <button class="menu-nav-btn" data-target="menu-burgers">Burgers</button>
+                    <button class="menu-nav-btn" data-target="menu-pizza">Pizza</button>
+                    <button class="menu-nav-btn" data-target="menu-sides">Sides</button>
+                    <button class="menu-nav-btn" data-target="menu-desserts">Desserts</button>
+                    <div class="menu-nav-indicator"></div>
+                </div>
+            </div>
+
+            <!-- COFFEE -->
+            <div class="menu-chapter" id="menu-coffee">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">01 / 05</span>
+                        <h2 class="chapter-title">Coffee &amp; Espresso</h2>
+                        <p class="chapter-sub">Hand-pulled, single-origin perfection</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800&auto=format&fit=crop&q=80" alt="Golden Hour Latte" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Chef's Signature</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Handcrafted · Single Origin</span></div>
+                        <h3 class="hero-item-name">Golden Hour Latte</h3>
+                        <p class="hero-item-desc">Single-origin Ethiopian beans, silky oat milk, hand-poured with saffron infusion and a kiss of Madagascan vanilla. A ritual in every cup.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Ethiopian Yirgacheffe</span>
+                            <span class="ingredient-tag">Oat Milk</span>
+                            <span class="ingredient-tag">Saffron</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$7</span><span class="hero-item-craft">Handcrafted to order</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=400&auto=format&fit=crop&q=80" alt="Espresso" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Espresso</h4><p class="item-desc">Pure, intense single-origin shot with a golden crema</p><div class="item-footer"><span class="item-price">$4</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=400&auto=format&fit=crop&q=80" alt="Cappuccino" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Cappuccino</h4><p class="item-desc">Velvety steamed milk, bold espresso, airy microfoam crown</p><div class="item-footer"><span class="item-price">$6</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=400&auto=format&fit=crop&q=80" alt="Flat White" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Flat White</h4><p class="item-desc">Ristretto double-shot with microfoam, Australian-style</p><div class="item-footer"><span class="item-price">$6</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=400&auto=format&fit=crop&q=80" alt="Dark Mocha" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Dark Mocha</h4><p class="item-desc">70% dark chocolate espresso blended with steamed milk</p><div class="item-footer"><span class="item-price">$7</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&auto=format&fit=crop&q=80" alt="Cold Brew" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Signature Cold Brew</h4><p class="item-desc">18-hour slow-steeped, served over crystal-clear ice</p><div class="item-footer"><span class="item-price">$7</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1515283709260-ee29296f1534?w=400&auto=format&fit=crop&q=80" alt="Matcha Latte" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Ceremonial Matcha</h4><p class="item-desc">Premium Japanese matcha, oat milk, honey drizzle</p><div class="item-footer"><span class="item-price">$7</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- BURGERS -->
+            <div class="menu-chapter" id="menu-burgers">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">02 / 05</span>
+                        <h2 class="chapter-title">Artisan Burgers</h2>
+                        <p class="chapter-sub">Handcrafted patties, luxurious toppings</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item menu-hero-item--reversed">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&auto=format&fit=crop&q=80" alt="Wagyu Truffle Burger" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Bestseller</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">A5 Wagyu · Black Truffle</span></div>
+                        <h3 class="hero-item-name">Wagyu Truffle Burger</h3>
+                        <p class="hero-item-desc">A5 Japanese wagyu patty, aged cheddar, hand-shaved black truffle aioli, house-baked brioche bun. The pinnacle of burger craftsmanship.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">A5 Wagyu</span>
+                            <span class="ingredient-tag">Black Truffle</span>
+                            <span class="ingredient-tag">Brioche</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$24</span><span class="hero-item-craft">Premium cut</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400&auto=format&fit=crop&q=80" alt="Classic Beef" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Classic Beef Burger</h4><p class="item-desc">Prime beef, caramelised onions, pickles, house secret sauce</p><div class="item-footer"><span class="item-price">$16</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400&auto=format&fit=crop&q=80" alt="Smash Burger" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Spicy Smash Burger</h4><p class="item-desc">Double smash patty, jalapeños, pepper jack, sriracha mayo</p><div class="item-footer"><span class="item-price">$18</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=400&auto=format&fit=crop&q=80" alt="Chicken Burger" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Crispy Chicken Burger</h4><p class="item-desc">Southern-fried chicken thigh, slaw, honey mustard, dill pickle</p><div class="item-footer"><span class="item-price">$17</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400&auto=format&fit=crop&q=80" alt="Mushroom Swiss" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Mushroom Swiss</h4><p class="item-desc">Wild mushroom medley, Swiss cheese, garlic butter, sourdough</p><div class="item-footer"><span class="item-price">$19</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- PIZZA -->
+            <div class="menu-chapter" id="menu-pizza">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">03 / 05</span>
+                        <h2 class="chapter-title">Wood-Fired Pizza</h2>
+                        <p class="chapter-sub">Neapolitan-style with premium toppings</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=800&auto=format&fit=crop&q=80" alt="Truffle Mushroom Pizza" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Chef's Choice</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Wood-Fired · 900°F Stone</span></div>
+                        <h3 class="hero-item-name">Truffle Mushroom</h3>
+                        <p class="hero-item-desc">Black truffle paste, wild mushroom medley, fontina cheese, fresh rosemary oil on a 72-hour cold-fermented Neapolitan dough.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Black Truffle</span>
+                            <span class="ingredient-tag">Wild Mushrooms</span>
+                            <span class="ingredient-tag">Fontina</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$18</span><span class="hero-item-craft">72hr cold-fermented dough</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format&fit=crop&q=80" alt="Margherita" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Margherita</h4><p class="item-desc">San Marzano tomato, fior di latte, fresh basil, olive oil</p><div class="item-footer"><span class="item-price">$14</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=400&auto=format&fit=crop&q=80" alt="Pepperoni" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Pepperoni Slice</h4><p class="item-desc">Spiced pepperoni, smoked mozzarella, honey drizzle</p><div class="item-footer"><span class="item-price">$15</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop&q=80" alt="Four Cheese" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Four Cheese</h4><p class="item-desc">Gorgonzola, ricotta, mozzarella, pecorino on white cream</p><div class="item-footer"><span class="item-price">$16</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format&fit=crop&q=80" alt="Spicy Chicken" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Spicy Chicken</h4><p class="item-desc">Grilled chicken, nduja, roasted peppers, smoked paprika</p><div class="item-footer"><span class="item-price">$17</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- SIDES -->
+            <div class="menu-chapter" id="menu-sides">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">04 / 05</span>
+                        <h2 class="chapter-title">Fries &amp; Sides</h2>
+                        <p class="chapter-sub">Golden, crispy, elevated classics</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item menu-hero-item--reversed">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=800&auto=format&fit=crop&q=80" alt="Parmesan Truffle Fries" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Most Loved</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Double-Fried · Aged Parmesan</span></div>
+                        <h3 class="hero-item-name">Parmesan Truffle Fries</h3>
+                        <p class="hero-item-desc">Double-fried russet potatoes, hand-shaved aged parmesan, white truffle oil, fresh chives. An indulgent side elevated to centrepiece status.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">White Truffle Oil</span>
+                            <span class="ingredient-tag">Aged Parmesan</span>
+                            <span class="ingredient-tag">Fresh Chives</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$9</span><span class="hero-item-craft">Double-fried technique</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1630431341973-02e1b662ec35?w=400&auto=format&fit=crop&q=80" alt="Cheese Fries" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Loaded Cheese Fries</h4><p class="item-desc">Molten cheddar sauce, crispy shallots</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&auto=format&fit=crop&q=80" alt="Sweet Potato" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Sweet Potato Fries</h4><p class="item-desc">Lightly spiced with chipotle dipping cream</p><div class="item-footer"><span class="item-price">$9</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400&auto=format&fit=crop&q=80" alt="Garlic Herb" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Garlic Herb Fries</h4><p class="item-desc">Roasted garlic butter, parsley, lemon zest</p><div class="item-footer"><span class="item-price">$8</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1598679253544-2c97992403ea?w=400&auto=format&fit=crop&q=80" alt="Cajun Fries" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Spicy Cajun Fries</h4><p class="item-desc">Cajun spice blend, remoulade dipping sauce</p><div class="item-footer"><span class="item-price">$8</span></div></div></div></div>
+                </div>
+            </div>
+
+            <!-- DESSERTS -->
+            <div class="menu-chapter" id="menu-desserts">
+                <div class="menu-chapter-header">
+                    <div class="chapter-line"></div>
+                    <div class="chapter-title-wrap">
+                        <span class="chapter-eyebrow">05 / 05</span>
+                        <h2 class="chapter-title">Desserts</h2>
+                        <p class="chapter-sub">Sweet finales, crafted with passion</p>
+                    </div>
+                    <div class="chapter-line"></div>
+                </div>
+                <div class="menu-hero-item">
+                    <div class="hero-item-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&auto=format&fit=crop&q=80" alt="Noir Truffle Cake" loading="lazy">
+                        <div class="hero-item-img-overlay"></div>
+                        <span class="hero-item-badge">✦ Signature Dessert</span>
+                    </div>
+                    <div class="hero-item-content">
+                        <div class="hero-item-meta"><span class="hero-item-label">Mirror Glazed · Edible Gold</span></div>
+                        <h3 class="hero-item-name">Noir Truffle Cake</h3>
+                        <p class="hero-item-desc">Mirror-glazed dark chocolate cake, hand-decorated with edible gold leaf, dark ganache cascade and a dusting of Valrhona cocoa. Pure luxury.</p>
+                        <div class="hero-item-ingredients">
+                            <span class="ingredient-tag">Valrhona Chocolate</span>
+                            <span class="ingredient-tag">Edible Gold</span>
+                            <span class="ingredient-tag">Dark Ganache</span>
+                        </div>
+                        <div class="hero-item-footer"><span class="hero-item-price">$13</span><span class="hero-item-craft">Patisserie crafted</span></div>
+                    </div>
+                </div>
+                <div class="menu-items-grid">
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1541783245831-57d6fb0926d3?w=400&auto=format&fit=crop&q=80" alt="Lava Cake" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Chocolate Lava Cake</h4><p class="item-desc">Warm fondant, molten centre, vanilla ice cream</p><div class="item-footer"><span class="item-price">$11</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=400&auto=format&fit=crop&q=80" alt="Tiramisu" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Tiramisu</h4><p class="item-desc">Espresso-soaked ladyfingers, mascarpone, cocoa dust</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format&fit=crop&q=80" alt="Cheesecake" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Cheesecake</h4><p class="item-desc">New York baked, mixed berry compote, graham cracker base</p><div class="item-footer"><span class="item-price">$10</span></div></div></div></div>
+                    <div class="menu-item-card"><div class="item-card-inner"><div class="item-img-wrap"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&auto=format&fit=crop&q=80" alt="Brownie" loading="lazy"></div><div class="item-card-body"><h4 class="item-name">Brownie Delight</h4><p class="item-desc">Fudgy walnut brownie, salted caramel drizzle, gelato</p><div class="item-footer"><span class="item-price">$9</span></div></div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Strip -->
+        <section class="signature-section" style="padding: 5rem 2rem;">
+            <div class="signature-container" style="justify-content: center; text-align: center;">
+                <div class="signature-content" style="max-width: 600px;">
+                    <span class="signature-label">Reserve Your Seat</span>
+                    <h2 class="signature-title">Ready for an <br><span class="italic gold-text">Unforgettable</span> Evening?</h2>
+                    <p class="signature-description">Every dish is prepared fresh to order. Book your table and let our culinary team craft an experience tailored just for you.</p>
+                    <div class="signature-actions">
+                        <button class="cta-btn" id="menu-reserve-btn">Reserve a Table</button>
+                        <a href="contact.html" class="secondary-btn" style="display:inline-flex;align-items:center;gap:.5rem;margin-left:1rem;">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-bg-glow"></div>
+            <div class="footer-container">
+                <div class="footer-column brand-col">
+                    <h2 class="footer-brand-logo">LUMINA</h2>
+                    <p class="brand-desc">Elevating your coffee and dining experience through a perfect symphony of flavors, cinematic ambiance, and exceptional service.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Explore</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Our Menu</a></li>
+                        <li><a href="story.html">Our Story</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><span class="contact-icon">📍</span> 123 Cinematic Ave, Flavor City</li>
+                        <li><span class="contact-icon">📞</span> +1 (555) 123-4567</li>
+                        <li><span class="contact-icon">✉️</span> reserve@luminacafe.com</li>
+                    </ul>
+                    <div class="hours">
+                        <h4 class="hours-heading">Opening Hours</h4>
+                        <p>Mon - Fri: 7:00 AM - 10:00 PM</p>
+                        <p>Sat - Sun: 8:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="footer-column map-col">
+                    <h3 class="footer-heading">Location</h3>
+                    <div class="css-map-preview">
+                        <div class="map-grid-lines"></div>
+                        <div class="map-pin"><div class="pin-glow"></div><div class="pin-dot"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Lumina Cafe. All Rights Reserved. Crafted with passion.</p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Floating CTA -->
+    <button class="floating-cta" id="floating-cta"><span>Reserve a Table</span></button>
+    <!-- Scroll to Top -->
+    <button class="scroll-top-btn" id="scroll-top" aria-label="Scroll to top">↑</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js?v=7"></script>
+</body>
+</html>
