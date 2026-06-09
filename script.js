@@ -695,57 +695,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     );
 
-    // ── STORY SECTION REVEAL ─────────────────────────────────────────
-    const storyRevealTL = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".story-section",
-            start: "top 75%",
-        }
-    });
-
-    storyRevealTL
-        .fromTo(".story-content .section-title", 
-            { y: 45, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1.2, ease: "expo.out" }
-        )
-        .fromTo(".story-content p", 
-            { y: 25, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power2.out" }, 
-            "-=0.8"
-        )
-        .fromTo(".story-content .primary-btn", 
-            { y: 20, opacity: 0, scale: 0.95 },
-            { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.5)" }, 
-            "-=0.6"
-        )
-        .fromTo(".story-visual", 
-            { x: 60, opacity: 0, scale: 0.9 },
-            { x: 0, opacity: 1, scale: 1, duration: 1.5, ease: "expo.out" }, 
-            "-=1.2"
-        );
-
-    // Parallax Depth scrubbing for Story Section (Subtle movement)
-    gsap.to(".story-visual", {
-        y: 40, // Move slightly as user scrolls past
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".story-section",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5
-        }
-    });
-
-    gsap.to(".story-content", {
-        y: -40,
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".story-section",
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5
-        }
-    });
+    // Note: Story Section animations have been consolidated into the main GSAP Scroll Reveals block below to prevent conflicts.
 
     // Story Visual Interactive Tilt and Light Reflection
     const storyVisual = document.querySelector('.story-visual');
@@ -1250,6 +1200,20 @@ document.addEventListener("DOMContentLoaded", () => {
           y: 0, opacity: 1, duration: 1, stagger: 0.15, delay: 2.5, ease: 'power2.out' }
     );
 
+    // Reveal button inside story section
+    gsap.fromTo('.story-section .primary-btn',
+        { y: 20, opacity: 0, scale: 0.95 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
+          y: 0, opacity: 1, scale: 1, duration: 0.8, delay: 1.5, ease: 'back.out(1.5)' }
+    );
+
+    // Reveal video visual container inside story section
+    gsap.fromTo('.story-visual',
+        { x: 50, opacity: 0, scale: 0.95 },
+        { scrollTrigger: { trigger: '.story-section', start: 'top 80%' },
+          x: 0, opacity: 1, scale: 1, duration: 1.2, delay: 0.6, ease: 'power2.out' }
+    );
+
     // Story Visual Parallax
     gsap.to('.story-visual', {
         scrollTrigger: {
@@ -1260,6 +1224,18 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         y: -50,
         rotateX: 2,
+        ease: 'none'
+    });
+
+    // Story Content Parallax (opposite direction of visual for depth)
+    gsap.to('.story-content', {
+        scrollTrigger: {
+            trigger: '.story-section',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1
+        },
+        y: -30,
         ease: 'none'
     });
     gsap.fromTo('.contact-section .section-title',
